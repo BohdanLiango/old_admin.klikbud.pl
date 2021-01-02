@@ -263,7 +263,7 @@
 				$('body').on('show.bs.dropdown', '.' + pfx + 'datatable .' + pfx + 'datatable-body', function(e) {
 					dropdownMenu = $(e.target).find('.dropdown-menu');
 					$('body').append(dropdownMenu.detach());
-					dropdownMenu.css('display', 'block');
+					// dropdownMenu.css('display', 'block');
 					dropdownMenu.position({
 						'my': 'right top',
 						'at': 'right bottom',
@@ -1167,8 +1167,8 @@
 					|| options.data.serverFiltering === false && action === 'search'
 				) {
 					setTimeout(function() {
-						afterGetData();
 						Plugin.setAutoColumns();
+						afterGetData();
 					});
 					return;
 				}
@@ -2114,7 +2114,13 @@
 					$(datatable.table).find('.' + pfx + 'datatable-cell').show();
 					$(datatable.tableBody).each(function() {
 						var recursive = 0;
-						while ($(this)[0].offsetWidth < $(this)[0].scrollWidth && recursive < options.columns.length) {
+						var offsetWidth = $(this)[0].offsetWidth;
+						var scrollWidth = $(this)[0].scrollWidth;
+
+						while (offsetWidth < scrollWidth && (scrollWidth - offsetWidth) > Plugin.cellOffset && recursive < options.columns.length) {
+							offsetWidth = $(this)[0].offsetWidth;
+							scrollWidth = $(this)[0].scrollWidth;
+
 							$(datatable.table).find('.' + pfx + 'datatable-row').each(function(i) {
 								var cell = $(this).find('.' + pfx + 'datatable-cell:not(:hidden):not([data-autohide-disabled])').last();
 									if (cell.length) {

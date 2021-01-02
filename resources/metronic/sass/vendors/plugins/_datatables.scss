@@ -18,12 +18,18 @@ $dt-page-color-active: $white;
 .dataTables_wrapper {
     padding: 0 !important;
 
+    .DTFC_LeftWrapper, .DTFC_RightWrapper {
+        .dataTable {
+            margin-top: 0 !important;
+        }
+    }
+
     // Table
     .dataTable {
         width: 100% !important;
         border-collapse: initial !important;
         border-spacing: 0 !important;
-        margin: 1rem 0 !important;
+        //margin: 1rem 0 !important;
 
         @include border-radius($border-radius);
 

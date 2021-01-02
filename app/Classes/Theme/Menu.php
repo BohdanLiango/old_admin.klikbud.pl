@@ -433,7 +433,7 @@ class Menu
     // Check for active Vertical Menu item
     public static function isActiveVerMenuItem($item, $page, $rec = 0)
     {
-        if (@$item['redirect'] === true) {
+        if (isset($item['redirect']) && $item['redirect'] == $page) {
             return false;
         }
 
@@ -457,7 +457,7 @@ class Menu
     // Check for active Horizontal Menu item
     public static function isActiveHorMenuItem($item, $page, $rec = 0)
     {
-        if (@$item['redirect'] === true) {
+        if (isset($item['redirect']) && $item['redirect'] == $page) {
             return false;
         }
 
