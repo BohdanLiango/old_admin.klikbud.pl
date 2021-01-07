@@ -57,6 +57,8 @@ License: You must have a valid license purchased only from themeforest(the above
             var KTAppSettings = {!! json_encode(config('layout.js'), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES) !!};
         </script>
 
+
+
         {{-- Global Theme JS Bundle (used by all pages)  --}}
         @foreach(config('layout.resources.js') as $script)
             <script src="{{ asset($script) }}" type="text/javascript"></script>

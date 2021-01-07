@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 //
-Route::get('/', 'PagesController@index');
+Route::get('/', 'PagesController@index')->name('home');
 //
 //
 // Demo routes
@@ -36,4 +36,4 @@ Route::get('/quick-search', 'PagesController@quickSearch')->name('quick-search')
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);

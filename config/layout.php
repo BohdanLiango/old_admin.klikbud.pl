@@ -112,9 +112,9 @@ return [
 
     // Subheader
     'subheader' => [
-        'display' => false,
-        'displayDesc' => true,
-        'layout' => 'subheader-v1',
+        'display' => true,
+        'displayDesc' => false,
+        'layout' => 'subheader-v2',
         'fixed' => true,
         'width' => 'fluid', // fixed, fluid
         'clear' => false,
