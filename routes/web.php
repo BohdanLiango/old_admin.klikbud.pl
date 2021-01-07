@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\AdministrationPanelMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +17,28 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 
-//
-Route::get('/', 'PagesController@index')->name('home');
-//
-//
+Route::group(['middleware' => AdministrationPanelMiddleware::class], static function () {
+
+    Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
+
+});
+
+
+
+
+
+
+
+
+//Route::get('/', 'PagesController@index')->name('home');
+
+
+
+
+
+
+
+
 // Demo routes
 Route::get('/datatables', 'PagesController@datatables');
 Route::get('/ktdatatables', 'PagesController@ktDatatables');

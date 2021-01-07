@@ -6,13 +6,6 @@ use Illuminate\Http\Request;
 
 class PagesController extends AdminController
 {
-    public function index()
-    {
-        $page_title = 'Dashboard';
-        $page_description = 'Some description for the page';
-
-        return view('pages.dashboard.dashboard', compact('page_title', 'page_description'));
-    }
 
     /**
      * Demo methods below
