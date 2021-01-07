@@ -13,13 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/verify','Auth\RegisterController@verifyUser')->name('verify.user');
-
+//
 Route::get('/', 'PagesController@index');
-
-
+//
+//
 // Demo routes
 Route::get('/datatables', 'PagesController@datatables');
 Route::get('/ktdatatables', 'PagesController@ktDatatables');
