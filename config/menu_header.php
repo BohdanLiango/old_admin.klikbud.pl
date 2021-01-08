@@ -7,7 +7,7 @@ return [
         [
             'title' => 'Dashboard',
             'root' => true,
-            'page' => '/',
+            'page' => '',
             'new-tab' => false,
         ],
         [
@@ -26,11 +26,11 @@ return [
                         'submenu' => [
                             [
                                 'title' => 'Utilities',
-                                'page' => 'features/bootstrap/utilities'
+                                'page' => ''
                             ],
                             [
                                 'title' => 'Typography',
-                                'page' => 'features/bootstrap/typography'
+                                'page' => 'dashboard'
                             ],
                             [
                                 'title' => 'Buttons',
@@ -395,7 +395,7 @@ return [
                                 'submenu' => [
                                     [
                                         'title' => 'Base Inputs',
-                                        'page' => 'crud/forms/controls/base'
+                                        'page' => 'dashboard'
                                     ],
                                     [
                                         'title' => 'Input Groups',
@@ -1044,7 +1044,7 @@ return [
                             ],
                             [
                                 'title' => 'View Contact',
-                                'page' => 'custom/apps/contacts/view-contact'
+                                'page' => ''
                             ],
                             [
                                 'title' => 'Add Contact',

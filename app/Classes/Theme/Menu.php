@@ -75,8 +75,8 @@ class Menu
             } else {
                 $url = '#';
 
-                if (isset($item['page'])) {
-                    $url = url($item['page']);
+                if (isset($item['page']) and $item['page'] !== '#' and $item['page'] !== '') {
+                    $url = route($item['page']);
                 }
 
                 $target = '';
@@ -281,8 +281,8 @@ class Menu
                 if (isset($item['heading']) == false) {
                     $url = '#';
 
-                    if (isset($item['page'])) {
-                        $url = url($item['page']);
+                    if (isset($item['page']) and $item['page'] !== '#' and $item['page'] !== '') {
+                        $url = route($item['page']);
                     }
 
                     $target = '';
@@ -290,7 +290,7 @@ class Menu
                         $target = 'target="_blank"';
                     }
 
-                    echo '<a '.$target.' href="'.$url.'" class="menu-link '.(isset($item['submenu']) ? 'menu-toggle' : '').'">';
+                    echo '<a '.$target.' href="'. $url .'" class="menu-link '.(isset($item['submenu']) ? 'menu-toggle' : '').'">';
                 } else {
                     echo '<h3 class="menu-heading menu-toggle">';
                 }
