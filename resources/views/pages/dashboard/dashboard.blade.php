@@ -3,6 +3,8 @@
 {{-- Content --}}
 @section('content')
 
+    <br>
+    <livewire:counter />
     {{-- Dashboard 1 --}}
 
 {{--    <div class="row">--}}

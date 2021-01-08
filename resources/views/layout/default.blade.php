@@ -27,7 +27,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
         {{-- Fonts --}}
         {{ Metronic::getGoogleFontsInclude() }}
-
+        @livewireStyles
         {{-- Global Theme Styles (used by all pages) --}}
         @foreach(config('layout.resources.css') as $style)
             <link href="{{ config('layout.self.rtl') ? asset(Metronic::rtlCssPath($style)) : asset($style) }}" rel="stylesheet" type="text/css"/>
@@ -40,6 +40,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
         {{-- Includable CSS --}}
         @yield('styles')
+
+
     </head>
 
     <body {{ Metronic::printAttrs('body') }} {{ Metronic::printClasses('body') }}>
@@ -49,7 +51,7 @@ License: You must have a valid license purchased only from themeforest(the above
         @endif
 
         @include('layout.base._layout')
-
+        @livewireScripts
         <script>var HOST_URL = "{{ route('quick-search') }}";</script>
 
         {{-- Global Config (global config for global JS scripts) --}}
