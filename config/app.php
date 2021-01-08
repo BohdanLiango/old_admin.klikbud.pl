@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         App\Providers\MetronicServiceProvider::class,
+        Venturecraft\Revisionable\RevisionableServiceProvider::class,
 
         /*
          * Application Service Providers...

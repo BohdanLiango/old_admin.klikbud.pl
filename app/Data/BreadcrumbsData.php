@@ -5,6 +5,7 @@ namespace App\Data;
 class BreadcrumbsData extends Data
 {
     private $dashboard = 'Dashboard';
+    private $address = 'Adresy';
 
     /**
      * Main functions
@@ -28,7 +29,7 @@ class BreadcrumbsData extends Data
     }
 
     /**
-     * Dashboard
+     * DashboardController
      *
      * @param $key
      * @param $array_merge
@@ -43,5 +44,21 @@ class BreadcrumbsData extends Data
         return $this->breadcrumbs($key, $array, $array_merge);
     }
 
+    /**
+     * AddressController
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function address($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('address.show'), 'name' => $this->address]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
 
 }

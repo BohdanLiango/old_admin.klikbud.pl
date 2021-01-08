@@ -21,6 +21,8 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
 
     Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
 
+    require __DIR__.'/web/address.php';
+
 });
 
 
@@ -56,4 +58,4 @@ Route::get('/quick-search', 'PagesController@quickSearch')->name('quick-search')
 
 
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
