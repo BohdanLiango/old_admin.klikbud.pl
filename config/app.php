@@ -167,6 +167,7 @@ return [
          */
         App\Providers\MetronicServiceProvider::class,
         Venturecraft\Revisionable\RevisionableServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,6 +233,8 @@ return [
         // Metronic Aliases
         'Metronic' => App\Classes\Theme\Metronic::class,
         'Menu' => App\Classes\Theme\Menu::class,
+
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

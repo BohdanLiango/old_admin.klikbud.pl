@@ -1,5 +1,4 @@
 <div class="card-body">
-
         <!--begin::Search Form-->
         <div class="mt-2 mb-5 mt-lg-5 mb-lg-10">
             <div class="row align-items-center">
@@ -75,10 +74,8 @@
                 <td>746 Pine View Junction</td>
             </tr>
             @endforeach
+            {{ $address->links() }}
             </tbody>
-
-
         </table>
-
-    {{ $address->links() }}
     </div>
+
