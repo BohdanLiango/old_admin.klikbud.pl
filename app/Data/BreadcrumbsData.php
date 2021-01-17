@@ -4,8 +4,9 @@ namespace App\Data;
 
 class BreadcrumbsData extends Data
 {
-    private $dashboard = 'Dashboard';
-    private $address = 'Adresy';
+    private string $dashboard = 'Dashboard';
+    private string $address = 'Adresy';
+    private string $klikbudMainslider = 'Suwak';
 
     /**
      * Main functions
@@ -56,6 +57,23 @@ class BreadcrumbsData extends Data
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
             ['key' => 1, 'link' => route('address.show'), 'name' => $this->address]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
+
+    /**
+     * MainSliderController
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function settings_klikbud_home_mainslider($key, $array_merge)
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('address.show'), 'name' => $this->klikbudMainslider]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

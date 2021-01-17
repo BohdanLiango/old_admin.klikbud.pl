@@ -74,7 +74,7 @@
                 <td>746 Pine View Junction</td>
             </tr>
             @endforeach
-            {{ $address->links() }}
+{{--            {{ $address->links() }}--}}
             </tbody>
         </table>
     </div>

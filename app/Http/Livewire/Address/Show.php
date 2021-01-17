@@ -14,8 +14,8 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.address.show', [
-            'address' => Address::paginate(10),
-        ]);
+        $address = Address::paginate(10);
+
+        return view('livewire.address.show', compact('address'));
     }
 }

@@ -19,9 +19,17 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => AdministrationPanelMiddleware::class], static function () {
 
-    Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
+    Route::prefix('/')->group(static function() {
 
-    require __DIR__.'/web/address.php';
+        Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
+
+        require __DIR__.'/web/address.php';
+
+        Route::prefix('/settings')->name('settings.')->group(static function() {
+            require __DIR__ . '/web/settings/klikbud.php';
+        });
+
+    });
 
 });
 
