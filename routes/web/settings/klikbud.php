@@ -9,6 +9,7 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
 
         Route::prefix('/slider')->name('slider.')->group(static function() {
             Route::get('/', [MainSliderController::class, 'show'])->name('show');
+            Route::get('/add', [MainSliderController::class, 'add'])->name('add');
         });
 
     });
