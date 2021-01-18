@@ -38,7 +38,7 @@ class ActionsData extends Data
     public function settings_klikbud_home_slider($key): Collection
     {
         $array = [
-            ['key' => 1, 'route' => 'settings.klikbud.home.slider.add', 'color' => 'success', 'name' => 'Dodaj']
+            ['key' => 1, 'route' => 'settings.klikbud.home.slider.create', 'color' => 'success', 'name' => 'Dodaj']
         ];
 
         return $this->action($key, $array);

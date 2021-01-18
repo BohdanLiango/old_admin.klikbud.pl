@@ -15,14 +15,15 @@ class CreateFileFolderCounterTable extends Migration
     {
         Schema::create('file_folder_counter', function (Blueprint $table) {
             $table->id();
-            $table->longText('group');
-            $table->integer('s1')->nullable();
-            $table->integer('s2')->nullable();
-            $table->integer('s3')->nullable();
-            $table->integer('s4')->nullable();
-            $table->integer('s5')->nullable();
-            $table->integer('s6')->nullable();
-            $table->integer('s7')->nullable();
+            $table->longText('group')->nullable();
+            $table->longText('sub_group')->nullable();
+            $table->integer('s1')->default(0);
+            $table->integer('s2')->default(0);
+            $table->integer('s3')->default(0);
+            $table->integer('s4')->default(0);
+            $table->integer('s5')->default(0);
+            $table->integer('s6')->default(0);
+            $table->integer('s7')->default(0);
             $table->timestamps();
         });
     }

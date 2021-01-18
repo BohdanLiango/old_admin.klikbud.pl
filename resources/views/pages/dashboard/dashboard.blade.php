@@ -5,6 +5,33 @@
 
     <br>
     <livewire:counter />
+
+
+
+    <form action="{{ route('dashboard.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Example file input</label>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file">
+        </div>
+        <button type="submit">GO TEST</button>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {{-- Dashboard 1 --}}
 
 {{--    <div class="row">--}}

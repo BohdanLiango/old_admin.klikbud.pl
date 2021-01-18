@@ -6,10 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+    use QueryCacheable;
+    protected $cacheFor = 3600;
 
     /**
      * The attributes that are mass assignable.

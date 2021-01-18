@@ -28,7 +28,7 @@ return [
                     'submenu' => [
                         [
                             'title' => 'Suwak',
-                            'page' => 'settings.klikbud.home.slider.show',
+                            'page' => 'settings.klikbud.home.slider.index',
                         ],
                         [
                             'title' => 'Usługi',

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PagesController;
 use App\Http\Middleware\AdministrationPanelMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
     Route::prefix('/')->group(static function() {
 
         Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
+        Route::post('/store', [DashboardController::class, 'store'])->name('dashboard.store');
 
         require __DIR__.'/web/address.php';
 
@@ -50,19 +52,19 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
 
 
 // Demo routes
-Route::get('/datatables', 'PagesController@datatables');
-Route::get('/ktdatatables', 'PagesController@ktDatatables');
-Route::get('/select2', 'PagesController@select2');
-Route::get('/jquerymask', 'PagesController@jQueryMask');
-Route::get('/icons/custom-icons', 'PagesController@customIcons');
-Route::get('/icons/flaticon', 'PagesController@flaticon');
-Route::get('/icons/fontawesome', 'PagesController@fontawesome');
-Route::get('/icons/lineawesome', 'PagesController@lineawesome');
-Route::get('/icons/socicons', 'PagesController@socicons');
-Route::get('/icons/svg', 'PagesController@svg');
+Route::get('/datatables', [PagesController::class, 'datatables']);
+Route::get('/ktdatatables', [PagesController::class, 'ktDatatables']);
+Route::get('/select2', [PagesController::class, 'select2']);
+Route::get('/jquerymask', [PagesController::class, 'jQueryMask']);
+Route::get('/icons/custom-icons', [PagesController::class, 'customIcons']);
+Route::get('/icons/flaticon', [PagesController::class, 'flaticon']);
+Route::get('/icons/fontawesome', [PagesController::class, 'fontawesome']);
+Route::get('/icons/lineawesome', [PagesController::class, 'lineawesome']);
+Route::get('/icons/socicons', [PagesController::class, 'socicons']);
+Route::get('/icons/svg', [PagesController::class, 'svg']);
 
 // Quick search dummy route to display html elements in search dropdown (header search)
-Route::get('/quick-search', 'PagesController@quickSearch')->name('quick-search');
+Route::get('/quick-search', [PagesController::class, 'quickSearch'])->name('quick-search');
 
 
 

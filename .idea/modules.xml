@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/admin.klikbud.pl.iml" filepath="$PROJECT_DIR$/.idea/admin.klikbud.pl.iml" />
+      <module fileurl="file://$USER_HOME$/Development/metronic_v7.1.8/.idea/metronic_v7.1.8.iml" filepath="$USER_HOME$/Development/metronic_v7.1.8/.idea/metronic_v7.1.8.iml" />
     </modules>
   </component>
 </project>
