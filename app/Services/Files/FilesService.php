@@ -62,8 +62,15 @@ class FilesService extends FileService
             $name = 'static.png';
 
         }elseif (is_file($file)){
-            $folder_name = md5($to_table, md5(now(), md5('name', $group)));
-            $folder = $this->folderCreate($group, $subgroup, $folder_name);
+//            $folder_name = uniqid('', true);
+            $i = 1;
+            while ($i < 500)
+            {
+                $folder_name = uniqid('', true);
+                $i++;
+                $folder = $this->folderCreate($group, $subgroup, $folder_name);
+            }
+
             dd($folder);
             $path = $file->store('/public/' . $folder);
             dd($path);

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FileFolderName extends Model
 {
     protected $table = 'file_folders_name';
-    protected $fillable = ['level', 'title'];
+    protected $fillable = ['find_id', 'level', 'title'];
 
     use HasFactory;
 
