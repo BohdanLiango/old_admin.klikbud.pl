@@ -2,8 +2,6 @@
 
 namespace App\Services\Files;
 
-use App\Models\KLIKBUD\MainSlider;
-
 class FilesDataService extends FileService
 {
     private $files;
@@ -31,7 +29,7 @@ class FilesDataService extends FileService
      * @param $subgroup
      * @return null
      */
-    public function preStoreImage($file, $to_table, $table_record_id, $model, $group, $subgroup)
+    public function preStoreImage($file, $to_table, $table_record_id, $group, $subgroup)
     {
         /**
          * Повертає null якщо немає картинки
@@ -40,18 +38,19 @@ class FilesDataService extends FileService
             return null;
         }
 
-        $this->files->storeImage($file, $to_table, $table_record_id, $model, $group, $subgroup);
+        return $this->files->storeImage($file, $to_table, $table_record_id, $group, $subgroup);
     }
 
 
     /**
      * @param $file
      * @param $store_id
+     * @return null
      */
-    public function klikBudMainSlider($file, $store_id):void
+    public function klikBudMainSlider($file, $store_id)
     {
         $to_table = self::TABLES['1'];
 
-        $this->preStoreImage($file, $to_table, $store_id, MainSlider::class, self::GROUP_1, self::SUB_GROUP_1);
+        return $this->preStoreImage($file, $to_table, $store_id, self::GROUP_1, self::SUB_GROUP_1);
     }
 }

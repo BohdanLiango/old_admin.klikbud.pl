@@ -3,29 +3,22 @@
 namespace App\Services\Files;
 
 use App\Models\Files\Files;
-use Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Storage;
 
 class FilesService extends FileService
 {
     protected const FILE_TYPE_IMAGE = 1; // IMAGE
     protected const FILE_TYPE_FILE = 2; // FILES
 
-    private FilesBackupService $backup;
     private FolderCounterService $folderCounter;
 
     /**
      * FileService constructor.
      *
-     * @param FilesBackupService $fileBackupService
      * @param FolderCounterService $folderCounterService
      */
-    public function __construct(FilesBackupService $fileBackupService, FolderCounterService $folderCounterService)
+    public function __construct(FolderCounterService $folderCounterService)
     {
-        $this->backup = $fileBackupService;
         $this->folderCounter = $folderCounterService;
     }
 
@@ -49,8 +42,9 @@ class FilesService extends FileService
      * @param $model
      * @param $group
      * @param $subgroup
+     * @return mixed
      */
-    public function storeImage($file, $to_table, $table_record_id, $model, $group, $subgroup)
+    public function storeImage($file, $to_table, $table_record_id, $group, $subgroup): mixed
     {
         $file_type_id = self::FILE_TYPE_IMAGE;
         if(empty($file))
@@ -58,35 +52,28 @@ class FilesService extends FileService
             $path = '/storage/public/';
             $size = '';
             $mime = '';
-            $folder = '/static/';
+            $folder_name = '/static/';
             $name = 'static.png';
 
         }elseif (is_file($file)){
-//            $folder_name = uniqid('', true);
-            $i = 1;
-            while ($i < 500)
-            {
-                $folder_name = uniqid('', true);
-                $i++;
-                $folder = $this->folderCreate($group, $subgroup, $folder_name);
-            }
-
-            dd($folder);
-            $path = $file->store('/public/' . $folder);
-            dd($path);
-//            $path = $file->storeAs('/public/', $name);
-            $size = Storage::size($file);
             $mime = $file->getMimeType();
+            $size = $file->getSize();
+//            $size = number_format($size / 1048576,2);
+            $folder_name = md5(uniqid(now(), true));
+            $folder = $this->folderCreate($group, $subgroup, $folder_name);
+            $name = 'Image-' . time() . uniqid('$', false) .  '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs($folder, $name);
         }else{
             $name = NULL;
-            $folder = NULL;
+            $folder_name = NULL;
             $size = NULL;
             $mime = NULL;
             $path = NULL;
             abort(403);
         }
 
-        $this->store($to_table, $table_record_id, $name, $folder, $path, $size, $mime, $file_type_id, $model);
+        return $this->store($to_table, $table_record_id, $name, $folder_name, $path, $size, $mime, $file_type_id);
+
     }
 
     /**
@@ -100,21 +87,15 @@ class FilesService extends FileService
      * @param $size
      * @param $mime
      * @param $file_type_id
-     * @param $model
      * @return mixed
      */
-    public function store($to_table, $table_record_id, $name, $folder, $path, $size, $mime, $file_type_id, $model): mixed
+    public function store($to_table, $table_record_id, $name, $folder, $path, $size, $mime, $file_type_id): mixed
     {
-        $slug = SlugService::createSlug($model, 'slug', $name, ['unique' => true]);
-
-        $unique_number = bcrypt($slug, md5(now(), $name));
-
         $store = new Files();
 
         $data = [
             'user_id' => Auth::id(),
             'to_table' => $to_table,
-            'slug' => $slug,
             'table_record_id' => $table_record_id,
             'name' => $name,
             'folder' => $folder,
@@ -122,15 +103,12 @@ class FilesService extends FileService
             'size' => $size,
             'mime' => $mime,
             'file_type_id' => $file_type_id,
-            'unique_number' => $unique_number,
             'moderated_id' => self::MODERATE_TO_MODERATION
         ];
 
         $store->fill($data);
 
         $store->save();
-
-        $this->backup->store($store->id);
 
         return $store->id;
     }

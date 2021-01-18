@@ -17,13 +17,11 @@ class CreateFileFolderCounterTable extends Migration
             $table->id();
             $table->longText('group')->nullable();
             $table->longText('sub_group')->nullable();
-            $table->integer('s1')->default(0);
-            $table->integer('s2')->default(0);
-            $table->integer('s3')->default(0);
-            $table->integer('s4')->default(0);
-            $table->integer('s5')->default(0);
-            $table->integer('s6')->default(0);
-            $table->integer('s7')->default(0);
+            $table->integer('s1')->default(1);
+            $table->integer('s2')->default(1);
+            $table->integer('s3')->default(1);
+            $table->integer('s4')->default(1);
+            $table->integer('store')->default(0);
             $table->timestamps();
         });
     }

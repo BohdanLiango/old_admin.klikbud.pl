@@ -17,16 +17,13 @@ class CreateFileTable extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->longText('to_table');
-            $table->longText('slug');
             $table->bigInteger('table_record_id');
             $table->longText('name');
-            $table->longText('group');
             $table->longText('folder');
             $table->longText('path');
             $table->longText('size');
             $table->longText('mime');
             $table->integer('file_type_id');
-            $table->longText('unique_number');
             $table->integer('moderated_id')->default(3);
             $table->softDeletes();
             $table->timestamps();

@@ -14,7 +14,6 @@ class Files extends Model
     protected $guarded = [];
 
 
-
     use HasFactory;
     use SoftDeletes;
 
