@@ -12,11 +12,12 @@ class FolderCounterService extends FileService
      * @param $group
      * @param $subgroup
      * @param $folder_name
+     * @param $storage_driver
      * @return string
      */
-    public function returnFoldersName($group, $subgroup, $folder_name): string
+    public function returnFoldersName($group, $subgroup, $folder_name, $storage_driver): string
     {
-        $this->checkOrStoreNewGroup($group, $subgroup);
+        $this->checkOrStoreNewGroup($group, $subgroup, $storage_driver);
 
         $id = $this->getDataFolders($group, $subgroup)->id;
 
@@ -24,7 +25,7 @@ class FolderCounterService extends FileService
 
         $get = FolderCounter::find($id);
 
-        $folder_path = '/public/' . $group . '/' . $subgroup . '/'.
+        $folder_path = $storage_driver . $group . '/' . $subgroup . '/'.
             $get->s1 . '/' .
             $get->s2 . '/' .
             $get->s3 . '/' .
@@ -87,21 +88,21 @@ class FolderCounterService extends FileService
     }
 
 
-
     /**
      * Check or Store New Group
      * Test OK!
      * @param $group
      * @param $subgroup
+     * @param $storage_driver
      */
-    public function checkOrStoreNewGroup($group, $subgroup): void
+    public function checkOrStoreNewGroup($group, $subgroup, $storage_driver): void
     {
         if (FolderCounter::where('group', $group)->where('sub_group', $subgroup)->count() === 0) {
             $store = new FolderCounter();
             $store->group = $group;
             $store->sub_group = $subgroup;
             $store->save();
-            Storage::makeDirectory('/public/' . $group . '/' . $subgroup . '/'. 1 . '/' . 1 . '/' . 1 . '/' . 1);
+            Storage::makeDirectory($storage_driver . $group . '/' . $subgroup . '/'. 1 . '/' . 1 . '/' . 1 . '/' . 1);
         }
     }
 

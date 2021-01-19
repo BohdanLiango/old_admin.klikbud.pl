@@ -4,6 +4,7 @@ namespace App\Models\Files;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -11,7 +12,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
 class Files extends Model
 {
     protected $table = 'file';
-    protected $guarded = [];
+    protected $fillable = ['file_view'];
 
 
     use HasFactory;
@@ -21,9 +22,18 @@ class Files extends Model
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
     protected $revisionCleanup = true ; // Удалить старые ревизии (работает только при использовании с $ historyLimit)
-    protected $historyLimit = 5000 ; // Сохранение максимум 5000 изменений в любой момент времени при очистке старых версий.
+    protected $historyLimit = 50 ; // Сохранение максимум 5000 изменений в любой момент времени при очистке старых версий.
 
     use QueryCacheable;
-    protected $cacheFor = 3600;
+    protected $cacheFor = 3600 * 3600;
+    public $cachePrefix = 'files_';
+    protected static $flushCacheOnUpdate = true;
 
+    /**
+     * @return BelongsTo
+     */
+    public function additionalInformation(): BelongsTo
+    {
+        return $this->belongsTo(FileAdditionalInformation::class, 'file_id');
+    }
 }

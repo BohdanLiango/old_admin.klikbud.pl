@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 use App\Models\KLIKBUD\MainSlider;
 use App\Services\Files\FilesDataService;
 use Auth;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -13,7 +12,7 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    public $image;
+    public $photo;
     public $saveSuccess = false;
     public $slider;
 
@@ -21,6 +20,8 @@ class Create extends Component
      * @var array|string[]
      */
     protected array $rules = [
+        'photo' => 'image|max:256|required',
+
         'slider.yellow_text_pl' => 'required',
         'slider.black_text_pl' => 'required',
         'slider.number_show'=>'required',
@@ -41,14 +42,16 @@ class Create extends Component
         'slider.black_text_ru' => 'required',
         'slider.description_ru' => 'required',
         'slider.alt_ru' => 'required',
-
-        'image' => 'image|max:256|required'
     ];
 
     /**
      * @var array|string[]
      */
     protected array $messages = [
+        'photo.image' => 'To nie jest Obrazek!',
+        'photo.max:256' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
+        'photo.required' => 'Obrazek wymagany!',
+
         'slider.yellow_text_pl.required' => 'Żółty tekst wymagany!',
         'slider.black_text_pl.required' => 'Czarny tekst wymagany!',
         'slider.number_show.required'=>'Numer suwaka wymagany!',
@@ -68,10 +71,8 @@ class Create extends Component
         'slider.yellow_text_ru.required' => 'Żółty tekst wymagany!',
         'slider.black_text_ru.required' => 'Czarny tekst wymagany!',
         'slider.description_ru.required'=>'Opis wymagany!',
-        'slider.alt_ru.required' => 'CEO Wymagane!',
+        'slider.alt_ru.required' => 'CEO Wymagane!'
     ];
-
-    public FilesDataService $files;
 
     public function saveSlider()
     {
@@ -100,7 +101,7 @@ class Create extends Component
         $save->save();
 
 
-        $store = $this->image->store('/public/uploads/slider/' . uniqid('slider', false));
+        $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false));
         $test = app()->make(FilesDataService::class);
         $image_id = $test->klikBudMainSlider($store,$save->id);
 
@@ -113,16 +114,22 @@ class Create extends Component
         return redirect()->route('settings.klikbud.home.slider.index');
     }
 
-    public function updatedImage()
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+
+    public function updatedPhoto()
     {
         $this->validate([
-            'image' => 'image|max:256|required'
+            'photo' => 'image|max:256|required'
         ]);
     }
 
-    public function uploatedImage()
+    public function uploatedPhoto()
     {
-        $this->validate(['image' => 'image|max:512|required']);
+        $this->validate(['photo' => 'image|max:256|required']);
     }
 
     public function render()

@@ -2,9 +2,9 @@
 
 namespace App\Services\Files;
 
+use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -12,6 +12,8 @@ class FilesService extends FileService
 {
     protected const FILE_TYPE_IMAGE = 1; // IMAGE
     protected const FILE_TYPE_FILE = 2; // FILES
+    protected const STORAGE_DRIVER_PUBLIC = 'public/';
+
 
     private FolderCounterService $folderCounter;
 
@@ -33,7 +35,9 @@ class FilesService extends FileService
      */
     public function folderCreate($group, $subgroup, $folder_name)
     {
-        return $this->folderCounter->returnFoldersName($group, $subgroup, $folder_name);
+        $storage_driver = self::STORAGE_DRIVER_PUBLIC;
+
+        return $this->folderCounter->returnFoldersName($group, $subgroup, $folder_name, $storage_driver);
     }
 
 
@@ -103,10 +107,15 @@ class FilesService extends FileService
         //Get name stored File
         $name_file = class_basename($store);
 
-        Storage::move($store,$folder .'/' .$name_file);
+        //Move to correctly folder
+        Storage::move($store,  $folder .'/' .$name_file);
 
+        //Delete old folder
         Storage::deleteDirectory(Str::before($store, '/' . $name_file));
-        return $this->store($to_table, $table_record_id, $name_file, $folder_name, $folder, $size, $mime, $file_type_id);
+
+        $full_path = $folder . '/' . $name_file;
+
+        return $this->store($to_table, $table_record_id, $name_file, $folder_name, $folder, $size, $mime, $file_type_id, $full_path);
     }
 
     /**
@@ -120,14 +129,21 @@ class FilesService extends FileService
      * @param $size
      * @param $mime
      * @param $file_type_id
+     * @param $full_path
      * @return mixed
      */
-    public function store($to_table, $table_record_id, $name, $folder, $path, $size, $mime, $file_type_id): mixed
+    public function store($to_table, $table_record_id, $name, $folder, $path, $size, $mime, $file_type_id, $full_path): mixed
     {
         $store = new Files();
+        $store->file_view = $full_path;
+        $store->save();
+
+        $add_info_store = new FileAdditionalInformation();
 
         $data = [
+            'file_id' => $store->id,
             'user_id' => Auth::id(),
+            'full_path' => $full_path,
             'to_table' => $to_table,
             'table_record_id' => $table_record_id,
             'name' => $name,
@@ -139,9 +155,9 @@ class FilesService extends FileService
             'moderated_id' => self::MODERATE_TO_MODERATION
         ];
 
-        $store->fill($data);
+        $add_info_store->fill($data);
 
-        $store->save();
+        $add_info_store->save();
 
         return $store->id;
     }

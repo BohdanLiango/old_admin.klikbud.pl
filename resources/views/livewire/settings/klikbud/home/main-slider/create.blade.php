@@ -70,33 +70,54 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="exampleTextarea" class="col-3">Krótki opis <span class="text-danger">*</span></label>
+                                    <label for="exampleTextarea1" class="col-3">Krótki opis <span class="text-danger">*</span></label>
                                     <div class="col-9">
-                                    <textarea class="form-control @error('slider.description_pl') is-invalid @enderror " id="exampleTextarea" rows="2" wire:model.lazy="slider.description_pl"></textarea>
+                                    <textarea class="form-control @error('slider.description_pl') is-invalid @enderror " id="exampleTextarea1" rows="2" wire:model.lazy="slider.description_pl"></textarea>
                                     @error('slider.description_pl') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label class="col-3">Zdjecie<span class="text-danger">*</span></label>
-                                <div class="image-input image-input-outline" id="kt_image_1">
-                                    @if($image)
-                                    <div class="image-input-wrapper" style="background-image: url({{ $image->temporaryUrl() }})"></div>
-                                    @else
-                                        <div class="image-input-wrapper" style="background-image: url({{ NULL }})"></div>
-                                    @endif
-                                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-                                        <i class="fa fa-pen icon-sm text-muted"></i>
-                                        <input class=" @error('image') is-invalid @enderror" type="file" wire:model.defer="image" name="slider.image" accept=".png, .jpg, .jpeg"/>
-                                        <input type="hidden" name="profile_avatar_remove"/>
-                                        @error('image') <div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    </label>
 
-                                    <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
-                                        <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                    </span>
+                                @if($photo)
+                                <div class="form-group row" wire:loading.remowe wire:targe="photo">
+                                    <label for="image" class="col-3"></label>
+                                    <div class="col-9">
+                                            <img src="{{ $photo->temporaryUrl() }}" style="width: 300px">
+                                    </div>
                                 </div>
+                                @endif
+
+                                <div class="form-group row">
+                                    <label for="image" class="col-3">Zdjecie<span class="text-danger">*</span></label>
+                                    <div class="col-9">
+                                        <input type="file" class="custom-file-input form-control @error('photo') is-invalid @enderror " wire:model.defer="photo" name="photo" id="customFile" accept=".png, .jpg, .jpeg"/>
+                                        <label class="custom-file-label" for="customFile" >Choose file</label>
+                                        @error('photo') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                                    </div>
                                 </div>
+
+
+
+{{--                                <div class="form-group row">--}}
+{{--                                    <label class="col-3">Zdjecie<span class="text-danger">*</span></label>--}}
+{{--                                <div class="image-input image-input-outline" id="kt_image_1">--}}
+{{--                                    @if($image)--}}
+{{--                                    <div class="image-input-wrapper" style="background-image: url({{ $image->temporaryUrl() }})"></div>--}}
+{{--                                    @else--}}
+{{--                                        <div class="image-input-wrapper" style="background-image: url({{ NULL }})"></div>--}}
+{{--                                    @endif--}}
+{{--                                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">--}}
+{{--                                        <i class="fa fa-pen icon-sm text-muted"></i>--}}
+{{--                                        <input class=" @error('image') is-invalid @enderror" type="file" wire:model.defer="image" accept=".png, .jpg, .jpeg"/>--}}
+{{--                                        <input type="hidden" name="profile_avatar_remove"/>--}}
+
+{{--                                    </label>--}}
+{{--                                    <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">--}}
+{{--                                        <i class="ki ki-bold-close icon-xs text-muted"></i>--}}
+{{--                                    </span>--}}
+{{--                                        @error('image') <div class="invalid-feedback">{{ $message }}</div>@enderror--}}
+{{--                                </div>--}}
+{{--                                </div>--}}
 
 
                                 <div class="form-group row">
@@ -134,9 +155,9 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="exampleTextarea" class="col-3">Short description <span class="text-danger">*</span></label>
+                                    <label for="exampleTextarea2" class="col-3">Short description <span class="text-danger">*</span></label>
                                     <div class="col-9">
-                                    <textarea class="form-control @error('slider.description_en') is-invalid @enderror" id="exampleTextarea" rows="2" wire:model.lazy="slider.description_en"></textarea>
+                                    <textarea class="form-control @error('slider.description_en') is-invalid @enderror" id="exampleTextarea2" rows="2" wire:model.lazy="slider.description_en"></textarea>
                                     @error('slider.description_en') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                 </div>
@@ -170,9 +191,9 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="exampleTextarea" class="col-3">Короткий опис <span class="text-danger">*</span></label>
+                                    <label for="exampleTextarea3" class="col-3">Короткий опис <span class="text-danger">*</span></label>
                                     <div class="col-9">
-                                    <textarea class="form-control  @error('slider.description_ua') is-invalid @enderror" id="exampleTextarea" rows="2"  wire:model.lazy="slider.description_ua"></textarea>
+                                    <textarea class="form-control  @error('slider.description_ua') is-invalid @enderror" id="exampleTextarea3" rows="2"  wire:model.lazy="slider.description_ua"></textarea>
                                     @error('slider.description_ua') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                 </div>
@@ -205,9 +226,9 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="exampleTextarea" class="col-3">Крaткое описание <span class="text-danger">*</span></label>
+                                    <label for="exampleTextarea4" class="col-3">Крaткое описание <span class="text-danger">*</span></label>
                                     <div class="col-9">
-                                    <textarea class="form-control @error('slider.description_ru') is-invalid @enderror" id="exampleTextarea" rows="2" wire:model.lazy="slider.description_ru"></textarea>
+                                    <textarea class="form-control @error('slider.description_ru') is-invalid @enderror" id="exampleTextarea4" rows="2" wire:model.lazy="slider.description_ru"></textarea>
                                     @error('slider.description_ru') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                 </div>
@@ -226,7 +247,8 @@
 
                         <div class="col-xl-2"></div>
 
-                    </div>                    <button type="submit">SAVE KURWA</button>
+                    </div>
+                    <button type="submit">SAVE KURWA</button>
                 </form>
             </div>
         </div>

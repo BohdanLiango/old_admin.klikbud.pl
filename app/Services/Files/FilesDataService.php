@@ -2,8 +2,6 @@
 
 namespace App\Services\Files;
 
-use Illuminate\Support\Facades\Storage;
-
 class FilesDataService extends FileService
 {
     private FilesService $files;
@@ -42,15 +40,11 @@ class FilesDataService extends FileService
     }
 
     /**
-     * @param $path_to_file
-     * @param $path_to_delete
-     * @param $size
-     * @param $mime
+     * @param $store
      * @param $to_table
      * @param $table_record_id
      * @param $group
      * @param $subgroup
-     * @param $name
      * @return mixed
      */
     public function  preStoreLivewireImage($store, $to_table, $table_record_id, $group, $subgroup): mixed
@@ -65,12 +59,8 @@ class FilesDataService extends FileService
 
 
     /**
-     * @param $path_to_file
-     * @param $path_to_delete
-     * @param $size
-     * @param $mime
+     * @param $store
      * @param $table_record_id
-     * @param $name
      * @return null
      */
     public function klikBudMainSlider($store, $table_record_id)
