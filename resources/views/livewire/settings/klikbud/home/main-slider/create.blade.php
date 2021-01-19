@@ -87,7 +87,7 @@
                                     @endif
                                     <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
                                         <i class="fa fa-pen icon-sm text-muted"></i>
-                                        <input class=" @error('image') is-invalid @enderror" type="file" wire:model.defer="image" name="image" accept=".png, .jpg, .jpeg"/>
+                                        <input class=" @error('image') is-invalid @enderror" type="file" wire:model.defer="image" name="slider.image" accept=".png, .jpg, .jpeg"/>
                                         <input type="hidden" name="profile_avatar_remove"/>
                                         @error('image') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </label>

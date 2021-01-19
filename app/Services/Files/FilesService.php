@@ -4,6 +4,9 @@ namespace App\Services\Files;
 
 use App\Models\Files\Files;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FilesService extends FileService
 {
@@ -74,6 +77,36 @@ class FilesService extends FileService
 
         return $this->store($to_table, $table_record_id, $name, $folder_name, $path, $size, $mime, $file_type_id);
 
+    }
+
+    /**
+     * @param $store
+     * @param $to_table
+     * @param $table_record_id
+     * @param $group
+     * @param $subgroup
+     * @return mixed
+     */
+    public function storeImageUseLivewire($store, $to_table, $table_record_id, $group, $subgroup): mixed
+    {
+        //Type File
+        $file_type_id = self::FILE_TYPE_IMAGE;
+
+        //Create Folder
+        $folder_name = md5(uniqid(now(), true));
+        $folder = $this->folderCreate($group, $subgroup, $folder_name);
+
+        //Get Mime and Size Stored File
+        $mime = Storage::mimeType($store);
+        $size = Storage::size($store);
+
+        //Get name stored File
+        $name_file = class_basename($store);
+
+        Storage::move($store,$folder .'/' .$name_file);
+
+        Storage::deleteDirectory(Str::before($store, '/' . $name_file));
+        return $this->store($to_table, $table_record_id, $name_file, $folder_name, $folder, $size, $mime, $file_type_id);
     }
 
     /**

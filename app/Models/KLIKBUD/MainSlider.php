@@ -2,6 +2,9 @@
 
 namespace App\Models\KLIKBUD;
 
+use App\Services\Files\FilesDataService;
+use App\Services\Files\FilesService;
+use App\Services\Files\FolderCounterService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,4 +38,11 @@ class MainSlider extends Model
     protected bool $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     protected int  $historyLimit = 500; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
 
+
+    public  FilesDataService $files;
+
+    public function storeImage($file, $store_id)
+    {
+        return (new \App\Services\Files\FilesDataService(new FilesService(new FolderCounterService())))->klikBudMainSlider($file, $store_id);
+    }
 }

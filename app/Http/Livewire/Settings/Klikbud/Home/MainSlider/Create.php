@@ -4,8 +4,8 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 
 use App\Models\KLIKBUD\MainSlider;
 use App\Services\Files\FilesDataService;
-use App\Services\Files\FilesService;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -42,7 +42,7 @@ class Create extends Component
         'slider.description_ru' => 'required',
         'slider.alt_ru' => 'required',
 
-        'image' => 'image|max:512|required'
+        'image' => 'image|max:256|required'
     ];
 
     /**
@@ -71,26 +71,22 @@ class Create extends Component
         'slider.alt_ru.required' => 'CEO Wymagane!',
     ];
 
+    public FilesDataService $files;
+
     public function saveSlider()
     {
         $this->validate();
 
+        $jsonAlt = ["pl" => $this->slider['alt_pl'], "en" => $this->slider['alt_en'], "ua" => $this->slider['alt_ua'], "ru" => $this->slider['alt_ru']];
+        $jsonTextYellow = ["pl" => $this->slider['yellow_text_pl'], "en" => $this->slider['yellow_text_en'], "ua" => $this->slider['yellow_text_ua'], "ru" => $this->slider['yellow_text_ru']];
+        $jsonTextBlack = ["pl" => $this->slider['black_text_pl'], "en" => $this->slider['black_text_en'], "ua" => $this->slider['black_text_ua'], "ru" => $this->slider['black_text_ru']];
+        $jsonDescription = ["pl" => $this->slider['description_pl'], "en" => $this->slider['description_en'], "ua" => $this->slider['description_ua'], "ru" => $this->slider['description_ru']];
 
-
-//        $jsonAlt = ["pl" => $this->slider->alt_pl, "en" => $this->slider->alt_en, "ua" => $this->slider->alt_ua, "ru" => $this->slider->alt_ru];
-//        $jsonTextYellow = ["pl" => $this->slider->yellow_text_pl, "en" => $this->slider->yellow_text_en, "ua" => $this->slider->yellow_text_ua, "ru" => $this->slider->yellow_text_ru];
-//        $jsonTextBlack = ["pl" => $this->slider->black_text_pl, "en" => $this->slider->black_text_en, "ua" => $this->slider->black_text_ua, "ru" => $this->slider->black_text_ru];
-//        $jsonDescription = ["pl" => $this->slider->description_pl, "en" => $this->slider->description_en, "ua" => $this->slider->description_ua, "ru" => $this->slider->description_ru];
-
-        $filename = $this->image->store('sliders', 'public');
-        $new =
-        $new1 = $new->slug($filename);
-        dd($new1);
         $save = new MainSlider();
 
         $data = [
             'status_to_main_page_id' => 2,
-            'slider_number_show' => $this->slider->number_show,
+            'slider_number_show' => $this->slider['number_show'],
             'image_id' => 1,
             'user_id' => Auth::id(),
             'moderated_id' => 3,
@@ -100,15 +96,29 @@ class Create extends Component
             'description' => $jsonDescription
         ];
 
-        $save->fill($data)->save();
+        $save->fill($data);
+        $save->save();
 
-        $filesStore = new FilesDataService();
+
+        $store = $this->image->store('/public/uploads/slider/' . uniqid('slider', false));
+        $test = app()->make(FilesDataService::class);
+        $image_id = $test->klikBudMainSlider($store,$save->id);
+
+        $update = MainSlider::find($save->id);
+        $update->image_id = $image_id;
+        $update->save();
 
         $this->saveSuccess = true;
 
         return redirect()->route('settings.klikbud.home.slider.index');
     }
 
+    public function updatedImage()
+    {
+        $this->validate([
+            'image' => 'image|max:256|required'
+        ]);
+    }
 
     public function uploatedImage()
     {
