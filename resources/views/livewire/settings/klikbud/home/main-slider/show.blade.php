@@ -35,7 +35,7 @@
                                 <!--begin::Symbol-->
                                 <div class="symbol symbol-40 symbol-light-success mr-5">
                                                             <span class="symbol-label">
-                                                                <img src="assets/media/svg/avatars/047-girl-25.svg"
+                                                                <img src=""
                                                                      class="h-75 align-self-end" alt=""/>
                                                             </span>
                                 </div>
@@ -43,9 +43,9 @@
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column flex-grow-1">
                                     <a href="#"
-                                       class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Ruby
-                                        Liam</a>
-                                    <span class="text-muted font-weight-bold">Yestarday at 5:06 PM</span>
+                                       class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">{{ $slider->user_details->name }}
+                                        {{ $slider->user_details->surname }}</a>
+                                    <span class="text-muted font-weight-bold">{{ $slider->created_at }}</span>
                                 </div>
                                 <!--end::Info-->
                                 <!--begin::Dropdown-->
@@ -68,8 +68,15 @@
                                             <li class="navi-item">
                                                 <a href="#" class="navi-link" wire:click="changeStatusInMainPage({{ $slider->id}}, {{ 2 }})"><span class="navi-text"><span class="label label-xl label-inline label-light-danger">Ukryty</span></span></a>
                                             </li>
+                                            <hr>
+                                            <li class="navi-header font-weight-bold py-4">
+                                                <span class="font-size-lg">Inne:</span>
+                                            </li>
                                             <li class="navi-item">
-                                                <a href="{{ route('settings.klikbud.home.slider.edit', $slider) }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-danger">Ukryty</span></span></a>
+                                                <a href="{{ route('settings.klikbud.home.slider.edit', $slider) }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-primary">Edytować</span></span></a>
+                                            </li>
+                                            <li class="navi-item">
+                                                <a href="{{ route('download', $slider->image->id) }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-dark">Pobrać</span></span></a>
                                             </li>
                                         </ul>
                                         <!--end::Navigation-->

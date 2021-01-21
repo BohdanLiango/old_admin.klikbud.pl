@@ -3,6 +3,7 @@
 namespace App\Models\KLIKBUD;
 
 use App\Models\Files\Files;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ class MainSlider extends Model
 {
     protected $table = 'klikbud_main_slider';
     protected $guarded = [];
-    protected $casts =  [
+    protected $casts = [
         'alt' => 'array',
         'textYellow' => 'array',
         'textBlack' => 'array',
@@ -29,15 +30,17 @@ class MainSlider extends Model
     use HasFactory;
     use SoftDeletes;
     use QueryCacheable;
+
     protected $cacheFor = 3600 * 3600;
     public $cachePrefix = 'klik_bud_main_slider_';
     protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
+
     protected bool $revisionEnabled = true;
     protected bool $revisionCreationsEnabled = true;
     protected bool $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    protected int  $historyLimit = 500; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
+    protected int $historyLimit = 500; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
 
     /**
      * @return BelongsTo
@@ -45,5 +48,13 @@ class MainSlider extends Model
     public function image(): BelongsTo
     {
         return $this->belongsTo(Files::class, 'image_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user_details(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

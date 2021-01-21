@@ -45,4 +45,6 @@ class Show extends Component
         $update->status_to_main_page_id = $status_id;
         $update->save();
     }
+
+
 }

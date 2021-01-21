@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PagesController;
 use App\Http\Middleware\AdministrationPanelMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,8 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => AdministrationPanelMiddleware::class], static function () {
 
     Route::prefix('/')->group(static function() {
+
+        Route::get('/download/{id}', [FileController::class, 'download'])->name('download');
 
         Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
         Route::post('/store', [DashboardController::class, 'store'])->name('dashboard.store');

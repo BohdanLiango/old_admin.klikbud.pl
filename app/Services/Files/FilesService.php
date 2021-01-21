@@ -7,6 +7,7 @@ use App\Models\Files\Files;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FilesService extends FileService
 {
@@ -162,6 +163,15 @@ class FilesService extends FileService
         return $store->id;
     }
 
+    /**
+     * @param $id
+     * @return BinaryFileResponse
+     */
+    public function downloadFile($id): BinaryFileResponse
+    {
+        $file = FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
+        return response()->download(storage_path('app/' . $file));
+    }
 
 
 }
