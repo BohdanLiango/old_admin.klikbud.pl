@@ -2,6 +2,6 @@
 @extends('layout.default')
 {{-- Content --}}
 @section('content')
-    @livewire('settings.klikbud.home.main-slider.create', ['mainSlider' => $mainSlider])
+    @livewire('settings.klikbud.home.main-slider.edit', ['id' => $id])
 @endsection
 

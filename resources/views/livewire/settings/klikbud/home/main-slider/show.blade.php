@@ -73,7 +73,7 @@
                                                 <span class="font-size-lg">Inne:</span>
                                             </li>
                                             <li class="navi-item">
-                                                <a href="{{ route('settings.klikbud.home.slider.edit', $slider) }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-primary">Edytować</span></span></a>
+                                                <a href="{{ route('settings.klikbud.home.slider.edit', [$slider->id]) }}"  class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-primary">Edytować</span></span></a>
                                             </li>
                                             <li class="navi-item">
                                                 <a href="{{ route('download', $slider->image->id) }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-dark">Pobrać</span></span></a>

@@ -16,6 +16,7 @@ class Create extends Component
     public $saveSuccess = false;
     public $slider;
 
+
     /**
      * @var array|string[]
      */

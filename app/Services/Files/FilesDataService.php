@@ -69,4 +69,9 @@ class FilesDataService extends FileService
 
         return $this->preStoreLivewireImage($store,$to_table, $table_record_id, self::GROUP_1, self::SUB_GROUP_1);
     }
+
+    public function updateKlikBudMainSlider()
+    {
+
+    }
 }

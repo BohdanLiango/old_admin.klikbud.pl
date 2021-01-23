@@ -3,35 +3,9 @@
         <div class="card card-custom card-sticky" id="kt_page_sticky_card">
             <div class="card-header">
                 <div class="card-toolbar">
-                    <a href="#" class="btn btn-light-primary font-weight-bolder mr-2">
-                        <i class="ki ki-long-arrow-back icon-xs"></i>Back</a>
+                    <a href="{{ route('settings.klikbud.home.slider.index') }}" class="btn btn-light-primary font-weight-bolder mr-2">
+                        <i class="ki ki-long-arrow-back icon-xs"></i>Powrót</a>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary font-weight-bolder">
-                            <i class="ki ki-check icon-xs"></i>Save Form</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                            <ul class="nav nav-hover flex-column">
-                                <li class="nav-item">
-{{--                                    <a href="#" class="nav-link" onclick="event.preventDefault();--}}
-{{--                                                     document.getElementById('kt_form').submit();">--}}
-{{--                                        <i class="nav-icon flaticon2-reload"></i>--}}
-{{--                                        <span class="nav-text">Save &amp; continue</span>--}}
-{{--                                    </a>--}}
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon flaticon2-add-1"></i>
-                                        <span class="nav-text">Save &amp; add new</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon flaticon2-power"></i>
-                                        <span class="nav-text">Save &amp; exit</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -95,30 +69,6 @@
                                         @error('photo') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                 </div>
-
-
-
-{{--                                <div class="form-group row">--}}
-{{--                                    <label class="col-3">Zdjecie<span class="text-danger">*</span></label>--}}
-{{--                                <div class="image-input image-input-outline" id="kt_image_1">--}}
-{{--                                    @if($image)--}}
-{{--                                    <div class="image-input-wrapper" style="background-image: url({{ $image->temporaryUrl() }})"></div>--}}
-{{--                                    @else--}}
-{{--                                        <div class="image-input-wrapper" style="background-image: url({{ NULL }})"></div>--}}
-{{--                                    @endif--}}
-{{--                                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">--}}
-{{--                                        <i class="fa fa-pen icon-sm text-muted"></i>--}}
-{{--                                        <input class=" @error('image') is-invalid @enderror" type="file" wire:model.defer="image" accept=".png, .jpg, .jpeg"/>--}}
-{{--                                        <input type="hidden" name="profile_avatar_remove"/>--}}
-
-{{--                                    </label>--}}
-{{--                                    <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">--}}
-{{--                                        <i class="ki ki-bold-close icon-xs text-muted"></i>--}}
-{{--                                    </span>--}}
-{{--                                        @error('image') <div class="invalid-feedback">{{ $message }}</div>@enderror--}}
-{{--                                </div>--}}
-{{--                                </div>--}}
-
 
                                 <div class="form-group row">
                                     <label class="col-3" for="alt_pl">CEO<span class="text-danger">*</span></label>
@@ -243,12 +193,13 @@
                                 </div>
 
                             </div>
+                            <button type="submit" class="btn btn-success">  <i class="ki ki-check icon-xs"></i>Zapisać</button>
                         </div>
 
                         <div class="col-xl-2"></div>
 
                     </div>
-                    <button type="submit">SAVE KURWA</button>
+
                 </form>
             </div>
         </div>

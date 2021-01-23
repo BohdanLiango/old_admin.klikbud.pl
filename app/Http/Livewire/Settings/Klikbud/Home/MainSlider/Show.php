@@ -46,5 +46,12 @@ class Show extends Component
         $update->save();
     }
 
-
+    /**
+     * @param $slider_id
+     * @return string
+     */
+    public function editRoute($slider_id)
+    {
+        return redirect()->route('settings.klikbud.home.slider.edit', $slider_id);
+    }
 }
