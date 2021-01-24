@@ -19,15 +19,18 @@ class Files extends Model
     use SoftDeletes;
 
     use RevisionableTrait;
+
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
-    protected $revisionCleanup = true ; // Удалить старые ревизии (работает только при использовании с $ historyLimit)
-    protected $historyLimit = 50 ; // Сохранение максимум 5000 изменений в любой момент времени при очистке старых версий.
+    protected $revisionCleanup = true; // Удалить старые ревизии (работает только при использовании с $ historyLimit)
+    protected $historyLimit = 50; // Сохранение максимум 5000 изменений в любой момент времени при очистке старых версий.
 
     use QueryCacheable;
+    protected static $flushCacheOnUpdate = true;
+
     protected $cacheFor = 3600 * 3600 * 3600;
     public $cachePrefix = 'files_';
-    protected static $flushCacheOnUpdate = true;
+
 
     /**
      * @return BelongsTo
@@ -36,3 +39,4 @@ class Files extends Model
     {
         return $this->belongsTo(FileAdditionalInformation::class, 'file_id');
     }
+}

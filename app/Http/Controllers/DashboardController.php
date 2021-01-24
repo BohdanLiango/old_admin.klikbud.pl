@@ -27,12 +27,4 @@ class DashboardController extends AdminController
         return view('pages.dashboard.dashboard', compact('breadcrumbs', 'page_title'));
     }
 
-    /**
-     * @param Request $request
-     */
-    public function store(Request $request)
-    {
-        $test = $this->files->klikBudMainSlider($request->file, 1);
-        dd($test);
-    }
 }

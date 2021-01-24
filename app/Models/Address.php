@@ -16,7 +16,8 @@ class Address extends Model
     use HasFactory;
     use SoftDeletes;
     use QueryCacheable;
-    protected $cacheFor = 3600;
+    protected $cacheFor = 3600 * 3600;
+    protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
     protected $revisionEnabled = true;

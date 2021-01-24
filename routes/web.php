@@ -26,7 +26,6 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
         Route::get('/download/{id}', [FileController::class, 'download'])->name('download');
 
         Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
-        Route::post('/store', [DashboardController::class, 'store'])->name('dashboard.store');
 
         require __DIR__.'/web/address.php';
 

@@ -23,7 +23,7 @@ class FileAdditionalInformation extends Model
 
     use QueryCacheable;
     protected int $cacheFor = 3600;
-
+    protected static $flushCacheOnUpdate = true;
     /**
      * @return BelongsTo
      */

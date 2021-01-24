@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
-    use QueryCacheable;
-    protected $cacheFor = 3600;
+//    use QueryCacheable;
+//    protected $cacheFor = 3600 * 3600;
+//    protected static $flushCacheOnUpdate = true;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
     ];
