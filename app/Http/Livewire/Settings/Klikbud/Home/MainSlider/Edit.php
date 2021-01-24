@@ -171,7 +171,7 @@ class Edit extends Component
 
             $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false));
             $app_make_class = app()->make(FilesDataService::class);
-            $image_id = $app_make_class->updateKlikBudMainSlider($store, $this->slider->id);
+            $image_id = $app_make_class->updateKlikBudMainSlider($store, $this->slider->image_id, $this->slider->id);
 
 
 

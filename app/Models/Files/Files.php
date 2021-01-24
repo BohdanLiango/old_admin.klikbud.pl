@@ -25,7 +25,7 @@ class Files extends Model
     protected $historyLimit = 50 ; // Сохранение максимум 5000 изменений в любой момент времени при очистке старых версий.
 
     use QueryCacheable;
-    protected $cacheFor = 3600 * 3600;
+    protected $cacheFor = 3600 * 3600 * 3600;
     public $cachePrefix = 'files_';
     protected static $flushCacheOnUpdate = true;
 
@@ -36,4 +36,3 @@ class Files extends Model
     {
         return $this->belongsTo(FileAdditionalInformation::class, 'file_id');
     }
-}

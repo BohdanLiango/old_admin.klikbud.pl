@@ -120,6 +120,51 @@ class FilesService extends FileService
     }
 
     /**
+     * @param $update
+     * @param $image_old_id
+     * @param $table_record_id
+     * @param $to_table
+     * @param $group
+     * @param $subgroup
+     * @return mixed
+     */
+    public function updateImageUseLivewire($update, $image_old_id,  $table_record_id, $to_table): mixed
+    {
+        $get_information = FileAdditionalInformation::findOrFail($image_old_id);
+
+        //Type File
+        $file_type_id = self::FILE_TYPE_IMAGE;
+
+        //Create Folder
+        $folder_name = $get_information->folder;
+        $folder = $get_information->path;
+
+        //Get Mime and Size Updated File
+        $mime = Storage::mimeType($update);
+        $size = Storage::size($update);
+
+        //Get name stored File
+        $name_file = class_basename($update);
+
+        //Move to correctly folder
+        Storage::move($update,  $folder .'/' .$name_file);
+
+        //Delete old folder
+        Storage::deleteDirectory(Str::before($update, '/' . $name_file));
+
+        $full_path = $folder . '/' . $name_file;
+
+        // Soft Delete File
+        $softDeleteFile = Files::findOrFail($get_information->file_id);
+        $softDeleteFile->delete();
+
+        // Soft Delete Additional Information
+        $get_information->delete();
+
+        return $this->store($to_table, $table_record_id, $name_file, $folder_name, $folder, $size, $mime, $file_type_id, $full_path);
+    }
+
+    /**
      * Finish Store
      *
      * @param $to_table
