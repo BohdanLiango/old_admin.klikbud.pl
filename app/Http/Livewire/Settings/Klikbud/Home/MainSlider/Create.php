@@ -106,11 +106,14 @@ class Create extends Component
         $test = app()->make(FilesDataService::class);
         $image_id = $test->klikBudMainSlider($store,$save->id);
 
-        $update = MainSlider::find($save->id);
+        $update = MainSlider::findOrFail($save->id);
         $update->image_id = $image_id;
         $update->save();
 
         $this->saveSuccess = true;
+
+        session()->flash('message', 'Suwak stworzony!');
+        session()->flash('alert-type', 'success');
 
         return redirect()->route('settings.klikbud.home.slider.index');
     }

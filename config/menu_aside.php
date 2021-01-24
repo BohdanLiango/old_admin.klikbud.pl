@@ -32,7 +32,7 @@ return [
                         ],
                         [
                             'title' => 'Usługi',
-                            'page' => ''
+                            'page' => 'settings.klikbud.home.service.index'
                         ],
                         [
                             'title' => 'Licznik',

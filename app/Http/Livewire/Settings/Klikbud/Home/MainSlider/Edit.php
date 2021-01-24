@@ -162,6 +162,9 @@ class Edit extends Component
 
             $update->save();
 
+            session()->flash('message', 'Suwak edytowano!');
+            session()->flash('alert-type', 'success');
+
             return redirect()->route('settings.klikbud.home.slider.index');
         }else{
 
@@ -198,6 +201,9 @@ class Edit extends Component
             $update->fill($data);
 
             $update->save();
+
+            session()->flash('message', 'Suwak edytowano!');
+            session()->flash('alert-type', 'success');
 
             return redirect()->route('settings.klikbud.home.slider.index');
 

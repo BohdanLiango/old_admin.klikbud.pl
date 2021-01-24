@@ -44,4 +44,17 @@ class ActionsData extends Data
         return $this->action($key, $array);
     }
 
+    /**
+     * @param $key
+     * @return Collection
+     */
+    public function settings_klikbud_home_service($key): Collection
+    {
+        $array = [
+            ['key' => 1, 'route' => 'settings.klikbud.home.service.create', 'color' => 'success', 'name' => 'Dodaj']
+        ];
+
+        return $this->action($key, $array);
+    }
+
 }

@@ -2,13 +2,28 @@
     <div class="container">
         <div class="card card-custom card-sticky" id="kt_page_sticky_card">
             <div class="card-header">
-                <div class="card-toolbar">
+                <div class="card-toolbar float-left">
                     <a href="{{ route('settings.klikbud.home.slider.index') }}" class="btn btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-xs"></i>Powrót</a>
                     <div class="btn-group">
                     </div>
                 </div>
+
+                @if($errors->all())
+                <div class="card-toolbar alert alert-custom alert-outline-danger fade show mb-5 float-right" role="alert">
+                    <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                    @foreach($errors->all() as $message)
+                    <div class="alert-text">{{ $message }}</div>
+                    @endforeach
+                    <div class="alert-close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                        </button>
+                    </div>
+                </div>
+                @endif
             </div>
+
             <div class="card-body">
                 <form class="form" id="kt_form" method="POST" wire:submit.prevent="saveSlider" enctype="multipart/form-data">
                     @csrf

@@ -11,14 +11,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
 
-class MainSlider extends Model
+class Service extends Model
 {
     protected $table = 'klikbud_main_slider';
-    protected $guarded = [];
+
+    protected $fillable = [
+        'status_to_main_page_id',
+        'image_id',
+        'user_id',
+        'moderated_id',
+        'slug',
+        'alt',
+        'title',
+        'description'
+    ];
+
     protected $casts = [
+        'slug' => 'array',
         'alt' => 'array',
-        'textYellow' => 'array',
-        'textBlack' => 'array',
+        'title' => 'array',
         'description' => 'array'
     ];
 
@@ -27,7 +38,7 @@ class MainSlider extends Model
     use QueryCacheable;
 
     protected $cacheFor = 3600 * 3600;
-    public $cachePrefix = 'klik_bud_main_slider_';
+    public $cachePrefix = 'klik_bud_service_';
     protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;

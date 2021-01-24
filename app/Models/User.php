@@ -12,9 +12,9 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
-//    use QueryCacheable;
-//    protected $cacheFor = 3600 * 3600;
-//    protected static $flushCacheOnUpdate = true;
+    use QueryCacheable;
+    protected $cacheFor = 3600 * 3600;
+    protected static $flushCacheOnUpdate = true;
 
     /**
      * The attributes that are mass assignable.
