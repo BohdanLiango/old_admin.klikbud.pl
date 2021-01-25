@@ -36,7 +36,7 @@ return [
                         ],
                         [
                             'title' => 'Licznik',
-                            'page' => ''
+                            'page' => 'settings.klikbud.home.count.index'
                         ],
                         [
                             'title' => 'Opinie',

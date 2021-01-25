@@ -8,6 +8,7 @@ class BreadcrumbsData extends Data
     private string $address = 'Adresy';
     private string $klikbudMainslider = 'Suwak';
     private string $klikbudService = 'Usługi';
+    private string $klikbudCount = 'Liczniki';
 
     /**
      * Main functions
@@ -92,6 +93,23 @@ class BreadcrumbsData extends Data
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
             ['key' => 1, 'link' => route('settings.klikbud.home.service.index'), 'name' => $this->klikbudService]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
+
+    /**
+     * CountController
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function settings_klikbud_home_count($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('settings.klikbud.home.count.index'), 'name' => $this->klikbudCount]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

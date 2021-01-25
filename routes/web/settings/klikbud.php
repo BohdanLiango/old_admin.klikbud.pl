@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Settings\Klikbud\Home\CountController;
 use App\Http\Controllers\Settings\Klikbud\Home\MainSliderController;
 use App\Http\Controllers\Settings\Klikbud\Home\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
             Route::get('/create', [ServiceController::class, 'create'])->name('create');
             Route::get('/show/{id}', [ServiceController::class, 'show'])->name('show');
         });
+
+        Route::get('/counter', [CountController::class, 'index'])->name('count.index');
 
     });
 
