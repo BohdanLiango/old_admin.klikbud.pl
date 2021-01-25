@@ -2,11 +2,13 @@
 
 namespace App\Models\KLIKBUD;
 
+use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -63,4 +65,10 @@ class Service extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function image_additional_information()
+    {
+       return $this->belongsTo(FileAdditionalInformation::class, 'image_id', 'file_id');
+    }
+
 }

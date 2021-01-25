@@ -68,9 +68,9 @@ class ServiceController extends AdminController
     public function show($id)
     {
         $name = Service::findOrFail($id)->title['pl'];
-        $breadcrumbs = $this->breadcrumbs->settings_klikbud_home_mainslider(2,
+        $breadcrumbs = $this->breadcrumbs->settings_klikbud_home_service(2,
             [['key' => 2, 'link' => route('settings.klikbud.home.service.show', $id), 'name' => $name]]);
         $page_title = $breadcrumbs[2]['name'];
-        return view('pages.settings.klikbud.home.service.edit', compact('breadcrumbs', 'page_title', 'id'));
+        return view('pages.settings.klikbud.home.service.show', compact('breadcrumbs', 'page_title', 'id'));
     }
 }

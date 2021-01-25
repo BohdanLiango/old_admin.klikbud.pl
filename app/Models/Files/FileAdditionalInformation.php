@@ -2,6 +2,7 @@
 
 namespace App\Models\Files;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,5 +31,13 @@ class FileAdditionalInformation extends Model
     public function files(): BelongsTo
     {
         return $this->belongsTo(Files::class, 'file_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user_details(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
