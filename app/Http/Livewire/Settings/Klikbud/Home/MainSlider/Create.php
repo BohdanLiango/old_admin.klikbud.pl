@@ -13,7 +13,6 @@ class Create extends Component
     use WithFileUploads;
 
     public $photo;
-    public $saveSuccess = false;
     public $slider;
 
 
@@ -50,7 +49,7 @@ class Create extends Component
      */
     protected array $messages = [
         'photo.image' => 'To nie jest Obrazek!',
-        'photo.max:256' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
+        'photo.max' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
         'photo.required' => 'Obrazek wymagany!',
 
         'slider.yellow_text_pl.required' => 'Żółty tekst wymagany!',
@@ -89,7 +88,7 @@ class Create extends Component
         $data = [
             'status_to_main_page_id' => 2,
             'slider_number_show' => $this->slider['number_show'],
-            'image_id' => 1,
+            'image_id' => NULL,
             'user_id' => Auth::id(),
             'moderated_id' => 3,
             'alt' => $jsonAlt,
@@ -110,8 +109,6 @@ class Create extends Component
         $update->image_id = $image_id;
         $update->save();
 
-        $this->saveSuccess = true;
-
         session()->flash('message', 'Suwak stworzony!');
         session()->flash('alert-type', 'success');
 
@@ -123,18 +120,6 @@ class Create extends Component
         $this->validateOnly($propertyName);
     }
 
-
-    public function updatedPhoto()
-    {
-        $this->validate([
-            'photo' => 'image|max:256|required'
-        ]);
-    }
-
-    public function uploatedPhoto()
-    {
-        $this->validate(['photo' => 'image|max:256|required']);
-    }
 
     public function render()
     {

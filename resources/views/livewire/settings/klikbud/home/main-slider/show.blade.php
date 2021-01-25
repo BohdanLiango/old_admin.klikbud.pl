@@ -25,6 +25,7 @@
                     </div>
                 @endif
 
+             @if($count > 0)
             <div class="col-12">
                 <div class="form-group col-6 float-left">
                     <label>Search</label>
@@ -40,7 +41,7 @@
                         </select>
                 </div>
             </div>
-
+            @endif
 
             @forelse($sliders as $slider)
             <div class="col-xl-4 col-sm-4">

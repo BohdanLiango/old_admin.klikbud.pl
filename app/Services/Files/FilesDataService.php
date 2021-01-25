@@ -7,7 +7,8 @@ class FilesDataService extends FileService
     private FilesService $files;
 
     private const TABLES = [
-        '1' => 'klikbud_main_slider'
+        '1' => 'klikbud_main_slider',
+        '2' => 'klikbud_service'
     ];
 
     /**
@@ -86,12 +87,11 @@ class FilesDataService extends FileService
     /**
      * @param $store
      * @param $table_record_id
-     * @return null
+     * @return mixed
      */
-    public function klikBudMainSlider($store, $table_record_id)
+    public function klikBudMainSlider($store, $table_record_id): mixed
     {
         $to_table = self::TABLES['1'];
-
         return $this->preStoreLivewireImage($store,$to_table, $table_record_id, self::GROUP_1, self::SUB_GROUP_1);
     }
 
@@ -99,11 +99,36 @@ class FilesDataService extends FileService
      * @param $update
      * @param $image_old_id
      * @param $table_record_id
+     * @return mixed
      */
-    public function updateKlikBudMainSlider($update, $image_old_id, $table_record_id)
+    public function updateKlikBudMainSlider($update, $image_old_id, $table_record_id): mixed
     {
         $to_table = self::TABLES['1'];
-
         return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_1, self::SUB_GROUP_1);
     }
+
+    /**
+     * @param $store
+     * @param $table_record_id
+     * @return mixed
+     */
+    public function storeKlikBudService($store, $table_record_id): mixed
+    {
+        $to_table = self::TABLES['2'];
+        return $this->preStoreLivewireImage($store, $to_table, $table_record_id, self::GROUP_1, self::SUB_GROUP_2);
+    }
+
+    /**
+     * @param $update
+     * @param $image_old_id
+     * @param $table_record_id
+     * @return mixed
+     */
+    public function updateKlikBudService($update, $image_old_id, $table_record_id): mixed
+    {
+        $to_table = self::TABLES['2'];
+        return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_1, self::SUB_GROUP_2);
+    }
+
+
 }

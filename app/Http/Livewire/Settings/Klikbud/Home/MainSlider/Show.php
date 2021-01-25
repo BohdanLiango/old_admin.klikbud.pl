@@ -26,15 +26,18 @@ class Show extends Component
     public function render()
     {
         $sliders = MainSlider::when($this->searchQuery != '', function ($query) {
-            $query->where('textYellow', 'like', '%' . $this->searchQuery . '%')->orWhere('textBlack', 'like', '%' . $this->searchQuery . '%');
+            $query->where('textYellow', 'like', '%' . $this->searchQuery . '%')
+                ->orWhere('textBlack', 'like', '%' . $this->searchQuery . '%');
         })
             ->when($this->searchStatus != '', function ($query) {
                 $query->where('status_to_main_page_id', $this->searchStatus);
             })
             ->orderBy('ID', 'desc')->paginate(12);
 
+        $count = MainSlider::count();
+
         return view('livewire.settings.klikbud.home.main-slider.show',
-            compact('sliders'));
+            compact('sliders', 'count'));
     }
 
     /**

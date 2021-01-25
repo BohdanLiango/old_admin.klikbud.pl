@@ -13,7 +13,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
 
 class Service extends Model
 {
-    protected $table = 'klikbud_main_slider';
+    protected $table = 'klikbud_service';
 
     protected $fillable = [
         'status_to_main_page_id',

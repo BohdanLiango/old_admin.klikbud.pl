@@ -9,13 +9,14 @@ class FileService extends Service
 
     public const GROUP_1 = 'klikbud';
     public const SUB_GROUP_1 = 'Slider';
+    public const SUB_GROUP_2 = 'Service';
 
     public const GROUP_2 = 'adminklikbud';
 
 
     public const S1 = 100000000;
-    public const S2 = 300;
-    public const S3 = 300;
+    public const S2 = 1000;
+    public const S3 = 1000;
     public const S4 = 300;
     public const STORE = 300;
 
