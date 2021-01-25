@@ -16,6 +16,18 @@ class Content extends Component
     public $actions;
     public $selectedItem;
 
+    public $prompt;
+
+    protected $listeners =[
+        'refreshParent'
+    ];
+
+    public function refreshParent()
+    {
+        $this->prompt = "The parent has be refreshed";
+    }
+
+
     public function mount()
     {
         $this->searchQuery = '';
