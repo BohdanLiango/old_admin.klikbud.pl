@@ -1,6 +1,19 @@
 <div class="d-flex flex-column-fluid">
     <div class="container">
         <div class="row">
+            <div class="col-xl-12">
+                @if(session()->has('message'))
+                    <div class="alert alert-custom alert-{{ session('alert-type') }} fade show" role="alert">
+                        <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                        <div class="alert-text">{{ session('message') }}</div>
+                        <div class="alert-close">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+            </div>
             @if($count > 0)
             <div class="col-12">
                 <div class="form-group col-6 float-left">
@@ -91,8 +104,9 @@
                             <!--begin::Bottom-->
                             <div class="pt-4">
                                 <!--begin::Image-->
-                                <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px"
+                                <a href="{{ route('settings.klikbud.home.service.show', [$service->id]) }}"><div class="bgi-no-repeat bgi-size-cover rounded min-h-265px"
                                      style="background-image: url({{ asset(Storage::url($service->image->file_view)) }})"></div>
+                                </a>
                                 <!--end::Image-->
                                 <!--begin::Text-->
                                 <p class="text-dark-75 font-size-lg font-weight-normal pt-5 mb-2">

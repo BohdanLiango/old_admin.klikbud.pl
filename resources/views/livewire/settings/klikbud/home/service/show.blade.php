@@ -1,17 +1,64 @@
 <div class="row">
+    <div class="col-xl-12">
+        @if(session()->has('message'))
+            <div class="alert alert-custom alert-{{ session('alert-type') }} fade show" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                <div class="alert-text">{{ session('message') }}</div>
+                <div class="alert-close">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                    </button>
+                </div>
+            </div>
+        @endif
+    </div>
 
     <div class="col-xl-11">
+        <h3>Status na głównej stroenie:
+        @if($status_to_main_page == NULL)
+            <span class="badge badge-info">NULL</span>
+        @endif
+            @if($status_to_main_page == 1)
+                <span class="badge badge-success">Aktywny</span>
+            @endif
+            @if($status_to_main_page == 2)
+                <span class="badge badge-danger" >Ukryty</span>
+            @endif
+            | Zmienić status na:
+            @if($status_to_main_page == 2 || $status_to_main_page === null)
+                <a wire:click.lazy="changeStatusInMainPage({{1}})" class="btn btn-success">Aktywny</a>
+            @endif
+            @if($status_to_main_page == 1 || $status_to_main_page === null)
+                <a wire:click.lazy="changeStatusInMainPage({{2}})"  class="btn btn-danger">Ukryty</a>
+            @endif
+        </h3>
     </div>
 <div class="col-xl-1">
     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group" role="group" aria-label="First group">
             <a href="{{ route('settings.klikbud.home.service.edit', $service->id) }}" class="btn btn-warning  btn-icon"><i class="la la-edit"></i></a>
-            <a wire:click="selectItem({{ $service->id }}, 'delete')" href="#" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger  btn-icon"><i class="la la-close"></i></a>
+            <a class="btn btn-danger  btn-icon" data-toggle="modal" data-target="#staticBackdrop"><i class="la la-close"></i></a>
         </div>
     </div>
     <hr>
 </div>
-
+    <!-- Modal-->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Czy napełno chcesz usunąć?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Nie</button>
+                    <button wire:click="delete" type="button" class="btn btn-primary font-weight-bold">Tak</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-xl-6">
         <!--begin::Card-->
         <div class="card card-custom gutter-b">
@@ -26,7 +73,7 @@
             <div class="card-body">
                 <!--begin::Example-->
                 <div class="example mb-10">
-                    <img src="{{ asset(Storage::url($service->image->file_view)) }}"  class="img-fluid">
+                    <a href="{{ asset(Storage::url($service->image->file_view)) }}" target="_blank"><img src="{{ asset(Storage::url($service->image->file_view)) }}"  class="img-fluid"></a>
                 </div>
                 <!--end::Example-->
             </div>
@@ -142,7 +189,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">LANGUAGE</th>
-                                    <th scope="col">Nazwa</th>
+                                    <th scope="col">Opis</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -198,33 +245,3 @@
         <!--end::Card-->
     </div>
 </div>
-
-<!-- Modal-->
-<div class="modal fade" id="deleteModalForm" tabindex="-1" role="dialog" aria-labelledby="deleteModalForm" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Czy napełno chcesz usunąć?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" wire:click.prevent="cancel" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Zamknąć</button>
-                <a href="" wire:click.prevent="delete">SUKA!!</a>
-                <button type="button" wire:click.prevent="delete" class="btn btn-primary font-weight-bold">Zapisz zmiany</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    window.addEventListener('openDeleteModal', event => {
-        $("#deleteModalForm").modal('show')
-    })
-    window.addEventListener('closeDeleteModal', event => {
-        $("#deleteModalForm").modal('hide')
-    })
-</script>
