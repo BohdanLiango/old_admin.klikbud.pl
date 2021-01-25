@@ -15,8 +15,8 @@ class CreateFileFolderCounterTable extends Migration
     {
         Schema::create('file_folder_counter', function (Blueprint $table) {
             $table->id();
-            $table->longText('group')->nullable();
-            $table->longText('sub_group')->nullable();
+            $table->text('group')->nullable();
+            $table->text('sub_group')->nullable();
             $table->integer('s1')->default(1);
             $table->integer('s2')->default(1);
             $table->integer('s3')->default(1);

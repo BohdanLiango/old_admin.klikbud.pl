@@ -40,7 +40,7 @@ return [
                         ],
                         [
                             'title' => 'Opinie',
-                            'page' => ''
+                            'page' => 'settings.klikbud.home.opinion.index'
                         ],
                     ]
                 ],

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Settings\Klikbud\Home\CountController;
 use App\Http\Controllers\Settings\Klikbud\Home\MainSliderController;
+use App\Http\Controllers\Settings\Klikbud\Home\OpinionController;
 use App\Http\Controllers\Settings\Klikbud\Home\ServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
         });
 
         Route::get('/counter', [CountController::class, 'index'])->name('count.index');
+
+        Route::prefix('/opinion')->name('opinion.')->group(static function() {
+            Route::get('/', [OpinionController::class, 'index'])->name('index');
+        });
 
     });
 

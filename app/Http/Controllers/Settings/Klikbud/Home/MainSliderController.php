@@ -11,7 +11,6 @@ use Illuminate\Contracts\View\View;
 
 class MainSliderController extends AdminController
 {
-
     private BreadcrumbsData $breadcrumbs;
     private ActionsData $actionData;
 
