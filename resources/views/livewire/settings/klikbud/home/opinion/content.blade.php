@@ -111,7 +111,7 @@
                     <label class="col-form-label col-3">Data<span class="text-danger">*</span></label>
                     <div class="col-9">
                         <div class="input-group date" >
-                            <input type="text" class="form-control" readonly  value="05/20/2017" id="kt_datepicker_3"/>
+                            <input type="text" class="form-control" readonly  value="{{ date("d/m/Y",strtotime(now())) }}" id="kt_datepicker_3"/>
                             <div class="input-group-append">
                                <span class="input-group-text">
                                 <i class="la la-calendar"></i>
@@ -149,4 +149,8 @@
     window.addEventListener('closeSaveModal', event => {
         $("#deleteModalForm").modal('hide')
     })
+
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy'
+    });
 </script>

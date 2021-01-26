@@ -58,7 +58,7 @@ var KTBootstrapDaterangepicker = function () {
                 format: 'MM/DD/YYYY h:mm A'
             }
         }, function(start, end, label) {
-            $('#kt_daterangepicker_4 .form-control').val( start.format('MM/DD/YYYY h:mm A') + ' / ' + end.format('MM/DD/YYYY h:mm A'));
+            $('#kt_daterangepicker_4 .form-control').val( start.format('DD/MM/YYYY h:mm A') + ' / ' + end.format('DD/MM/YYYY h:mm A'));
         });
 
         // date picker
@@ -73,7 +73,7 @@ var KTBootstrapDaterangepicker = function () {
                 format: 'MM/DD/YYYY'
             }
         }, function(start, end, label) {
-            $('#kt_daterangepicker_5 .form-control').val( start.format('MM/DD/YYYY') + ' / ' + end.format('MM/DD/YYYY'));
+            $('#kt_daterangepicker_5 .form-control').val( start.format('DD/MM/YYYY') + ' / ' + end.format('DD/MM/YYYY'));
         });
 
         // predefined ranges
@@ -96,7 +96,7 @@ var KTBootstrapDaterangepicker = function () {
                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
         }, function(start, end, label) {
-            $('#kt_daterangepicker_6 .form-control').val( start.format('MM/DD/YYYY') + ' / ' + end.format('MM/DD/YYYY'));
+            $('#kt_daterangepicker_6 .form-control').val( start.format('DD/MM/YYYY') + ' / ' + end.format('DD/MM/YYYY'));
         });
     }
 
