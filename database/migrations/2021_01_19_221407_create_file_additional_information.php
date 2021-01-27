@@ -15,11 +15,11 @@ class CreateFileAdditionalInformation extends Migration
     {
         Schema::create('file_additional_information', function (Blueprint $table) {
             $table->id();
-            $table->integer('file_id');
-            $table->integer('user_id');
+            $table->bigInteger('file_id');
+            $table->bigInteger('user_id');
             $table->text('full_path');
             $table->text('to_table');
-            $table->integer('table_record_id');
+            $table->bigInteger('table_record_id');
             $table->text('name');
             $table->text('folder');
             $table->text('path');
