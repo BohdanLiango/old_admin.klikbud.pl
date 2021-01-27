@@ -56,7 +56,6 @@ var KTBootstrapDatepicker = function () {
             clearBtn: true,
             todayHighlight: true,
             templates: arrows,
-            format: 'dd/mm/yyyy'
         });
 
         // enable clear button for modal demo
@@ -66,7 +65,6 @@ var KTBootstrapDatepicker = function () {
             clearBtn: true,
             todayHighlight: true,
             templates: arrows,
-            format: 'dd/mm/yyyy'
         });
 
         // orientation

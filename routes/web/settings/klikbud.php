@@ -27,6 +27,8 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
 
         Route::prefix('/opinion')->name('opinion.')->group(static function() {
             Route::get('/', [OpinionController::class, 'index'])->name('index');
+            Route::get('/create', [OpinionController::class, 'create'])->name('create');
+            Route::get('/edit/{id}', [OpinionController::class, 'edit'])->name('edit');
         });
 
     });
