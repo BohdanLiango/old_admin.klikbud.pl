@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Data\BreadcrumbsData;
 use App\Services\Files\FilesDataService;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class DashboardController extends AdminController
 {
-    public $breadcrumbs;
-    public $files;
+    public BreadcrumbsData $breadcrumbs;
+    public FilesDataService $files;
 
     public function __construct(BreadcrumbsData $breadcrumbsData, FilesDataService $filesDataService)
     {
@@ -19,7 +21,10 @@ class DashboardController extends AdminController
     }
 
 
-    public function show()
+    /**
+     * @return Factory|View|Application
+     */
+    public function show(): Factory|View|Application
     {
         $breadcrumbs = $this->breadcrumbs->dashboard(0, NULL);
         $page_title = $breadcrumbs[0]['name'];

@@ -2,7 +2,7 @@
 @extends('layout.default')
 {{-- Content --}}
 @section('content')
-    @livewire('settings.klikbud.home.opinion.edit-form', ['id' => $id])
+    @livewire('settings.klikbud.home.opinions.edit', ['id' => $id])
 @endsection
 {{-- Scripts Section --}}
 @section('scripts')

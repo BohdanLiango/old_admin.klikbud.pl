@@ -2,6 +2,7 @@
 
 namespace App\Models\KLIKBUD;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,11 +33,11 @@ class Opinion extends Model
 
     use HasFactory;
     use SoftDeletes;
-    use QueryCacheable;
-
-    protected $cacheFor = 3600 * 3600 * 3600;
-    public $cachePrefix = 'klikbud_opinion';
-    protected static $flushCacheOnUpdate = true;
+//    use QueryCacheable;
+//
+//    protected $cacheFor = 3600 * 3600 * 3600;
+//    public $cachePrefix = 'klikbud_opinion';
+//    protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
 
@@ -51,5 +52,13 @@ class Opinion extends Model
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class, 'service_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user_details(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

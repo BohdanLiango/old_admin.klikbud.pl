@@ -2,7 +2,7 @@
 @extends('layout.default')
 {{-- Content --}}
 @section('content')
-    @livewire('settings.klikbud.home.opinion.save-form')
+    @livewire('settings.klikbud.home.opinions.create')
 @endsection
 {{-- Scripts Section --}}
 @section('scripts')

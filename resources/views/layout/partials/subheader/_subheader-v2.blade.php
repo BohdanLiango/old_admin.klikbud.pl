@@ -33,9 +33,9 @@
             <!--begin::Actions-->
             @foreach($actions as $action)
             <a
-                @if($action['route'] === NULL) href="#" @else href="{{ route($action['route']) }}"@endif
+                @if($action['route'] === NULL || $action['route'] === '#') href="#" @else href="{{ route($action['route']) }}"@endif
 
-                class="btn btn-light-{{ $action['color'] }} font-weight-bolder btn-sm">{{ $action['name'] }}</a>
+                class="btn btn-light-{{ $action['color'] }} font-weight-bolder btn-sm" style="margin-right: 10px">{{ $action['name'] }}</a>
             @endforeach
             <!--end::Actions-->
             @endisset
