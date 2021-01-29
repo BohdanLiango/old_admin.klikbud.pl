@@ -2,33 +2,24 @@
 
 namespace App\Models\KLIKBUD;
 
-use App\Models\User;
+use App\Models\Files\Files;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
 
-class Opinion extends Model
+class OpinionPortal extends Model
 {
-    protected $table = 'klikbud_opinion';
+    protected $table = 'klikbud_opinion_portal';
 
     protected $fillable = [
-        'name',
-        'service_id',
-        'stars',
-        'status_to_main_page_id',
-        'is_new_id',
-        'portal_opinion_id',
+        'title',
+        'url',
         'user_id',
-        'moderated_id',
-        'opinion',
-        'date_add'
-    ];
-
-    public const STARS = [
-        1,2,3,4,5
+        'image_id'
     ];
 
     use HasFactory;
@@ -36,7 +27,7 @@ class Opinion extends Model
     use QueryCacheable;
 
     protected $cacheFor = 3600 * 3600 * 3600;
-    public $cachePrefix = 'klikbud_opinion';
+    public $cachePrefix = 'klikbud_opinion_portal';
     protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
@@ -47,27 +38,18 @@ class Opinion extends Model
     protected int $historyLimit = 5; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
 
     /**
-     * @return BelongsTo
+     * @return HasMany
      */
-    public function service(): BelongsTo
+    public function opinions(): HasMany
     {
-        return $this->belongsTo(Service::class, 'service_id');
+        return $this->hasMany(Opinion::class, 'portal_opinion_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function user_details(): BelongsTo
+    public function image(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Files::class, 'image_id');
     }
-
-    /**
-     * @return BelongsTo
-     */
-    public function portal(): BelongsTo
-    {
-        return $this->belongsTo(OpinionPortal::class, 'portal_opinion_id');
-    }
-
 }

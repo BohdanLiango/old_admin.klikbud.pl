@@ -64,7 +64,7 @@ class ActionsData extends Data
     {
         $array = [
             ['key' => 1, 'route' => 'settings.klikbud.home.opinion.create', 'color' => 'success', 'name' => 'Dodaj'],
-            ['key' => 2, 'route' => 'settings.klikbud.home.opinion.create', 'color' => 'primary', 'name' => 'Portaly']
+            ['key' => 2, 'route' => 'settings.klikbud.home.opinion.portal.index', 'color' => 'primary', 'name' => 'Portaly']
         ];
 
         return $this->actions($array);

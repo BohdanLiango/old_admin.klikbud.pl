@@ -74,9 +74,7 @@ class Edit extends Component
     {
         $this->validate();
 
-        $data = [
-            'user_id' => Auth::id(),
-        ];
+        $data = [];
 
         // We will check if there are any changes in the fields
 
@@ -101,6 +99,7 @@ class Edit extends Component
         }
 
         if(count($data)) {
+            $data['user_id'] = Auth::id();
             Opinion::find($this->opinion_id)->update($data);
             session()->flash('message', 'Opinie edytowano!');
             session()->flash('alert-type', 'success');

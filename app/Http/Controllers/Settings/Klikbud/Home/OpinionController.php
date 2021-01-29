@@ -33,7 +33,7 @@ class OpinionController extends AdminController
     {
         $breadcrumbs = $this->breadcrumbs->settings_klikbud_home_opinion(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
-        $actions = $this->actionData->settings_klikbud_home_opinion(1);
+        $actions = $this->actionData->settings_klikbud_home_opinion();
         return view('pages.settings.klikbud.home.opinion.content', compact( 'breadcrumbs', 'page_title', 'actions'));
     }
 

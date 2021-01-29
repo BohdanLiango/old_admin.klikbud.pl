@@ -10,6 +10,7 @@ class FileService extends Service
     public const GROUP_1 = 'klikbud';
     public const SUB_GROUP_1 = 'Slider';
     public const SUB_GROUP_2 = 'Service';
+    public const SUB_GROUP_3 = 'Other';
 
     public const GROUP_2 = 'adminklikbud';
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\Service;
 
+use App\Models\KLIKBUD\OpinionPortal;
 use App\Models\KLIKBUD\Service;
 use App\Services\Files\FilesDataService;
 use Illuminate\Support\Facades\Auth;

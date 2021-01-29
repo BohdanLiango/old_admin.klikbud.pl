@@ -3,6 +3,7 @@
 use App\Http\Controllers\Settings\Klikbud\Home\CountController;
 use App\Http\Controllers\Settings\Klikbud\Home\MainSliderController;
 use App\Http\Controllers\Settings\Klikbud\Home\OpinionController;
+use App\Http\Controllers\Settings\Klikbud\Home\OpinionPortalController;
 use App\Http\Controllers\Settings\Klikbud\Home\ServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
             Route::get('/', [OpinionController::class, 'index'])->name('index');
             Route::get('/create', [OpinionController::class, 'create'])->name('create');
             Route::get('/edit/{id}', [OpinionController::class, 'edit'])->name('edit');
+
+            Route::prefix('/portal')->name('portal.')->group(static function() {
+                Route::get('/', [OpinionPortalController::class, 'index'])->name('index');
+            });
         });
 
     });
