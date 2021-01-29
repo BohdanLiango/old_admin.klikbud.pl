@@ -50,11 +50,11 @@ return [
                     'submenu' => [
                         [
                             'title' => 'Gallery',
-                            'page' => '',
+                            'page' => 'settings.klikbud.gallery.index',
                         ],
                         [
                             'title' => 'Dodaj nowy obraz',
-                            'page' => ''
+                            'page' => 'settings.klikbud.gallery.create'
                         ],
                     ]
                 ],

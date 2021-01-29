@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Settings\Klikbud\Home\CountController;
+use App\Http\Controllers\Settings\Klikbud\Home\GalleryController;
 use App\Http\Controllers\Settings\Klikbud\Home\MainSliderController;
 use App\Http\Controllers\Settings\Klikbud\Home\OpinionController;
 use App\Http\Controllers\Settings\Klikbud\Home\OpinionPortalController;
@@ -36,6 +37,13 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
             });
         });
 
+    });
+
+    Route::prefix('/gallery')->name('gallery.')->group(static function() {
+        Route::get('/', [GalleryController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [GalleryController::class, 'edit'])->name('edit');
+        Route::get('/create', [GalleryController::class, 'create'])->name('create');
+        Route::get('/show/{id}', [GalleryController::class, 'show'])->name('show');
     });
 
 });

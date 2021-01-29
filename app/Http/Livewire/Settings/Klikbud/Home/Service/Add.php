@@ -91,8 +91,7 @@ class Add extends Component
         $save->fill($data)->save();
 
         $store_image = $this->photo->store('/public/uploads/service/' . uniqid('service', false));
-        $class_make = app()->make(FilesDataService::class);
-        $image_id = $class_make->storeKlikBudService($store_image, $save->id);
+        $image_id = app()->make(FilesDataService::class)->storeKlikBudService($store_image, $save->id);
 
         $update = Service::findOrFail($save->id);
         $update->image_id = $image_id;

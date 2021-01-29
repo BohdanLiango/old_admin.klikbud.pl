@@ -27,7 +27,7 @@ class MainSlider extends Model
     use QueryCacheable;
 
     protected $cacheFor = 3600 * 3600;
-    public $cachePrefix = 'klik_bud_main_slider_';
+    public $cachePrefix = 'klik_bud_main_slider';
     protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;

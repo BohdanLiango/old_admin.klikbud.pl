@@ -70,4 +70,17 @@ class ActionsData extends Data
         return $this->actions($array);
     }
 
+    /**
+     * @param $key
+     * @return Collection
+     */
+    public function settings_klikbud_gallery($key): Collection
+    {
+        $array = [
+            ['key' => 1, 'route' => 'settings.klikbud.gallery.create', 'color' => 'success', 'name' => 'Dodaj']
+        ];
+
+        return $this->action($key, $array);
+    }
+
 }

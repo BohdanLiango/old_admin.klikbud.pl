@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\Service;
 
-use App\Models\KLIKBUD\OpinionPortal;
 use App\Models\KLIKBUD\Service;
 use App\Services\Files\FilesDataService;
 use Illuminate\Support\Facades\Auth;
@@ -126,8 +125,7 @@ class Edit extends Component
                 'photo' => 'image|max:256'
             ]);
             $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false));
-            $app_make_class = app()->make(FilesDataService::class);
-            $image_id = $app_make_class->updateKlikBudService($store, $this->service->image_id, $this->service->id);
+            $image_id = app()->make(FilesDataService::class)->updateKlikBudService($store, $this->service->image_id, $this->service->id);
         }
 
         $jsonSlug = ["pl" => Str::slug($this->title_pl), "en" => Str::slug($this->title_en), "ua" => Str::slug($this->title_ua), "ru" => Str::slug($this->title_ru)];

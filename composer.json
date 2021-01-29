@@ -24,6 +24,7 @@
         "venturecraft/revisionable": "^1.35"
     },
     "require-dev": {
+        "andrey-helldar/laravel-lang-publisher": "^8.1",
         "barryvdh/laravel-debugbar": "^3.5",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",

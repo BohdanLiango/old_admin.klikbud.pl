@@ -10,6 +10,7 @@ class FilesDataService extends FileService
         '1' => 'klikbud_main_slider',
         '2' => 'klikbud_service',
         '3' => 'klikbud_opinion_portal',
+        '4' => 'klikbud_gallery',
     ];
 
     /**
@@ -152,6 +153,29 @@ class FilesDataService extends FileService
     {
         $to_table = self::TABLES['3'];
         return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_1, self::SUB_GROUP_3);
+    }
+
+    /**
+     * @param $store
+     * @param $table_record_id
+     * @return mixed
+     */
+    public function storeKlikBudGallery($store, $table_record_id): mixed
+    {
+        $to_table = self::TABLES['4'];
+        return $this->preStoreLivewireImage($store, $to_table, $table_record_id, self::GROUP_1, self::SUB_GROUP_4);
+    }
+
+    /**
+     * @param $update
+     * @param $image_old_id
+     * @param $table_record_id
+     * @return mixed
+     */
+    public function updateKlikBudGallery($update, $image_old_id, $table_record_id): mixed
+    {
+        $to_table = self::TABLES['4'];
+        return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_1, self::SUB_GROUP_4);
     }
 
 

@@ -10,6 +10,7 @@ class BreadcrumbsData extends Data
     private string $klikbudService = 'Usługi';
     private string $klikbudCount = 'Liczniki';
     private string $klikbudOpinin = 'Opinie';
+    private string $klikbudGallery = 'Galeria';
 
     /**
      * Main functions
@@ -128,6 +129,23 @@ class BreadcrumbsData extends Data
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
             ['key' => 1, 'link' => route('settings.klikbud.home.opinion.index'), 'name' => $this->klikbudOpinin]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
+
+    /**
+     * GalleryController
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function settings_klikbud_gallery($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('settings.klikbud.gallery.index'), 'name' => $this->klikbudGallery]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

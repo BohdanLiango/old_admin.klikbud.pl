@@ -10,13 +10,11 @@ use Livewire\Component;
 class Show extends Component
 {
     public $service;
-    public $selectedItem;
-    public $actions;
     public $status_to_main_page;
 
     public function render()
     {
-        sleep(0.5);
+        sleep(0.4);
 
         return view('livewire.settings.klikbud.home.service.show');
     }
@@ -24,8 +22,6 @@ class Show extends Component
     public function mount($id)
     {
         $this->service = Service::findOrFail($id);
-        $this->selectedItem = '';
-        $this->actions = '';
         $this->status_to_main_page = $this->service->status_to_main_page_id;
     }
 
