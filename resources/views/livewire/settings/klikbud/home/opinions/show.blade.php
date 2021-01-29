@@ -113,7 +113,18 @@
                             <!--begin::Bottom-->
                             <div class="pt-4">
                                 <p class="text-dark-75 font-size-lg font-weight-normal pt-5 mb-2">
-                                   <b>Od kogo:</b> {{ $opinion->name }} | <b>Serwis:</b> {{ $opinion->service->title['pl'] }} | <b>Portal:</b> | <b>Data dodania:</b> {{ date("d/m/Y", strtotime($opinion->date_add)) }}
+                                   <b>Od kogo:</b> {{ $opinion->name }}
+                                    | <b>Serwis:</b> {{ $opinion->service->title['pl'] }}
+                                    | <b>Portal:</b>
+                                    @forelse($portals as $portal)
+                                        @if($portal->id === $opinion->portal_opinion_id)
+                                            <img src="{{ asset(Storage::url($portal->image->file_view)) }}" alt="" width="20px">
+                                            <a href="{{ $portal->url }}">{{ $portal->title }}</a>
+                                            @break
+                                        @endif
+                                    @empty
+                                    @endforelse
+                                    | <b>Data dodania:</b> {{ date("d/m/Y", strtotime($opinion->date_add)) }}
 
                                 | <b>Status: </b>
                                     @if($opinion->status_to_main_page_id === 1)

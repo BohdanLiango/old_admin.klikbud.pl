@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Settings\Klikbud\Home\Opinions;
 
 use App\Models\KLIKBUD\Opinion;
+use App\Models\KLIKBUD\OpinionPortal;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -39,9 +40,9 @@ class Show extends Component
         $countFour = $countStars->where('stars', '=', 4)->count();
         $countFive = $countStars->where('stars', '=', 5)->count();
         $count = $countOne + $countTwo + $countThree + $countFour + $countFive;
-
+        $portals = OpinionPortal::all();
         return view('livewire.settings.klikbud.home.opinions.show',
-            compact('opinions', 'count', 'countOne', 'countTwo', 'countThree', 'countFour', 'countFive'));
+            compact('opinions', 'count', 'countOne', 'countTwo', 'countThree', 'countFour', 'countFive', 'portals'));
     }
 
     /**

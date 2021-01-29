@@ -24,8 +24,8 @@ class OpinionPortal extends Model
 
     use HasFactory;
     use SoftDeletes;
-    use QueryCacheable;
 
+    use QueryCacheable;
     protected $cacheFor = 3600 * 3600 * 3600;
     public $cachePrefix = 'klikbud_opinion_portal';
     protected static $flushCacheOnUpdate = true;

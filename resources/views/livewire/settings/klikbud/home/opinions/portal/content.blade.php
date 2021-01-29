@@ -1,3 +1,4 @@
+<div>
 @if(session()->has('message'))
     <div class="col-12 alert alert-custom alert-{{ session('alert-type') }} fade show" role="alert">
         <div class="alert-icon"><i class="flaticon-warning"></i></div>
@@ -10,47 +11,12 @@
     </div>
 @endif
 
-<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-    <!-- Position it -->
-    <div style="position: absolute; top: 0; right: 0;">
-
-        <!-- Then put toasts within -->
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <img src="..." class="rounded mr-2" alt="...">
-                <strong class="mr-auto">Bootstrap</strong>
-                <small class="text-muted">just now</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                See? Just like this.
-            </div>
-        </div>
-
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <img src="..." class="rounded mr-2" alt="...">
-                <strong class="mr-auto">Bootstrap</strong>
-                <small class="text-muted">2 seconds ago</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Heads up, toasts will stack automatically
-            </div>
-        </div>
-    </div>
-</div>
-
 {{--<!--begin::Card-->--}}
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">HTML Table
-                <span class="d-block text-muted pt-2 font-size-sm">Datatable initialized from HTML table</span></h3>
+            <h3 class="card-label">Portaly
+                <span class="d-block text-muted pt-2 font-size-sm">Na których nasze opinie</span></h3>
         </div>
         <div class="card-toolbar">
 {{--            <!--begin::Button-->--}}
@@ -65,67 +31,19 @@
 													</g>
 												</svg>
 {{--                                                <!--end::Svg Icon-->--}}
-											</span>New Record</a>
+											</span>Dodaj</a>
 {{--            <!--end::Button-->--}}
         </div>
     </div>
 
 
-    <!-- Modal -->
-    <div  wire:ignore.self class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
+    <!-- Edit Modal -->
+    @include('livewire.settings.klikbud.home.opinions.portal.edit-modal')
 
-                    <div class="form-group row">
-                        <label for="store_title" class="col-3">Nazwa<span class="text-danger">*</span></label>
-                        <div class="col-9">
-                            <input  id="store_title" class="form-control @error('store_title') is-invalid @enderror" type="text" wire:model.lazy="store_title" />
-                            @error('store_title')<div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
+    <!-- Add Modal -->
+    @include('livewire.settings.klikbud.home.opinions.portal.add-modal')
 
-                    <div class="form-group row">
-                        <label for="store_url" class="col-3">Link<span class="text-danger">*</span></label>
-                        <div class="col-9">
-                            <input  id="store_url" class="form-control @error('store_url') is-invalid @enderror" type="text" wire:model.lazy="store_url" />
-                            <span class="form-text text-muted">Na strone portalu</span>
-                            @error('store_url')<div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-
-                    @if($store_image)
-                        <div class="form-group row" wire:loading.remowe wire:targe="store_image">
-                            <label for="image" class="col-3"></label>
-                            <div class="col-9">
-                                <img src="{{ $store_image->temporaryUrl() }}" style="width: 100px">
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="form-group row">
-                        <label for="image" class="col-3">Zdjecie<span class="text-danger">*</span></label>
-                        <div class="col-9">
-                            <input type="file" class="custom-file-input form-control @error('store_image') is-invalid @enderror " wire:model.defer="store_image" name="store_image" id="customFile" accept=".png, .jpg, .jpeg"/>
-                            <label class="custom-file-label" for="customFile" >Choose file</label>
-                            @error('store_image') <div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button wire:click="store" type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('livewire.settings.klikbud.home.opinions.portal.delete-modal')
 
     @if(count($portals))
     <div class="card-body">
@@ -144,8 +62,7 @@
                 <th scope="row">{{ $portal->id }}</th>
                 <td>
                     <a href="{{ $portal->url }}">
-
-                        @if($portal->image_id === NULL || $portal->image->file_view === NULL)
+                        @if($portal->image_id === NULL || $portal->image === null)
                         @else
                         <img src="{{ asset(Storage::url($portal->image->file_view)) }}" width="30px">
                         @endif
@@ -166,7 +83,10 @@
         </table>
     </div>
     @else
-        Prosze coś dodać)
+        <div class="card-body">
+            <div class="mb-7"></div>
+        <h3>Prosze coś dodać)</h3>
+        </div>
     @endif
 </div>
 {{--<!--end::Card-->--}}
@@ -192,3 +112,4 @@
         $("#deleteModal").modal('hide')
     })
 </script>
+</div>

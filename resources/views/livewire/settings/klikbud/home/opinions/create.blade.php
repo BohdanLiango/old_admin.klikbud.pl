@@ -48,7 +48,7 @@
                                     <div class="col-9">
                                         <select class="form-control @error('service_id') is-invalid @enderror" id="exampleSelectd" wire:model.defer="service_id">
                                             <option value="{{ NULL }}" selected>----------</option>
-                                            @forelse($services as $id => $title)}
+                                            @forelse($services as $id => $title)
                                             <option value="{{ $id }}">{{ $title['pl'] }}</option>
                                             @empty
                                             @endforelse
@@ -80,7 +80,10 @@
                                     <div class="col-9">
                                         <select class="form-control @error('portal_opinion_id') is-invalid @enderror" id="exampleSelectd" wire:model.defer="portal_opinion_id">
                                             <option value="{{ NULL }}" selected>----------</option>
-                                            <option value="1">1</option>
+                                            @forelse($portals as $id => $title)
+                                            <option value="{{ $id }}">{{ $title }}</option>
+                                            @empty
+                                            @endforelse
                                         </select>
                                         <span class="form-text text-muted">Na którym zostawiona opinia</span>
                                         @error('portal_opinion_id')<div class="invalid-feedback">{{ $message }}</div> @enderror

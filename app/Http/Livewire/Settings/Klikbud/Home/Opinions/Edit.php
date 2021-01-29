@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Settings\Klikbud\Home\Opinions;
 
 use App\Models\KLIKBUD\Opinion;
+use App\Models\KLIKBUD\OpinionPortal;
 use App\Models\KLIKBUD\Service;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -61,8 +62,8 @@ class Edit extends Component
     public function render()
     {
         $services = Service::pluck('title', 'id');
-
-        return view('livewire.settings.klikbud.home.opinions.edit', compact('services'));
+        $portals = OpinionPortal::pluck('title', 'id');
+        return view('livewire.settings.klikbud.home.opinions.edit', compact('services', 'portals'));
     }
 
     public function updated($propertyName)
