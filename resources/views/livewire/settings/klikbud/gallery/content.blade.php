@@ -136,8 +136,11 @@
                                 <!--begin::Bottom-->
                                 <div class="pt-4" wire:load.remove>
                                     <!--begin::Image-->
-                                    <a href="{{ route('settings.klikbud.gallery.show', $item->id) }}"><div class="bgi-no-repeat bgi-size-cover rounded min-h-265px"
-                                                                                                                     style="background-image: url({{ asset(Storage::url($item->image->file_view)) }})"></div>
+                                    <a href="{{ route('settings.klikbud.gallery.show', $item->id) }}">
+                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px"
+                                             style="background-image: url({{ asset(Storage::url($item->image->file_view)) }})">
+
+                                        </div>
                                     </a>
                                     <!--end::Image-->
                                     <!--begin::Text-->

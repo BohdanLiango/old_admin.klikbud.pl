@@ -15,7 +15,7 @@ class CreateFileTable extends Migration
     {
         Schema::create('file', function (Blueprint $table) {
             $table->id();
-            $table->text('file_view');
+            $table->text('path');
             $table->softDeletes();
             $table->timestamps();
         });

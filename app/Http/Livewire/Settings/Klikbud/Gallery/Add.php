@@ -47,15 +47,15 @@ class Add extends Component
         'gallery.alt_pl.required' => 'CEO Wymagane!',
 
         'gallery.title_en.required' => 'Nazwa wymagana!',
-        'gallery.description_en.required'=>'Opis wymagany!',
+        'gallery.description_en.required' => 'Opis wymagany!',
         'gallery.alt_en.required' => 'CEO Wymagane!',
 
         'gallery.title_ua.required' => 'Nazwa wymagana!',
-        'gallery.description_ua.required'=>'Opis wymagany!',
+        'gallery.description_ua.required' => 'Opis wymagany!',
         'gallery.alt_ua.required' => 'CEO Wymagane!',
 
         'gallery.title_ru.required' => 'Nazwa wymagana!',
-        'gallery.description_ru.required'=>'Opis wymagany!',
+        'gallery.description_ru.required' => 'Opis wymagany!',
         'gallery.alt_ru.required' => 'CEO Wymagane!',
     ];
 
@@ -75,20 +75,32 @@ class Add extends Component
     {
         $this->validate();
 
-        $store_id  = app()->make(GalleryService::class)->store($this->gallery);
+        //Store Gallery Data
+        $store_id = app()->make(GalleryService::class)->store($this->gallery);
 
-        $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false));
-        $image_id = app()->make(FilesDataService::class)->storeKlikBudGallery($store_image, $store_id);
-        $store_image_to_gallery = app()->make(GalleryService::class)->store_image($store_id, $image_id);
+        if ($store_id !== false) {
+            $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false));
+            $image_id = app()->make(FilesDataService::class)->storeKlikBudGallery($store_image, $store_id);
+            $store_image_to_gallery = app()->make(GalleryService::class)->store_image($store_id, $image_id);
 
-        if($store_image_to_gallery === true)
-        {
-            session()->flash('message', 'Nowy obraz dodany!');
-            session()->flash('alert-type', 'success');
+            if ($store_image_to_gallery === true) {
+                session()->flash('message', 'Nowy obraz dodany!');
+                session()->flash('alert-type', 'success');
+
+            } elseif ($store_image_to_gallery === false) {
+                session()->flash('message', 'Coś nie tak z obrazkiem :(');
+                session()->flash('alert-type', 'danger');
+            } else {
+                abort(403);
+            }
 
             return redirect()->route('settings.klikbud.gallery.index');
+
         }
 
-        return abort(403);
+        session()->flash('message', 'Coś nie tak :(');
+        session()->flash('alert-type', 'danger');
+        return redirect()->route('settings.klikbud.gallery.index');
+
     }
 }

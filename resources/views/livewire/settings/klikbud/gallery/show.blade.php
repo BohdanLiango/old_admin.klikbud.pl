@@ -72,10 +72,10 @@
 
                             | Zmienić status na:
                             @if($status_gallery_id == 0)
-                                <a wire:click.lazy="changeStatusToGallery({{1}})" class="btn badge badge-success">Aktywny</a>
+                                <a wire:click.lazy="changeStatusToGallery({{ 1 }})" class="btn badge badge-success">Aktywny</a>
                             @endif
                             @if($status_gallery_id == 1)
-                                <a wire:click.lazy="changeStatusToGallery({{0}})" class="btn badge badge-danger">Ukryty</a>
+                                <a wire:click.lazy="changeStatusToGallery({{ 0 }})" class="btn badge badge-danger">Ukryty</a>
                             @endif
                         </h5>
                     </div>
@@ -91,10 +91,10 @@
 
                         | Zmienić status na:
                         @if($status_to_main_page == 0)
-                            <a wire:click.lazy="changeStatusInMainPage({{1}})" class="btn badge badge-success">Aktywny</a>
+                            <a wire:click.lazy="changeStatusInMainPage({{ 1 }})" class="btn badge badge-success">Aktywny</a>
                         @endif
                         @if($status_to_main_page == 1)
-                            <a wire:click.lazy="changeStatusInMainPage({{0}})" class="btn badge badge-danger">Ukryty</a>
+                            <a wire:click.lazy="changeStatusInMainPage({{ 0 }})" class="btn badge badge-danger">Ukryty</a>
                         @endif
                         </h5>
                     </div>

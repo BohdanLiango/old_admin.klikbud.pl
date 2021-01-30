@@ -46,15 +46,33 @@ class Content extends Component
 
     public function changeStatusInMainPage($gallery_id, $status_id)
     {
-        app()->make(GalleryService::class)->changeStatusToMainPage($gallery_id, $status_id);
-        session()->flash('message', 'Status na głownej stronie zmieniony!');
-        session()->flash('alert-type', 'warning');
+        $status= app()->make(GalleryService::class)->changeStatusToMainPage($gallery_id, $status_id);
+
+        if($status === true)
+        {
+            session()->flash('message', 'Status na głownej stronie zmieniony!');
+            session()->flash('alert-type', 'success');
+        }elseif($status === false){
+            session()->flash('message', 'Coś nie tak :(');
+            session()->flash('alert-type', 'danger');
+        }else {
+            abort(403);
+        }
     }
 
     public function changeStatusToGallery($gallery_id, $status_id)
     {
-        app()->make(GalleryService::class)->changeStatusToGallery($gallery_id, $status_id);
-        session()->flash('message', 'Status na głownej stronie zmieniony!');
-        session()->flash('alert-type', 'warning');
+        $status = app()->make(GalleryService::class)->changeStatusToGallery($gallery_id, $status_id);
+
+        if($status === true)
+        {
+            session()->flash('message', 'Status w galerii zmieniony!');
+            session()->flash('alert-type', 'success');
+        }elseif($status === false){
+            session()->flash('message', 'Coś nie tak :(');
+            session()->flash('alert-type', 'danger');
+        }else {
+            abort(403);
+        }
     }
 }

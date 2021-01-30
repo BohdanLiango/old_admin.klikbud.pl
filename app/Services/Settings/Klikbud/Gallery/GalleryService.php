@@ -2,147 +2,177 @@
 
 namespace App\Services\Settings\Klikbud\Gallery;
 
+use App\Helper\KlikbudFunctionsHelper;
+use App\Models\Files\FileAdditionalInformation;
+use App\Models\Files\Files;
 use App\Models\KLIKBUD\Gallery;
 use App\Services\Service;
 use Exception;
-use Illuminate\Support\Str;
 
 class GalleryService extends Service
 {
-    public function update($id, $gallery, $image_id)
+    private KlikbudFunctionsHelper $functionsHelper;
+
+    /**
+     * GalleryService constructor.
+     * @param KlikbudFunctionsHelper $klikbudFunctionsHelper
+     */
+    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper)
     {
-        $jsonSlug =  [
-            "pl" => uniqid('', false) . Str::slug($gallery['title_pl']),
-            "en" => uniqid('', false) . Str::slug($gallery['title_en']),
-            "ua" => uniqid('', false) . Str::slug($gallery['title_ua']),
-            "ru" => uniqid('', false) . Str::slug($gallery['title_ru'])
-        ];
-
-        $jsonTitle = [
-            "pl" => $gallery['title_pl'],
-            "en" => $gallery['title_en'],
-            "ua" => $gallery['title_ua'],
-            "ru" => $gallery['title_ru']
-        ];
-
-        $jsonDescription = [
-            "pl" => $gallery['description_pl'],
-            "en" => $gallery['description_en'],
-            "ua" => $gallery['description_ua'],
-            "ru" => $gallery['description_ru']
-        ];
-
-        $jsonAlt = [
-            "pl" => $gallery['alt_pl'],
-            "en" => $gallery['alt_en'],
-            "ua" => $gallery['alt_ua'],
-            "ru" => $gallery['alt_ru']
-        ];
-
-        $data = [
-            'object_id' => $gallery['object_id'],
-            'category_id' => $gallery['category_id'],
-            'status_gallery_id' => 0,
-            'status_to_main_page_id' => 0,
-            'image_id' => $image_id,
-            'slug' => $jsonSlug,
-            'title' => $jsonTitle,
-            'description' => $jsonDescription,
-            'alt' => $jsonAlt,
-        ];
-
-        Gallery::findOrFail($id)->update($data);
-
-        return true;
+        $this->functionsHelper = $klikbudFunctionsHelper;
     }
 
-    public function store($gallery)
+
+    /**
+     * @param $id
+     * @param $gallery
+     * @param $image_id
+     * @return bool
+     */
+    public function update($id, $gallery, $image_id): bool
     {
-        $jsonSlug =  [
-            "pl" => uniqid('', false) . Str::slug($gallery['title_pl']),
-            "en" => uniqid('', false) . Str::slug($gallery['title_en']),
-            "ua" => uniqid('', false) . Str::slug($gallery['title_ua']),
-            "ru" => uniqid('', false) . Str::slug($gallery['title_ru'])
-        ];
+        try {
+            $jsonSlug = $this->functionsHelper->jsonSlug($gallery['title_pl'], $gallery['title_en'], $gallery['title_ua'], $gallery['title_ru']);
+            $jsonTitle = $this->functionsHelper->jsonData($gallery['title_pl'], $gallery['title_en'], $gallery['title_ua'], $gallery['title_ru']);
+            $jsonDescription = $this->functionsHelper->jsonData($gallery['description_pl'], $gallery['description_en'], $gallery['description_ua'], $gallery['description_ru']);
+            $jsonAlt = $this->functionsHelper->jsonData($gallery['alt_pl'], $gallery['alt_en'], $gallery['alt_ua'], $gallery['alt_ru']);
 
-        $jsonTitle = [
-            "pl" => $gallery['title_pl'],
-            "en" => $gallery['title_en'],
-            "ua" => $gallery['title_ua'],
-            "ru" => $gallery['title_ru']
-        ];
-        $jsonDescription = [
-            "pl" => $gallery['description_pl'],
-            "en" => $gallery['description_en'],
-            "ua" => $gallery['description_ua'],
-            "ru" => $gallery['description_ru']
-        ];
-        $jsonAlt = [
-            "pl" => $gallery['alt_pl'],
-            "en" => $gallery['alt_en'],
-            "ua" => $gallery['alt_ua'],
-            "ru" => $gallery['alt_ru']
-        ];
+            $data = [
+                'object_id' => $gallery['object_id'],
+                'category_id' => $gallery['category_id'],
+                'status_gallery_id' => 0,
+                'status_to_main_page_id' => 0,
+                'image_id' => $image_id,
+                'slug' => $jsonSlug,
+                'title' => $jsonTitle,
+                'description' => $jsonDescription,
+                'alt' => $jsonAlt,
+            ];
 
-        $store = new Gallery();
+            Gallery::findOrFail($id)->update($data);
 
-        $data = [
-            'object_id' => $gallery['object_id'],
-            'category_id' => $gallery['category_id'],
-            'slug' => $jsonSlug,
-            'title' => $jsonTitle,
-            'description' => $jsonDescription,
-            'alt' => $jsonAlt
-        ];
+            return true;
 
-        $store->fill($data)->save();
-
-        return $store->id;
+        }catch (Exception){
+            return false;
+        }
     }
 
     /**
+     * @param $gallery
+     * @return mixed
+     */
+    public function store($gallery): mixed
+    {
+        try {
+            $jsonSlug = $this->functionsHelper->jsonSlug($gallery['title_pl'], $gallery['title_en'], $gallery['title_ua'], $gallery['title_ru']);
+            $jsonTitle = $this->functionsHelper->jsonData($gallery['title_pl'], $gallery['title_en'], $gallery['title_ua'], $gallery['title_ru']);
+            $jsonDescription = $this->functionsHelper->jsonData($gallery['description_pl'], $gallery['description_en'], $gallery['description_ua'], $gallery['description_ru']);
+            $jsonAlt = $this->functionsHelper->jsonData($gallery['alt_pl'], $gallery['alt_en'], $gallery['alt_ua'], $gallery['alt_ru']);
+
+            $store = new Gallery();
+
+            $data = [
+                'object_id' => $gallery['object_id'],
+                'category_id' => $gallery['category_id'],
+                'slug' => $jsonSlug,
+                'title' => $jsonTitle,
+                'description' => $jsonDescription,
+                'alt' => $jsonAlt
+            ];
+
+            $store->fill($data)->save();
+
+            return $store->id;
+
+        }catch (Exception){
+
+            return false;
+
+        }
+
+    }
+
+    /**
+     * Store Image to store method
+     * is continue function
+     *
      * @param $gallery_id
      * @param $image_id
      * @return bool
      */
     public function store_image($gallery_id, $image_id): bool
     {
-        $store_image = Gallery::findOrFail($gallery_id);
-        $store_image->image_id = $image_id;
-        $store_image->save();
-        return true;
+        try {
+            $store_image = Gallery::findOrFail($gallery_id);
+            $store_image->image_id = $image_id;
+            $store_image->save();
+            return true;
+        }catch (Exception){
+            return false;
+        }
+
     }
 
     /**
      * @param $gallery_id
      * @param $status_id
+     * @return bool
      */
-    public function changeStatusToMainPage($gallery_id, $status_id): void
+    public function changeStatusToMainPage($gallery_id, $status_id): bool
     {
         try {
-            $update = Gallery::findOrFail($gallery_id);
+            $update = Gallery::find($gallery_id);
             $update->status_to_main_page_id = $status_id;
             $update->save();
+            return true;
         }catch (Exception){
-            return;
+            return false;
         }
     }
 
     /**
+     * Status: 0 - false, 1 - true
      * @param $gallery_id
      * @param $status_id
+     * @return bool
      */
-    public function changeStatusToGallery($gallery_id, $status_id): void
+    public function changeStatusToGallery($gallery_id, $status_id): bool
     {
         try {
-            $update = Gallery::findOrFail($gallery_id);
+            $update = Gallery::find($gallery_id);
             $update->status_gallery_id = $status_id;
             $update->save();
+            return true;
         }catch (Exception){
-            return;
+            return false;
         }
     }
 
+    /**
+     * SoftDelete
+     * @param $id
+     * @param $image_id
+     * @return bool
+     */
+    public function delete($id, $image_id): bool
+    {
+        try {
+            $delete = Gallery::find($id);
+            $delete->delete();
+
+            try {
+                $this->functionsHelper->deleteImage($image_id);
+            }catch (Exception){
+
+            }
+
+            return true;
+        }catch (Exception){
+            return false;
+        }
 
 
+
+    }
 }

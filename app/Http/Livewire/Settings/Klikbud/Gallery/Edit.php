@@ -132,10 +132,14 @@ class Edit extends Component
             session()->flash('message', 'Obrazek edytowano!');
             session()->flash('alert-type', 'success');
 
-            return redirect()->route('settings.klikbud.gallery.index');
+        }elseif($update === false){
+            session()->flash('message', 'Coś nie tak :(');
+            session()->flash('alert-type', 'danger');
+        }else {
+            abort(403);
         }
 
-        return abort(403);
+        return redirect()->route('settings.klikbud.gallery.index');
     }
 
 }
