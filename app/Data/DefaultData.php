@@ -31,4 +31,16 @@ class DefaultData extends Data
             ['value' => 6, 'title' => trans('klikbud/gallery.categories.6'), 'slug' => trans('klikbud/gallery.categories_slug.6')],
         ];
     }
+
+    /**
+     * @return array[]
+     */
+    public function klikbud_status_to_main_page(): array
+    {
+       return [
+           ['value' => NULL, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.all'), 'class' => 'primary'],
+           ['value' => 1, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active'), 'class' => 'success'],
+           ['value' => 2, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'danger'],
+       ];
+    }
 }

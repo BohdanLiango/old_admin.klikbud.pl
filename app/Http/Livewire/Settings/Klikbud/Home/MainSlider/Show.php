@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 
+use App\Data\DefaultData;
 use App\Models\KLIKBUD\MainSlider;
+use App\Services\Settings\Klikbud\Home\MainSliderService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,6 +23,7 @@ class Show extends Component
     {
         $this->searchQuery = '';
         $this->searchStatus = '';
+        $this->selectedItem = '';
     }
 
     public function render()
@@ -34,24 +37,34 @@ class Show extends Component
             })
             ->orderBy('ID', 'desc')->paginate(12);
 
+        $status_to_main_page = app()->make(DefaultData::class)->klikbud_status_to_main_page();
+
         $count = MainSlider::count();
 
         return view('livewire.settings.klikbud.home.main-slider.show',
-            compact('sliders', 'count'));
+            compact('sliders', 'count', 'status_to_main_page'));
     }
 
-    /**
-     * @param $slider_id
-     * @param $status_id
-     */
+    private function checkStatus($status, $message_success)
+    {
+        if($status === true)
+        {
+            session()->flash('message', $message_success);
+            session()->flash('alert-type', 'success');
+        }elseif($status === false){
+            session()->flash('message', trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.messageDanger'));
+            session()->flash('alert-type', 'danger');
+        }else {
+            abort(403);
+        }
+    }
+
     public function changeStatusInMainPage($slider_id, $status_id)
     {
-        $update = MainSlider::findOrFail($slider_id);
-        $update->status_to_main_page_id = $status_id;
-        $update->save();
-
-        session()->flash('message', 'Status na głownej stronie zmieniony!');
-        session()->flash('alert-type', 'warning');
+        $this->checkStatus(
+            app()->make(MainSliderService::class)->changeStatusToMainPage($slider_id, $status_id),
+            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.changeStatusSuccess')
+        );
     }
 
     /**
@@ -76,7 +89,7 @@ class Show extends Component
 
       $this->textBlack_data = $showData->textBlack['pl'];
       $this->textYellow_data = $showData->textYellow['pl'];
-      $this->image_data = $showData->image->file_view;
+      $this->image_data = $showData->image->path;
 
       if($action === 'delete')
       {
@@ -88,9 +101,10 @@ class Show extends Component
      */
     public function delete()
     {
-        MainSlider::findOrFail($this->selectedItem)->delete();
         $this->dispatchBrowserEvent('closeDeleteModal');
-        session()->flash('message', 'Suwak usunięty!');
-        session()->flash('alert-type', 'success');
+        $this->checkStatus(
+            app()->make(MainSliderService::class)->delete($this->selectedItem),
+            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.delete')
+        );
     }
 }

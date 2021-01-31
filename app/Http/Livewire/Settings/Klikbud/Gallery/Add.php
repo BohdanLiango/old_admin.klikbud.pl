@@ -17,7 +17,7 @@ class Add extends Component
 
     protected array $rules = [
         'gallery.title_pl' => 'required',
-        'gallery.title_en' => 'required|',
+        'gallery.title_en' => 'required',
         'gallery.title_ua' => 'required',
         'gallery.title_ru' => 'required',
 

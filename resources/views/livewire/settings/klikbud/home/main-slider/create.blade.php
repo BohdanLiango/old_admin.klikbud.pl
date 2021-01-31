@@ -25,7 +25,7 @@
             </div>
 
             <div class="card-body">
-                <form class="form" id="kt_form" method="POST" wire:submit.prevent="saveSlider" enctype="multipart/form-data">
+                <form class="form" id="kt_form" method="POST" wire:submit.prevent="save" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-xl-2"></div>

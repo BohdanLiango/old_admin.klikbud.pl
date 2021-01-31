@@ -181,7 +181,7 @@ class FilesService extends FileService
     public function store($to_table, $table_record_id, $name, $folder, $path, $size, $mime, $file_type_id, $full_path): mixed
     {
         $store = new Files();
-        $store->file_view = $full_path;
+        $store->path = $full_path;
         $store->save();
 
         $add_info_store = new FileAdditionalInformation();
