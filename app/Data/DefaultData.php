@@ -40,7 +40,7 @@ class DefaultData extends Data
        return [
            ['value' => NULL, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.all'), 'class' => 'primary'],
            ['value' => 1, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active'), 'class' => 'success'],
-           ['value' => 2, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'danger'],
+           ['value' => 2, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'warning'],
        ];
     }
 }

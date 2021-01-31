@@ -1,15 +1,15 @@
 <div class="d-flex flex-column-fluid">
     <div class="container">
         <div class="row">
+            @include('livewire.settings.klikbud.home.main-slider.widget')
             @include('livewire.settings.klikbud.session-flash-alert')
             @if($count > 0)
-                <div class="col-12">
-                    <div class="form-group col-6 float-left">
+                    <div class="form-group col-xl-6">
                         <label>{{ trans('admin_klikbud/settings/klikbud/main-slider.show.search') }}</label>
                         <input wire:model="searchQuery" class="form-control"/>
                     </div>
 
-                    <div class="form-group col-6 float-right">
+                    <div class="form-group col-xl-6">
                         <label>{{ trans('admin_klikbud/settings/klikbud/main-slider.show.status') }}</label>
                         <select wire:model="searchStatus" class="form-control ">
                             @forelse($status_to_main_page as $item)
@@ -18,9 +18,7 @@
                             @endforelse
                         </select>
                     </div>
-                </div>
             @endif
-
             @forelse($sliders as $slider)
                 <div class="col-xl-4 col-sm-4">
                     {{--<!--begin::Forms Widget 4-->--}}
