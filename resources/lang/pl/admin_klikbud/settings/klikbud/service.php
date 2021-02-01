@@ -67,7 +67,7 @@ return [
     ],
     'show' => [
         'widget' => [
-            'count_sliders' => 'Wszystkie suwaki',
+            'count_sliders' => 'Serwisów ogólnie',
             'percent' => 'Procent',
             'active' => 'Aktywne',
             'hidden' => 'Ukryte',

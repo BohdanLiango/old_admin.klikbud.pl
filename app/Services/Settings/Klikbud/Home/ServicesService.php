@@ -36,7 +36,6 @@ class ServicesService extends Services
             $jsonDescription = $this->functions->jsonData($data['description_pl'], $data['description_en'], $data['description_ua'], $data['description_ru']);
             $jsonAlt = $this->functions->jsonData($data['alt_pl'], $data['alt_en'], $data['alt_ua'], $data['alt_ru']);
 
-
             $store = new Service();
 
             $data = [
@@ -101,7 +100,6 @@ class ServicesService extends Services
         }catch (Exception){
             return false;
         }
-
     }
 
     /**
@@ -156,5 +154,4 @@ class ServicesService extends Services
             return false;
         }
     }
-
 }

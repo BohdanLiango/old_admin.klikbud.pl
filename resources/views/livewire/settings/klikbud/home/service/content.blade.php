@@ -1,6 +1,7 @@
 <div class="d-flex flex-column-fluid">
     <div class="container">
         <div class="row">
+            @include('livewire.settings.klikbud.home.service.widget')
             @if($count > 0)
                 <div class="form-group col-xl-6">
                     <label>{{ trans('admin_klikbud/settings/klikbud/service.show.search') }}</label>
