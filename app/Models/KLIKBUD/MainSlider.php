@@ -2,6 +2,7 @@
 
 namespace App\Models\KLIKBUD;
 
+use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,13 @@ class MainSlider extends Model
     public function user_details(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function image_additional_information(): BelongsTo
+    {
+        return $this->belongsTo(FileAdditionalInformation::class, 'image_id', 'file_id');
     }
 }

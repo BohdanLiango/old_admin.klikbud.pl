@@ -21,6 +21,7 @@
         "laravel/ui": "*",
         "livewire/livewire": "^2.3",
         "rennokki/laravel-eloquent-query-cache": "^2.5",
+        "uxweb/sweet-alert": "^2.0",
         "venturecraft/revisionable": "^1.35"
     },
     "require-dev": {

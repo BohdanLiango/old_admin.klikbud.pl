@@ -5,10 +5,9 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 use App\Data\DefaultData;
 use App\Models\KLIKBUD\MainSlider;
 use App\Services\Settings\Klikbud\Home\MainSliderService;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class Show extends Component
+class Show extends MainSliderLivewire
 {
     use WithPagination;
 
@@ -49,43 +48,29 @@ class Show extends Component
         $percent_all_active = round($count / $all_sliders * 100, 2);
         $percent_all_deleted = round($count_deleted / $all_sliders * 100, 2);
 
-        $percent_to_active_all = round($count_active_status / $count * 100,2);
-        $percent_to_hidden_all = round($count_hidden_status / $count * 100,2);
+        if($count === 0)
+        {
+            $percent_to_active_all = 0;
+            $percent_to_hidden_all = 0;
+        }else{
+            $percent_to_active_all = round($count_active_status / $count * 100,2);
+            $percent_to_hidden_all = round($count_hidden_status / $count * 100,2);
+        }
+
 
         return view('livewire.settings.klikbud.home.main-slider.show',
             compact('sliders', 'count', 'status_to_main_page',
-                'count_active_status', 'count_hidden_status', 'count_deleted', 'all_sliders', 'percent_to_active_all', 'percent_to_hidden_all', 'percent_all_active', 'percent_all_deleted'));
-    }
-
-    private function checkStatus($status, $message_success)
-    {
-        if($status === true)
-        {
-            session()->flash('message', $message_success);
-            session()->flash('alert-type', 'success');
-        }elseif($status === false){
-            session()->flash('message', trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.messageDanger'));
-            session()->flash('alert-type', 'danger');
-        }else {
-            abort(403);
-        }
+                'count_active_status', 'count_hidden_status', 'count_deleted', 'all_sliders',
+                'percent_to_active_all', 'percent_to_hidden_all', 'percent_all_active', 'percent_all_deleted'));
     }
 
     public function changeStatusInMainPage($slider_id, $status_id)
     {
         $this->checkStatus(
             app()->make(MainSliderService::class)->changeStatusToMainPage($slider_id, $status_id),
-            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.changeStatusSuccess')
+            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.changeStatusSuccess'),
+            'alert', true,'top-end'
         );
-    }
-
-    /**
-     * @param $slider_id
-     * @return string
-     */
-    public function editRoute($slider_id)
-    {
-        return redirect()->route('settings.klikbud.home.slider.edit', $slider_id);
     }
 
     public function cancel()
@@ -108,15 +93,14 @@ class Show extends Component
           $this->dispatchBrowserEvent('openDeleteModal');
       }
   }
-    /**
-     * @param $id
-     */
+
     public function delete()
     {
         $this->dispatchBrowserEvent('closeDeleteModal');
         $this->checkStatus(
             app()->make(MainSliderService::class)->delete($this->selectedItem),
-            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.delete')
+            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.delete'),
+            'alert', true,'top-end'
         );
     }
 }

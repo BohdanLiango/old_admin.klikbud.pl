@@ -4,10 +4,9 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 
 use App\Services\Files\FilesDataService;
 use App\Services\Settings\Klikbud\Home\MainSliderService;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Create extends Component
+class Create extends MainSliderLivewire
 {
     use WithFileUploads;
 
@@ -57,14 +56,12 @@ class Create extends Component
             $store_image = app()->make(MainSliderService::class)->storeImage($store_id, $image_id);
 
             if ($store_image === true) {
-                session()->flash('message', trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.store'));
-                session()->flash('alert-type', 'success');
+                $this->checkStatus(true, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.store'), 'flash', false, 'center');
                 return redirect()->route('settings.klikbud.home.slider.index');
             }
 
             if ($store_image === false) {
-                session()->flash('message', trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.messageDanger'));
-                session()->flash('alert-type', 'danger');
+                $this->checkStatus(false, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.store'), 'flash', false, 'center');
                 return redirect()->route('settings.klikbud.home.slider.index');
             }
 

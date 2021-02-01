@@ -130,7 +130,8 @@ class FilesService extends FileService
      */
     public function updateImageUseLivewire($update, $image_old_id,  $table_record_id, $to_table): mixed
     {
-        $get_information = FileAdditionalInformation::findOrFail($image_old_id);
+
+        $get_information = FileAdditionalInformation::find($image_old_id);
 
         //Type File
         $file_type_id = self::FILE_TYPE_IMAGE;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings\Klikbud\Home;
 use App\Data\ActionsData;
 use App\Data\BreadcrumbsData;
 use App\Http\Controllers\AdminController;
+use App\Models\KLIKBUD\MainSlider;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -62,5 +63,18 @@ class MainSliderController extends AdminController
             [['key' => 2, 'link' => route('settings.klikbud.home.slider.edit', $id), 'name' => 'Edytuj suwak']]);
         $page_title = $breadcrumbs[2]['name'];
         return view('pages.settings.klikbud.home.mainslider.edit', compact('breadcrumbs', 'page_title', 'id'));
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function show($id): Factory|View|Application
+    {
+        $title = MainSlider::select('textYellow', 'textBlack')->findOrFail($id);
+        $breadcrumbs = $this->breadcrumbs->settings_klikbud_home_mainslider(2,
+            [['key' => 2, 'link' => route('settings.klikbud.home.slider.show', $id), 'name' => $title->textYellow['pl'] . '' . $title->textBlack['pl']]]);
+        $page_title = $breadcrumbs[2]['name'];
+        return view('pages.settings.klikbud.home.mainslider.show-one', compact('breadcrumbs', 'page_title', 'id'));
     }
 }

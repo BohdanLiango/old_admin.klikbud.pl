@@ -4,11 +4,10 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 
 use App\Models\KLIKBUD\MainSlider;
 use App\Services\Files\FilesDataService;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
+use App\Services\Settings\Klikbud\Home\MainSliderService;
 use Livewire\WithFileUploads;
 
-class Edit extends Component
+class Edit extends MainSliderLivewire
 {
     use WithFileUploads;
 
@@ -37,9 +36,6 @@ class Edit extends Component
     public $description_ru;
     public $alt_ru;
 
-
-
-
     /**
      * @var array|string[]
      */
@@ -67,34 +63,6 @@ class Edit extends Component
         'alt_ru' => 'required',
     ];
 
-    /**
-     * @var array|string[]
-     */
-    protected array $messages = [
-        'photo.image' => 'To nie jest Obrazek!',
-        'photo.max:256' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
-
-        'yellow_text_pl.required' => 'Żółty tekst wymagany!',
-        'black_text_pl.required' => 'Czarny tekst wymagany!',
-        'number_show.required'=>'Numer suwaka wymagany!',
-        'description_pl.required' => 'Opis wymagany!',
-        'alt_pl.required' => 'CEO Wymagane!',
-
-        'yellow_text_en.required' => 'Żółty tekst wymagany!',
-        'black_text_en.required' => 'Czarny tekst wymagany!',
-        'description_en.required'=>'Opis wymagany!',
-        'alt_en.required' => 'CEO Wymagane!',
-
-        'yellow_text_ua.required' => 'Żółty tekst wymagany!',
-        'black_text_ua.required' => 'Czarny tekst wymagany!',
-        'description_ua.required'=>'Opis wymagany!',
-        'alt_ua.required' => 'CEO Wymagane!',
-
-        'yellow_text_ru.required' => 'Żółty tekst wymagany!',
-        'black_text_ru.required' => 'Czarny tekst wymagany!',
-        'description_ru.required'=>'Opis wymagany!',
-        'alt_ru.required' => 'CEO Wymagane!'
-    ];
 
     public function mount($id)
     {
@@ -134,77 +102,43 @@ class Edit extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function editSlider()
+    public function edit()
     {
-        if($this->photo === null)
+
+        $this->validate();
+
+        $update = app()->make(MainSliderService::class)->update($this->slider->id, $this->number_show, $this->alt_pl, $this->alt_en, $this->alt_ua, $this->alt_ru,
+                $this->yellow_text_pl, $this->yellow_text_en, $this->yellow_text_ua, $this->yellow_text_ru, $this->black_text_pl, $this->black_text_en, $this->black_text_ua,
+                $this->black_text_ru, $this->description_pl, $this->description_en, $this->description_ua, $this->description_ru);
+
+        if($update === true)
         {
-            $this->validate();
+            if($this->photo !== null)
+            {
+                $this->validate([
+                    'photo' => 'image|max:256'
+                ]);
 
-            $jsonAlt = ["pl" => $this->alt_pl, "en" => $this->alt_en, "ua" => $this->alt_ua, "ru" => $this->alt_ru];
-            $jsonTextYellow = ["pl" => $this->yellow_text_pl, "en" => $this->yellow_text_en, "ua" => $this->yellow_text_ua, "ru" => $this->yellow_text_ru];
-            $jsonTextBlack = ["pl" => $this->black_text_pl, "en" => $this->black_text_en, "ua" => $this->black_text_ua, "ru" => $this->black_text_ru];
-            $jsonDescription = ["pl" => $this->description_pl, "en" => $this->description_en, "ua" => $this->description_ua, "ru" => $this->description_ru];
+                $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false));
 
-            $update = MainSlider::find($this->slider->id);
+                if($this->slider->image !== null)
+                {
+                    $image_id = app()->make(FilesDataService::class)->updateKlikBudMainSlider($store, $this->slider->image_id, $this->slider->id);
+                }else{
+                    $image_id = app()->make(FilesDataService::class)->klikBudMainSlider($store, $this->slider->id);
+                }
 
-            $data = [
-                'status_to_main_page_id' => 2,
-                'slider_number_show' => $this->number_show,
-                'user_id' => Auth::id(),
-                'moderated_id' => 3,
-                'alt' => $jsonAlt,
-                'textYellow' => $jsonTextYellow,
-                'textBlack' => $jsonTextBlack,
-                'description' => $jsonDescription
-            ];
+                $update_image = app()->make(MainSliderService::class)->storeImage($this->slider->id, $image_id);
+                $this->checkStatus($update_image, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.edit'), 'flash', false, 'center');
+                return redirect()->route('settings.klikbud.home.slider.show', $this->slider->id);
+            }
 
-            $update->fill($data);
-
-            $update->save();
-
-            session()->flash('message', 'Suwak edytowano!');
-            session()->flash('alert-type', 'success');
-
-            return redirect()->route('settings.klikbud.home.slider.index');
+            $this->checkStatus(true, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.edit'), 'flash', false, 'center');
+            return redirect()->route('settings.klikbud.home.slider.show', $this->slider->id);
         }
 
-        $this->validate([
-            'photo' => 'image|max:256'
-        ]);
-
-        $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false));
-        $app_make_class = app()->make(FilesDataService::class);
-        $image_id = $app_make_class->updateKlikBudMainSlider($store, $this->slider->image_id, $this->slider->id);
-
-
-        $jsonAlt = ["pl" => $this->alt_pl, "en" => $this->alt_en, "ua" => $this->alt_ua, "ru" => $this->alt_ru];
-        $jsonTextYellow = ["pl" => $this->yellow_text_pl, "en" => $this->yellow_text_en, "ua" => $this->yellow_text_ua, "ru" => $this->yellow_text_ru];
-        $jsonTextBlack = ["pl" => $this->black_text_pl, "en" => $this->black_text_en, "ua" => $this->black_text_ua, "ru" => $this->black_text_ru];
-        $jsonDescription = ["pl" => $this->description_pl, "en" => $this->description_en, "ua" => $this->description_ua, "ru" => $this->description_ru];
-
-        $update = MainSlider::find($this->slider->id);
-
-        $data = [
-            'status_to_main_page_id' => 2,
-            'slider_number_show' => $this->number_show,
-            'image_id' => $image_id,
-            'user_id' => Auth::id(),
-            'moderated_id' => 3,
-            'alt' => $jsonAlt,
-            'textYellow' => $jsonTextYellow,
-            'textBlack' => $jsonTextBlack,
-            'description' => $jsonDescription
-        ];
-
-        $update->fill($data);
-
-        $update->save();
-
-        session()->flash('message', 'Suwak edytowano!');
-        session()->flash('alert-type', 'success');
-
-        return redirect()->route('settings.klikbud.home.slider.index');
-
+        $this->checkStatus(false, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.edit'), 'flash', false, 'center');
+        return redirect()->route('settings.klikbud.home.slider.show', $this->slider->id);
 
     }
 }

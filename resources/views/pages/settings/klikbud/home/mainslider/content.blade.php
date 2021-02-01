@@ -8,4 +8,3 @@
 @section('scripts')
     <script src="{{ asset('js/pages/widgets.js') }}"></script>
 @endsection
-

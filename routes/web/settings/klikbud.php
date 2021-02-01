@@ -16,6 +16,7 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
             Route::get('/', [MainSliderController::class, 'index'])->name('index');
             Route::get('/create', [MainSliderController::class, 'create'])->name('create');
             Route::get('/edit/{id}', [MainSliderController::class, 'edit'])->name('edit');
+            Route::get('/{id}', [MainSliderController::class, 'show'])->name('show');
         });
 
         Route::prefix('/service')->name('service.')->group(static function() {
