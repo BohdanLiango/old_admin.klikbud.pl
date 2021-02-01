@@ -3,13 +3,11 @@
 namespace App\Services\Settings\Klikbud\Gallery;
 
 use App\Helper\KlikbudFunctionsHelper;
-use App\Models\Files\FileAdditionalInformation;
-use App\Models\Files\Files;
 use App\Models\KLIKBUD\Gallery;
-use App\Services\Service;
+use App\Services\Services;
 use Exception;
 
-class GalleryService extends Service
+class GalleryService extends Services
 {
     private KlikbudFunctionsHelper $functionsHelper;
 

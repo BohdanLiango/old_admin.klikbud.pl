@@ -4,11 +4,11 @@ namespace App\Services\Settings\Klikbud\Home;
 
 use App\Helper\KlikbudFunctionsHelper;
 use App\Models\KLIKBUD\MainSlider;
-use App\Services\Service;
+use App\Services\Services;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
-class MainSliderService extends Service
+class MainSliderService extends Services
 {
     /**
      * @var KlikbudFunctionsHelper

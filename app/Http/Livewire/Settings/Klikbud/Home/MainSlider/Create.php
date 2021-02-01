@@ -68,7 +68,7 @@ class Create extends MainSliderLivewire
             abort(403);
         }
 
-        abort(403);
+
     }
 
     public function updated($propertyName)

@@ -2,14 +2,11 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\Service;
 
-use App\Models\KLIKBUD\Service;
 use App\Services\Files\FilesDataService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Livewire\Component;
+use App\Services\Settings\Klikbud\Home\ServicesService;
 use Livewire\WithFileUploads;
 
-class Add extends Component
+class Add extends ServiceLivewire
 {
     use WithFileUploads;
 
@@ -39,68 +36,34 @@ class Add extends Component
         'service.alt_ru' => 'required',
     ];
 
-    /**
-     * @var array|string[]
-     */
-    protected array $messages = [
-        'photo.image' => 'To nie jest Obrazek!',
-        'photo.max' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
-        'photo.required' => 'Obrazek wymagany!',
-
-        'service.title_pl.required' => 'Nazwa wymagana!',
-        'service.description_pl.required' => 'Opis wymagany!',
-        'service.alt_pl.required' => 'CEO Wymagane!',
-
-        'service.title_en.required' => 'Żółty tekst wymagany!',
-        'service.description_en.required'=>'Opis wymagany!',
-        'service.alt_en.required' => 'CEO Wymagane!',
-
-        'service.title_ua.required' => 'Nazwa wymagana!',
-        'service.description_ua.required'=>'Opis wymagany!',
-        'service.alt_ua.required' => 'CEO Wymagane!',
-
-        'service.title_ru.required' => 'Żółty tekst wymagany!',
-        'service.description_ru.required'=>'Opis wymagany!',
-        'service.alt_ru.required' => 'CEO Wymagane!'
-    ];
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
     public function save()
     {
         $this->validate();
 
-        $jsonSlug = ["pl" => Str::slug($this->service['title_pl']), "en" => Str::slug($this->service['title_en']), "ua" => Str::slug($this->service['title_ua']), "ru" => Str::slug($this->service['title_ru'])];
-        $jsonTitle = ["pl" => $this->service['title_pl'], "en" => $this->service['title_en'], "ua" => $this->service['title_ua'], "ru" => $this->service['title_ru']];
-        $jsonDescription = ["pl" => $this->service['description_pl'], "en" => $this->service['description_en'], "ua" => $this->service['description_ua'], "ru" => $this->service['description_ru']];
-        $jsonAlt = ["pl" => $this->service['alt_pl'], "en" => $this->service['alt_en'], "ua" => $this->service['alt_ua'], "ru" => $this->service['alt_ru']];
+        $store_id = app()->make(ServicesService::class)->store($this->service);
 
-        $save = new Service();
+        if($store_id !== false)
+        {
+            $store_image = $this->photo->store('/public/uploads/service/' . uniqid('service', false));
+            $image_id = app()->make(FilesDataService::class)->storeKlikBudService($store_image, $store_id);
+            $store_image = app()->make(ServicesService::class)->storeImage($store_id, $image_id);
+            if ($store_image === true) {
+                $this->checkStatus(true, trans('admin_klikbud/settings/klikbud/service.sessions.store'), 'flash', false, 'center');
+                return redirect()->route('settings.klikbud.home.service.index');
+            }
 
-        $data = [
-            'user_id' => Auth::id(),
-            'slug' => $jsonSlug,
-            'alt' => $jsonAlt,
-            'title' => $jsonTitle,
-            'description' => $jsonDescription,
-        ];
+            if ($store_image === false) {
+                $this->checkStatus(false, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.store'), 'flash', false, 'center');
+                return redirect()->route('settings.klikbud.home.service.index');
+            }
+            abort(403);
+        }
+        abort(403);
+    }
 
-        $save->fill($data)->save();
-
-        $store_image = $this->photo->store('/public/uploads/service/' . uniqid('service', false));
-        $image_id = app()->make(FilesDataService::class)->storeKlikBudService($store_image, $save->id);
-
-        $update = Service::findOrFail($save->id);
-        $update->image_id = $image_id;
-        $update->save();
-
-        session()->flash('message', 'Usługa stworzona!');
-        session()->flash('alert-type', 'success');
-
-        return redirect()->route('settings.klikbud.home.service.index');
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function render()

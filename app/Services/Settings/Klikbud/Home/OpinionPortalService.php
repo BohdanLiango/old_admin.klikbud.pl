@@ -3,9 +3,9 @@
 namespace App\Services\Settings\Klikbud\Home;
 
 use App\Models\KLIKBUD\OpinionPortal;
-use App\Services\Service;
+use App\Services\Services;
 
-class OpinionPortalService extends Service
+class OpinionPortalService extends Services
 {
     public function delete($id)
     {

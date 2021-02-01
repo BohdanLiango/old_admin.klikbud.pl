@@ -133,11 +133,11 @@ class Edit extends MainSliderLivewire
                 return redirect()->route('settings.klikbud.home.slider.show', $this->slider->id);
             }
 
-            $this->checkStatus(true, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.edit'), 'flash', false, 'center');
+            $this->checkStatus($update, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.messageDanger'), 'flash', false, 'center');
             return redirect()->route('settings.klikbud.home.slider.show', $this->slider->id);
         }
 
-        $this->checkStatus(false, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.edit'), 'flash', false, 'center');
+        $this->checkStatus(false, trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.messageDanger'), 'flash', false, 'center');
         return redirect()->route('settings.klikbud.home.slider.show', $this->slider->id);
 
     }

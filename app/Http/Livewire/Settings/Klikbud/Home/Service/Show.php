@@ -2,12 +2,10 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\Service;
 
-use App\Models\Files\FileAdditionalInformation;
-use App\Models\Files\Files;
 use App\Models\KLIKBUD\Service;
-use Livewire\Component;
+use App\Services\Settings\Klikbud\Home\ServicesService;
 
-class Show extends Component
+class Show extends ServiceLivewire
 {
     public $service;
     public $status_to_main_page;
@@ -25,26 +23,23 @@ class Show extends Component
         $this->status_to_main_page = $this->service->status_to_main_page_id;
     }
 
-    public function changeStatusInMainPage($status_id)
+    public function changeStatusToMainPage($status_id)
     {
-        $update = Service::findOrFail($this->service->id);
-        $update->status_to_main_page_id = $status_id;
-        $update->save();
-
         $this->status_to_main_page = $status_id;
-
-        session()->flash('message', 'Status na głownej stronie zmieniony!');
-        session()->flash('alert-type', 'warning');
+        $this->checkStatus(
+            app()->make(ServicesService::class)->changeStatusToMainPage($this->service->id, $status_id),
+            trans('admin_klikbud/settings/klikbud/service.sessions.changeStatusSuccess'),
+            'alert', true, 'top-end'
+        );
     }
 
     public function delete()
     {
-        Files::findOrFail($this->service->image_id)->delete();
-        FileAdditionalInformation::where('file_id', '=', $this->service->image_id)->delete();
-        Service::findOrFail($this->service->id)->delete();
-
-        session()->flash('message', 'Suwak usunięty!');
-        session()->flash('alert-type', 'success');
+        $this->checkStatus(
+            app()->make(ServicesService::class)->delete($this->service->id),
+            trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.delete'),
+            'flash', false,'center'
+        );
         return redirect()->route('settings.klikbud.home.service.index');
     }
 

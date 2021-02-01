@@ -59,7 +59,7 @@
 
                                 @if($photo)
                                 <div class="form-group row" wire:loading.remowe wire:targe="photo">
-                                    <label for="image" class="col-3"></label>
+                                    <label for="image" class="col-3">{{ trans('admin_klikbud/settings/klikbud/main-slider.create.form.choose_image') }}</label>
                                     <div class="col-9">
                                             <img src="{{ $photo->temporaryUrl() }}" style="width: 300px">
                                     </div>

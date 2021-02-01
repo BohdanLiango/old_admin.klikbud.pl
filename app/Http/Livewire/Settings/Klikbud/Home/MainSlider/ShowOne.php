@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\MainSlider;
 
-use App\Data\DefaultData;
 use App\Models\KLIKBUD\MainSlider;
 use App\Services\Settings\Klikbud\Home\MainSliderService;
 
@@ -11,7 +10,6 @@ class ShowOne extends MainSliderLivewire
     public $slider;
     public $slider_id;
     public $status_to_main_page_slider;
-    public $status_to_main_page;
 
     public function render()
     {
@@ -24,7 +22,6 @@ class ShowOne extends MainSliderLivewire
         $this->slider = $slider;
         $this->status_to_main_page_slider = $slider->status_to_main_page_id;
         $this->slider_id = $id;
-        $this->status_to_main_page = app()->make(DefaultData::class)->klikbud_status_to_main_page();
     }
 
     public function changeStatusToMainPage($status_id)

@@ -7,7 +7,7 @@ use App\Models\Files\Files;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 
 class FilesService extends FileService
 {
@@ -199,7 +199,7 @@ class FilesService extends FileService
             'size' => $size,
             'mime' => $mime,
             'file_type_id' => $file_type_id,
-            'moderated_id' => self::MODERATE_TO_MODERATION
+            'moderated_id' => 2
         ];
 
         $add_info_store->fill($data);
@@ -211,9 +211,8 @@ class FilesService extends FileService
 
     /**
      * @param $id
-     * @return BinaryFileResponse
      */
-    public function downloadFile($id): BinaryFileResponse
+    public function downloadFile($id)
     {
         $file = FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
         return response()->download(storage_path('app/' . $file));

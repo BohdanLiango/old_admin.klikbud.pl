@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\Service;
 
+use App\Data\DefaultData;
 use App\Models\KLIKBUD\Service;
-use Livewire\Component;
+use App\Services\Settings\Klikbud\Home\ServicesService;
 use Livewire\WithPagination;
 
-class Content extends Component
+class Content extends ServiceLivewire
 {
     use WithPagination;
 
@@ -29,20 +30,18 @@ class Content extends Component
 
         $count = Service::count();
 
-        return view('livewire.settings.klikbud.home.service.content', compact('services', 'count'));
+        $status_to_main_page = app()->make(DefaultData::class)->klikbud_status_to_main_page();
+
+        return view('livewire.settings.klikbud.home.service.content', compact('services', 'count', 'status_to_main_page'));
     }
 
-    /**
-     * @param $slider_id
-     * @param $status_id
-     */
-    public function changeStatusInMainPage($slider_id, $status_id)
-    {
-        $update = Service::findOrFail($slider_id);
-        $update->status_to_main_page_id = $status_id;
-        $update->save();
 
-        session()->flash('message', 'Status na głownej stronie zmieniony!');
-        session()->flash('alert-type', 'warning');
+    public function changeStatusToMainPage($slider_id, $status_id)
+    {
+        $this->checkStatus(
+            app()->make(ServicesService::class)->changeStatusToMainPage($slider_id, $status_id),
+            trans('admin_klikbud/settings/klikbud/service.sessions.changeStatusSuccess'),
+            'alert', true, 'top-end'
+        );
     }
 }

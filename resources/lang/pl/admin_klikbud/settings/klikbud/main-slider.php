@@ -68,6 +68,7 @@ return [
            'short_description' => 'Krótki opis',
            'image' => 'Obraz',
            'short_info_image' => 'Obraz o maksymalnym rozmiarze 256 kb. 1920x820 px',
+           'choose_image' => 'Wybierz plik',
            'alt' => 'CEO do obraza',
            'keywords' => '10 słów kluczowych',
            'other_lang' => 'W innych jzykach',

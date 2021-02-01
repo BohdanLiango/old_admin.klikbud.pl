@@ -2,9 +2,9 @@
 
 namespace App\Services\Files;
 
-use App\Services\Service;
+use App\Services\Services;
 
-class FileService extends Service
+class FileService extends Services
 {
     public const GROUP_1 = 'klikbud';
     public const SUB_GROUP_1 = 'Slider';

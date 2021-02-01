@@ -177,5 +177,4 @@ class FilesDataService extends FileService
         $to_table = self::TABLES['4'];
         return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_1, self::SUB_GROUP_4);
     }
-
 }
