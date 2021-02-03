@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Settings\Klikbud\Home\Opinions\Portal;
 
+use App\Http\Livewire\Settings\Klikbud\Home\Opinions\OpinionLivewire;
 use App\Models\KLIKBUD\OpinionPortal;
 use App\Services\Files\FilesDataService;
 use App\Services\Settings\Klikbud\Home\OpinionPortalService;
 use Auth;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Content extends Component
+class Content extends OpinionLivewire
 {
     public $store_edit = false;
     public $id_opinion;
@@ -32,17 +32,6 @@ class Content extends Component
         'edit_image' => 'exclude_if:store_edit,false|nullable|image|max:256',
     ];
 
-    protected $messages = [
-        'store_title.required' => 'Nazwa wymagana!',
-        'store_url.required' => 'Link do strony wymagany!',
-        'store_image.image' => 'To nie jest obrazek!',
-        'store_image.max' => 'Maksymalny rozmiar obrazku 256 kb!',
-
-        'edit_title.required' => 'Nazwa wymagana!',
-        'edit_url.required' => 'Link do strony wymagany!',
-        'edit_image.image' => 'To nie jest obrazek!',
-        'edit_image.max' => 'Maksymalny rozmiar obrazku 256 kb!',
-    ];
 
     public function updated($propertyName)
     {
@@ -92,33 +81,33 @@ class Content extends Component
         $this->pre_portal_data ='';
     }
 
-
-
     public function store()
     {
         $this->validate();
 
-        $store = new OpinionPortal();
+        $store_id = app()->make(OpinionPortalService::class)->store($this->store_title,$this->store_url);
 
-        $data = [
-            'title' => $this->store_title,
-            'url' => $this->store_url,
-            'user_id' => Auth::id(),
-        ];
-
-        $store->fill($data);
-        $store->save();
-
-        if ($this->store_image !== null and $this->store_image !== "")
+        try {
+            if($store_id !== false)
             {
-                $image_store = $this->store_image->store('/public/uploads/other/' . uniqid('portal', false));
-                $image_id = app()->make(FilesDataService::class)->storeKlikBudOpinionPortal($image_store, $store->id);
-                OpinionPortal::findOrFail($store->id)->update(['image_id' => $image_id]);
+                if ($this->store_image !== null and $this->store_image !== "")
+                {
+                    $image_store = $this->store_image->store('/public/uploads/other/' . uniqid('portal', false));
+                    $image_id = app()->make(FilesDataService::class)->storeKlikBudOpinionPortal($image_store, $store_id);
+                    app()->make(OpinionPortalService::class)->updateImage($store_id, $image_id);
+                }
             }
-        $this->resetInputFieldsStore();
-        session()->flash('message', 'Proszę wchodzić: Portal stworzony;)');
-        session()->flash('alert-type', 'success');
-
+            $this->checkStatus(
+                true, trans('admin_klikbud/settings/klikbud/opinion-portal.session.success'),
+                'alert', true, 'top-end'
+            );
+            $this->resetInputFieldsStore();
+        }catch (\Exception){
+            $this->checkStatus(
+                false, trans('admin_klikbud/settings/klikbud/opinion-portal.session.danger'),
+                'alert', true, 'top-end'
+            );
+        }
     }
 
     public function selectItem($itemId, $action)
@@ -171,18 +160,22 @@ class Content extends Component
 
         if(count($data)) {
             $data['user_id'] = Auth::id();
-            OpinionPortal::findOrFail($this->selectedItem)->update($data);
-            session()->flash('message', 'Portal edytowano!');
-            session()->flash('alert-type', 'success');
+            $status_update = app()->make(OpinionPortalService::class)->edit($this->selectedItem, $data);
+            $this->checkStatus(
+                $status_update, trans('admin_klikbud/settings/klikbud/opinion-portal.session.edit'),
+                'alert', true, 'top-end'
+            );
             $this->resetInputFieldsEdit();
         }
     }
 
     public function delete($id)
     {
-        app()->make(OpinionPortalService::class)->delete($id);
+        $status_delete = app()->make(OpinionPortalService::class)->delete($id);
         $this->resetInputFieldsDelete();
-        session()->flash('message', 'Portal usunięty!');
-        session()->flash('alert-type', 'success');
+        $this->checkStatus(
+            $status_delete, trans('admin_klikbud/settings/klikbud/opinion-portal.session.delete'),
+            'alert', true, 'top-end'
+        );
     }
 }

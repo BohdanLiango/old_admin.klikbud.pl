@@ -45,14 +45,17 @@ class Show extends MainSliderLivewire
         $count_deleted = MainSlider::withTrashed()->count();
 
         $all_sliders = $count_deleted + $count;
-        $percent_all_active = round($count / $all_sliders * 100, 2);
-        $percent_all_deleted = round($count_deleted / $all_sliders * 100, 2);
+
 
         if($count === 0)
         {
+            $percent_all_active = 0;
             $percent_to_active_all = 0;
             $percent_to_hidden_all = 0;
+            $percent_all_deleted = 0;
         }else{
+            $percent_all_active = round($count / $all_sliders * 100, 2);
+            $percent_all_deleted = round($count_deleted / $all_sliders * 100, 2);
             $percent_to_active_all = round($count_active_status / $count * 100,2);
             $percent_to_hidden_all = round($count_hidden_status / $count * 100,2);
         }

@@ -2,17 +2,17 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Usunięcie portalu - {{ $pre_title }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ trans('admin_klikbud/settings/klikbud/opinion-portal.delete_modal.title') }} - {{ $pre_title }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Czy napełno chcesz usunąć portal: {{ $pre_title }} ?
+                {{ trans('admin_klikbud/settings/klikbud/opinion-portal.delete_modal.question') }}: {{ $pre_title }} ?
             </div>
             <div class="modal-footer">
-                <button wire:click="resetInputFieldsDelete" type="button" class="btn btn-secondary">Close</button>
-                <button wire:click="delete({{$id_opinion}})" type="button" class="btn btn-primary">Save changes</button>
+                <button wire:click="resetInputFieldsDelete" type="button" class="btn btn-secondary">{{ trans('admin_klikbud/settings/klikbud/opinion-portal.delete_modal.close') }}</button>
+                <button wire:click="delete({{$id_opinion}})" type="button" class="btn btn-primary">{{ trans('admin_klikbud/settings/klikbud/opinion-portal.delete_modal.save') }}</button>
             </div>
         </div>
     </div>
