@@ -5,11 +5,11 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\Opinions;
 use App\Models\KLIKBUD\Opinion;
 use App\Models\KLIKBUD\OpinionPortal;
 use App\Models\KLIKBUD\Service;
+use App\Services\Settings\Klikbud\Home\OpinionService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class Create extends Component
+class Create extends OpinionLivewire
 {
     public $name, $service_id, $stars, $portal_opinion_id, $opinion, $date_add;
 
@@ -25,38 +25,21 @@ class Create extends Component
         'opinion'=> 'max:65000'
     ];
 
-    /**
-     * @var array|string[]
-     */
-    protected array $messages = [
-        'name.required' => 'Imię lub nazwa autora wymagana!',
-        'service_id.required' => 'Serwis do któregoi była wystawiona opinia wymagany!',
-        'service_id.numeric' => 'NIe prawidłówy format!',
-        'portal_opinion_id.required' => 'Portal na którym była wustawiona opinia wymagany',
-        'date_add.required' => 'Data wystawienia wumagana !'
-    ];
-
     public function save()
     {
-
         $this->validate();
 
-        $data = [
-            'name' => $this->name,
-            'service_id' => $this->service_id,
-            'stars' => $this->stars,
-            'portal_opinion_id' => $this->portal_opinion_id,
-            'user_id' => Auth::id(),
-            'opinion' => $this->opinion,
-            'date_add' => Carbon::createFromFormat('d/m/Y',$this->date_add)->format('Y-m-d')
-        ];
+        $status = app()->make(OpinionService::class)->store($this->name,$this->service_id, $this->stars, $this->portal_opinion_id, $this->opinion, $this->date_add);
+        $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.store');
 
-        Opinion::create($data);
-        session()->flash('message', 'Opinia zapisana!');
-        session()->flash('alert-type', 'success');
+        if($status === false)
+        {
+            $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.error');
+        }
+
+        $this->checkStatus($status, $message, 'flash', false, 'center');
         $this->cleanVars();
         return redirect()->route('settings.klikbud.home.opinion.index');
-
     }
 
     private function cleanVars()

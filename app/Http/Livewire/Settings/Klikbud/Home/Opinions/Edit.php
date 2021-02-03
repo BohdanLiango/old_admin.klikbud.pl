@@ -5,11 +5,11 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\Opinions;
 use App\Models\KLIKBUD\Opinion;
 use App\Models\KLIKBUD\OpinionPortal;
 use App\Models\KLIKBUD\Service;
+use App\Services\Settings\Klikbud\Home\OpinionService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class Edit extends Component
+class Edit extends OpinionLivewire
 {
     public $opinion_id;
     public $name, $service_id, $stars, $portal_opinion_id, $opinion, $date_add;
@@ -25,17 +25,6 @@ class Edit extends Component
         'portal_opinion_id' => 'required',
         'date_add' => 'required|date_format:d/m/Y',
         'opinion'=> 'max:65000'
-    ];
-
-    /**
-     * @var array|string[]
-     */
-    protected array $messages = [
-        'name.required' => 'Imię lub nazwa autora wymagana!',
-        'service_id.required' => 'Serwis do któregoi była wystawiona opinia wymagany!',
-        'service_id.numeric' => 'NIe prawidłówy format!',
-        'portal_opinion_id.required' => 'Portal na którym była wustawiona opinia wymagany',
-        'date_add.required' => 'Data wystawienia wumagana !'
     ];
 
     public function mount($id)
@@ -101,14 +90,13 @@ class Edit extends Component
 
         if(count($data)) {
             $data['user_id'] = Auth::id();
-            Opinion::find($this->opinion_id)->update($data);
-            session()->flash('message', 'Opinie edytowano!');
-            session()->flash('alert-type', 'success');
+            $status = app()->make(OpinionService::class)->update($this->opinion_id, $data);
+            $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.edit');
+            if($status === false) {$message = trans('admin_klikbud/settings/klikbud/opinion.sessions.error');}
+            $this->checkStatus($status, $message, 'flash', false, 'center');
             return redirect()->route('settings.klikbud.home.opinion.index');
         }
-
-        session()->flash('message', 'Bez zmian!');
-        session()->flash('alert-type', 'primary');
+        $this->checkStatus(true, trans('admin_klikbud/settings/klikbud/opinion.sessions.keep_edit'), 'flash', false, 'center');
 
         return redirect()->route('settings.klikbud.home.opinion.index');
 

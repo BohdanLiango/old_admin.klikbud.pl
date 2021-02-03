@@ -41,7 +41,7 @@
                     <div class="form-group row">
                         <label for="image" class="col-3"></label>
                         <div class="col-9">
-                            <img src="{{ asset(Storage::url($pre_portal_data->image->file_view)) }}" style="width: 100px">
+                            <img src="{{ asset(Storage::url($pre_portal_data->image->path)) }}" style="width: 100px">
                         </div>
                     </div>
                 @endif

@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Settings\Klikbud\Home\Opinions;
 
 use App\Models\KLIKBUD\Opinion;
 use App\Models\KLIKBUD\OpinionPortal;
-use Livewire\Component;
+use App\Services\Settings\Klikbud\Home\OpinionService;
 use Livewire\WithPagination;
 
-class Show extends Component
+class Show extends OpinionLivewire
 {
     use WithPagination;
 
@@ -33,7 +33,7 @@ class Show extends Component
             $query->where('stars', '=', $this->searchStars);
         })->orderBy('ID', 'desc')->paginate(6);
 
-        $countStars = Opinion::whereIn('stars', [1,2,3,4,5])->get();
+        $countStars = Opinion::select('stars', 'status_to_main_page_id')->get();
         $countOne = $countStars->where('stars', '=', 1)->count();
         $countTwo = $countStars->where('stars', '=', 2)->count();
         $countThree = $countStars->where('stars', '=', 3)->count();
@@ -41,22 +41,46 @@ class Show extends Component
         $countFive = $countStars->where('stars', '=', 5)->count();
         $count = $countOne + $countTwo + $countThree + $countFour + $countFive;
         $portals = OpinionPortal::all();
+
+        $count_all = Opinion::count();
+
+        if($count_all === 0)
+        {
+            $ocena_half = 0;
+            $status_active = 0;
+            $status_disable = 0;
+            $percent_active = 0;
+            $percent_disable = 0;
+
+        }else{
+            $ocena_half = round(Opinion::sum('stars') / $count_all, 2);
+            $status_active = $countStars->where('status_to_main_page_id', '=', config('klikbud.klikbud.status_to_main_page.visible'))->count();
+            $status_disable = $countStars->where('status_to_main_page_id', '=', config('klikbud.klikbud.status_to_main_page.not_visible'))->count();
+            $percent_active = round($status_active / $count_all * 100, 2);
+            $percent_disable = round($status_disable / $count_all * 100, 2);
+        }
+
         return view('livewire.settings.klikbud.home.opinions.show',
-            compact('opinions', 'count', 'countOne', 'countTwo', 'countThree', 'countFour', 'countFive', 'portals'));
+            compact('opinions', 'count', 'countOne', 'countTwo', 'countThree', 'countFour', 'countFive', 'portals',
+            'ocena_half', 'status_active', 'status_disable', 'percent_active', 'percent_disable', 'count_all'));
     }
 
-    /**
-     * @param $slider_id
-     * @param $status_id
-     */
+
     public function changeStatusInMainPage($opinion_id, $status_id)
     {
-        $update = Opinion::findOrFail($opinion_id);
-        $update->status_to_main_page_id = $status_id;
-        $update->save();
+        $status = app()->make(OpinionService::class)->changeStatusToMainPage($opinion_id, $status_id);
 
-        session()->flash('message', 'Status na głownej stronie zmieniony!');
-        session()->flash('alert-type', 'warning');
+        $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.update_status_success');
+
+        if($status === false)
+        {
+            $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.error');
+        }
+
+        $this->checkStatus(
+            $status, $message,
+            'alert', true, 'top-end'
+        );
     }
 
     public function selectItem($itemId, $action)
@@ -72,14 +96,21 @@ class Show extends Component
         }
     }
 
-    /**
-     * @param $id
-     */
     public function delete()
     {
-        Opinion::findOrFail($this->selectedItem)->delete();
+        $status = app()->make(OpinionService::class)->delete($this->selectedItem);
         $this->dispatchBrowserEvent('closeDeleteModal');
-        session()->flash('message', 'Suwak usunięty!');
-        session()->flash('alert-type', 'success');
+
+        $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.delete');
+
+        if($status === false)
+        {
+            $message = trans('admin_klikbud/settings/klikbud/opinion.sessions.error');
+        }
+
+        $this->checkStatus(
+            $status, $message,
+            'alert', true, 'top-end'
+        );
     }
 }

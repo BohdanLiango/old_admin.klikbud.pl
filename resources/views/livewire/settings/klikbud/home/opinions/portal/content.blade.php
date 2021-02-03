@@ -7,8 +7,9 @@
                     <span class="d-block text-muted pt-2 font-size-sm">{{ trans('admin_klikbud/settings/klikbud/opinion-portal.show.subtitle') }}</span></h3>
             </div>
             <div class="card-toolbar">
+                <a href="{{ route('settings.klikbud.home.opinion.index') }}" class="btn btn-primary font-weight-bolder" style="margin-right: 10px"><-Powrót</a>
                 {{-- <!--begin::Button-->--}}
-                <a href="#" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#addModal">
+                <a href="#" class="btn btn-success font-weight-bolder" data-toggle="modal" data-target="#addModal">
 											<span class="svg-icon svg-icon-md">
                                         {{--<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->--}}
 												<svg xmlns="http://www.w3.org/2000/svg"
