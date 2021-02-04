@@ -38,8 +38,8 @@ class GalleryService extends Services
             $data = [
                 'object_id' => $gallery['object_id'],
                 'category_id' => $gallery['category_id'],
-                'status_gallery_id' => 0,
-                'status_to_main_page_id' => 0,
+                'status_gallery_id' => config('klikbud.klikbud.status_to_gallery.not_visible'),
+                'status_to_main_page_id' => config('klikbud.klikbud.status_to_main_page.not_visible'),
                 'image_id' => $image_id,
                 'slug' => $jsonSlug,
                 'title' => $jsonTitle,

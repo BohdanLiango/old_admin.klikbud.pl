@@ -2,6 +2,7 @@
 
 return [
     'categories' => [
+        '0' => 'Wszystkie',
         '1' => 'Mieszkania',
         '2' => 'Biura',
         '3' => 'Ogród',
@@ -11,6 +12,7 @@ return [
     ],
 
     'categories_slug' => [
+        '0' => 'wszystkie',
         '1' => 'mieszkania',
         '2' => 'biura',
         '3' => 'ogrod',

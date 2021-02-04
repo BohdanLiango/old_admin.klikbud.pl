@@ -5,10 +5,9 @@ namespace App\Http\Livewire\Settings\Klikbud\Gallery;
 use App\Data\DefaultData;
 use App\Services\Files\FilesDataService;
 use App\Services\Settings\Klikbud\Gallery\GalleryService;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Add extends Component
+class Add extends GalleryLivewire
 {
     public $photo;
     public $gallery;
@@ -37,29 +36,6 @@ class Add extends Component
         'photo' => 'required|max:512|image'
     ];
 
-    protected array $messages = [
-        'photo.image' => 'To nie jest Obrazek!',
-        'photo.max' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
-        'photo.required' => 'Obrazek wymagany!',
-
-        'gallery.title_pl.required' => 'Nazwa wymagana!',
-        'gallery.description_pl.required' => 'Opis wymagany!',
-        'gallery.alt_pl.required' => 'CEO Wymagane!',
-
-        'gallery.title_en.required' => 'Nazwa wymagana!',
-        'gallery.description_en.required' => 'Opis wymagany!',
-        'gallery.alt_en.required' => 'CEO Wymagane!',
-
-        'gallery.title_ua.required' => 'Nazwa wymagana!',
-        'gallery.description_ua.required' => 'Opis wymagany!',
-        'gallery.alt_ua.required' => 'CEO Wymagane!',
-
-        'gallery.title_ru.required' => 'Nazwa wymagana!',
-        'gallery.description_ru.required' => 'Opis wymagany!',
-        'gallery.alt_ru.required' => 'CEO Wymagane!',
-    ];
-
-
     public function render()
     {
         $categories = app()->make(DefaultData::class)->klikbud_gallery_categories();
@@ -83,23 +59,20 @@ class Add extends Component
             $image_id = app()->make(FilesDataService::class)->storeKlikBudGallery($store_image, $store_id);
             $store_image_to_gallery = app()->make(GalleryService::class)->store_image($store_id, $image_id);
 
-            if ($store_image_to_gallery === true) {
-                session()->flash('message', 'Nowy obraz dodany!');
-                session()->flash('alert-type', 'success');
+            $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.success_store');
 
-            } elseif ($store_image_to_gallery === false) {
-                session()->flash('message', 'Coś nie tak z obrazkiem :(');
-                session()->flash('alert-type', 'danger');
-            } else {
-                abort(403);
+            if($store_image_to_gallery === false)
+            {
+                $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
             }
 
-            return redirect()->route('settings.klikbud.gallery.index');
+            $this->checkStatus($store_image_to_gallery, $message_success, 'flash', false, 'center');
 
+            return redirect()->route('settings.klikbud.gallery.index');
         }
 
-        session()->flash('message', 'Coś nie tak :(');
-        session()->flash('alert-type', 'danger');
+        $this->checkStatus(false, trans('admin_klikbud/settings/klikbud/gallery.session.error'), 'flash', false, 'center');
+
         return redirect()->route('settings.klikbud.gallery.index');
 
     }

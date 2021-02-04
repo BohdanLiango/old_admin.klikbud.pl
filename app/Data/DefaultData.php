@@ -23,6 +23,7 @@ class DefaultData extends Data
     public function klikbud_gallery_categories(): array
     {
         return [
+            ['value' => NULL, 'title' => trans('klikbud/gallery.categories.0'), 'slug' => trans('klikbud/gallery.categories_slug.0')],
             ['value' => 1, 'title' => trans('klikbud/gallery.categories.1'), 'slug' => trans('klikbud/gallery.categories_slug.1')],
             ['value' => 2, 'title' => trans('klikbud/gallery.categories.2'), 'slug' => trans('klikbud/gallery.categories_slug.2')],
             ['value' => 3, 'title' => trans('klikbud/gallery.categories.3'), 'slug' => trans('klikbud/gallery.categories_slug.3')],
@@ -39,8 +40,8 @@ class DefaultData extends Data
     {
        return [
            ['value' => NULL, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.all'), 'class' => 'primary'],
-           ['value' => 1, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active'), 'class' => 'success'],
-           ['value' => 2, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'warning'],
+           ['value' => config('klikbud.klikbud.status_to_main_page.visible'), 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active'), 'class' => 'success'],
+           ['value' => config('klikbud.klikbud.status_to_main_page.not_visible'), 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'warning'],
        ];
     }
 }

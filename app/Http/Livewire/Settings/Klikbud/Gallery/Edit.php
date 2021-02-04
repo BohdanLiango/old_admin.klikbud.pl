@@ -6,18 +6,11 @@ use App\Data\DefaultData;
 use App\Models\KLIKBUD\Gallery;
 use App\Services\Files\FilesDataService;
 use App\Services\Settings\Klikbud\Gallery\GalleryService;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Edit extends Component
+class Edit extends GalleryLivewire
 {
-    public $oldPhoto;
-
-    public $photo;
-    public $gallery;
-    public $oldGallery;
-
-    public $gallery_id;
+    public $oldPhoto, $photo, $gallery, $oldGallery, $gallery_id;
 
    use WithFileUploads;
 
@@ -40,28 +33,6 @@ class Edit extends Component
         'gallery.object_id' => 'nullable|numeric',
         'gallery.category_id' => 'nullable|numeric',
 
-    ];
-
-    protected array $messages = [
-        'photo.image' => 'To nie jest Obrazek!',
-        'photo.max' => 'Maksymalny rozmiar obrazku wynosi 256 kb!',
-        'photo.required' => 'Obrazek wymagany!',
-
-        'gallery.title_pl.required' => 'Nazwa wymagana!',
-        'gallery.description_pl.required' => 'Opis wymagany!',
-        'gallery.alt_pl.required' => 'CEO Wymagane!',
-
-        'gallery.title_en.required' => 'Nazwa wymagana!',
-        'gallery.description_en.required'=>'Opis wymagany!',
-        'gallery.alt_en.required' => 'CEO Wymagane!',
-
-        'gallery.title_ua.required' => 'Nazwa wymagana!',
-        'gallery.description_ua.required'=>'Opis wymagany!',
-        'gallery.alt_ua.required' => 'CEO Wymagane!',
-
-        'gallery.title_ru.required' => 'Nazwa wymagana!',
-        'gallery.description_ru.required'=>'Opis wymagany!',
-        'gallery.alt_ru.required' => 'CEO Wymagane!',
     ];
 
     public function mount($id)
@@ -94,7 +65,6 @@ class Edit extends Component
 
     }
 
-
     public function render()
     {
         $categories = app()->make(DefaultData::class)->klikbud_gallery_categories();
@@ -106,7 +76,6 @@ class Edit extends Component
         $this->validateOnly($propertyName);
     }
 
-
     public function edit()
     {
         if($this->photo === null or $this->photo === "")
@@ -114,31 +83,17 @@ class Edit extends Component
             $this->validate();
             $image_id = $this->oldPhoto;
         }else{
-
             $this->validate();
-
             $this->validate([
                 'photo' => 'required|max:512|image'
             ]);
-
             $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false));
             $image_id = app()->make(FilesDataService::class)->updateKlikBudGallery($store_image, $this->oldPhoto, $this->gallery_id);
         }
-
         $update = app()->make(GalleryService::class)->update($this->gallery_id, $this->gallery, $image_id);
-
-        if($update === true)
-        {
-            session()->flash('message', 'Obrazek edytowano!');
-            session()->flash('alert-type', 'success');
-
-        }elseif($update === false){
-            session()->flash('message', 'Coś nie tak :(');
-            session()->flash('alert-type', 'danger');
-        }else {
-            abort(403);
-        }
-
+        $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.edit');
+        if($update === false){ $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');}
+        $this->checkStatus($update, $message_success, 'flash', false, 'center');
         return redirect()->route('settings.klikbud.gallery.index');
     }
 

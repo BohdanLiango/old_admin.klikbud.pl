@@ -183,15 +183,11 @@
                                 </div>
                                 <button type="submit" class="btn btn-success">  <i class="ki ki-check icon-xs"></i>Zapisać</button>
                             </div>
-
                             <div class="col-xl-2"></div>
-
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

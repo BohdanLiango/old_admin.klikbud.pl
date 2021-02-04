@@ -133,6 +133,7 @@
       <path value="$PROJECT_DIR$/vendor/andrey-helldar/pretty-array" />
       <path value="$PROJECT_DIR$/vendor/andrey-helldar/support" />
       <path value="$PROJECT_DIR$/vendor/uxweb/sweet-alert" />
+      <path value="$PROJECT_DIR$/vendor/rezaamini-ir/laravel-easyblade" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

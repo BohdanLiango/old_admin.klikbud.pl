@@ -5,9 +5,8 @@ namespace App\Http\Livewire\Settings\Klikbud\Gallery;
 use App\Data\DefaultData;
 use App\Models\KLIKBUD\Gallery;
 use App\Services\Settings\Klikbud\Gallery\GalleryService;
-use Livewire\Component;
 
-class Show extends Component
+class Show extends GalleryLivewire
 {
     public $gallery;
     public $status_to_main_page;
@@ -33,54 +32,42 @@ class Show extends Component
     public function changeStatusInMainPage($status_id)
     {
         $status = app()->make(GalleryService::class)->changeStatusToMainPage($this->gallery_id, $status_id);
-
         $this->status_to_main_page = $status_id;
+        $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.status_to_main_page');
 
-        if($status === true)
+        if($status === false)
         {
-            session()->flash('message', 'Status na głownej stronie zmieniony!');
-            session()->flash('alert-type', 'success');
-        }elseif($status === false){
-            session()->flash('message', 'Coś nie tak :(');
-            session()->flash('alert-type', 'danger');
-        }else {
-            abort(403);
+            $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
         }
+
+        $this->checkStatus($status, $message_success, 'alert', true, 'top-end');
     }
 
     public function changeStatusToGallery($status_id)
     {
         $status = app()->make(GalleryService::class)->changeStatusToGallery($this->gallery_id, $status_id);
-
         $this->status_gallery_id = $status_id;
+        $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.status_to_gallery');
 
-        if($status === true)
+        if($status === false)
         {
-            session()->flash('message', 'Status w galerii zmieniony!');
-            session()->flash('alert-type', 'success');
-        }elseif($status === false){
-            session()->flash('message', 'Coś nie tak :(');
-            session()->flash('alert-type', 'danger');
-        }else {
-            abort(403);
+            $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
         }
+
+        $this->checkStatus($status, $message_success, 'alert', true, 'top-end');
     }
 
     public function delete()
     {
         $status = app()->make(GalleryService::class)->delete($this->gallery_id, $this->gallery->image_id);
+        $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.delete');
 
-        if($status === true)
+        if($status === false)
         {
-            session()->flash('message', 'Obraz usunięty!');
-            session()->flash('alert-type', 'success');
-        }elseif($status === false){
-            session()->flash('message', 'Coś nie tak :(');
-            session()->flash('alert-type', 'danger');
-        }else {
-        abort(403);
+            $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
         }
 
+        $this->checkStatus($status, $message_success, 'flash', false, 'center');
         return redirect()->route('settings.klikbud.gallery.index');
     }
 

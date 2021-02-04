@@ -5,10 +5,9 @@ namespace App\Http\Livewire\Settings\Klikbud\Gallery;
 use App\Data\DefaultData;
 use App\Models\KLIKBUD\Gallery;
 use App\Services\Settings\Klikbud\Gallery\GalleryService;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class Content extends Component
+class Content extends GalleryLivewire
 {
     use WithPagination;
 
@@ -41,34 +40,30 @@ class Content extends Component
 
         $count = Gallery::count();
 
-        return view('livewire.settings.klikbud.gallery.content', compact('categories', 'gallery', 'count'));
-    }
+        $status_to_main_page = app()->make(DefaultData::class)->klikbud_status_to_main_page();
 
-    private function checkStatus($status, $message_success)
-    {
-        if($status === true)
-        {
-            session()->flash('message', $message_success);
-            session()->flash('alert-type', 'success');
-        }elseif($status === false){
-            session()->flash('message', 'Coś nie tak :(');
-            session()->flash('alert-type', 'danger');
-        }else {
-            abort(403);
-        }
+        return view('livewire.settings.klikbud.gallery.content', compact('categories', 'gallery', 'count', 'status_to_main_page'));
     }
 
     public function changeStatusInMainPage($gallery_id, $status_id)
     {
         $status= app()->make(GalleryService::class)->changeStatusToMainPage($gallery_id, $status_id);
-        $message_success = 'Status na głownej stronie zmieniony!';
-        $this->checkStatus($status, $message_success);
+        $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.status_to_main_page');
+        if($status === false)
+        {
+            $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
+        }
+        $this->checkStatus($status, $message_success, 'alert', true, 'top-end');
     }
 
     public function changeStatusToGallery($gallery_id, $status_id)
     {
         $status = app()->make(GalleryService::class)->changeStatusToGallery($gallery_id, $status_id);
-        $message_success = 'Status w galerii zmieniony!';
-        $this->checkStatus($status, $message_success);
+        $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.status_to_gallery');
+        if($status === false)
+        {
+            $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
+        }
+        $this->checkStatus($status, $message_success, 'alert', true, 'top-end');
     }
 }
