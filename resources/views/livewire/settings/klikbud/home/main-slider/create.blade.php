@@ -70,7 +70,7 @@
                                     <label for="image" class="col-3">{{ trans('admin_klikbud/settings/klikbud/main-slider.create.form.image') }}<span class="text-danger">*</span></label>
                                     <div class="col-9">
                                         <input type="file" class="custom-file-input form-control @error('photo') is-invalid @enderror " wire:model.defer="photo" name="photo" id="customFile" accept=".png, .jpg, .jpeg"/>
-                                        <label class="custom-file-label" for="customFile" >Choose file</label>
+                                        <label class="custom-file-label" for="customFile" >{{ trans('admin_klikbud/settings/klikbud/main-slider.create.form.choose_image') }}</label>
                                         @error('photo') <div class="invalid-feedback">{{ $message }}</div>@enderror
                                         <span class="form-text text-muted">{{ trans('admin_klikbud/settings/klikbud/main-slider.create.form.short_info_image') }}</span>
                                     </div>

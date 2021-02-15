@@ -3,12 +3,11 @@
         <div class="container">
             <div class="row">
                 @if($count > 0)
-                    <div class="col-12">
-                        <div class="form-group col-3 float-left">
+                        <div class="form-group col-xl-3 float-left">
                             <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.search') }}</label>
                             <input wire:model="searchQuery" class="form-control"/>
                         </div>
-                        <div class="form-group col-3 float-right">
+                        <div class="form-group col-xl-3 float-right">
                             <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.status_in_gallery_to_main_page') }}</label>
                             <select wire:model="searchStatus" class="form-control ">
                                 @forelse($status_to_main_page as $item)
@@ -17,7 +16,7 @@
                                 @endforelse
                             </select>
                         </div>
-                        <div class="form-group col-3 float-right">
+                        <div class="form-group col-xl-3 float-right">
                             <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.status_to_main_page') }}</label>
                             <select wire:model="searchStatusToMainPage" class="form-control ">
                                 @forelse($status_to_main_page as $item)
@@ -26,7 +25,7 @@
                                 @endforelse
                             </select>
                         </div>
-                        <div class="form-group col-3 float-right">
+                        <div class="form-group col-xl-3 float-right">
                             <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.category') }}</label>
                             <select wire:model="searchCategory" class="form-control ">
                                 @forelse($categories as $category)
@@ -35,7 +34,6 @@
                                 @endforelse
                             </select>
                         </div>
-                    </div>
                 @endif
                 @forelse($gallery as $item)
                     <div class="col-xl-4 col-sm-4">
@@ -97,7 +95,7 @@
                                                 @endif
                                                 <hr>
                                                 <li class="navi-header font-weight-bold py-4">
-                                                    <span class="font-size-lg">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.other') }}:</span>
+                                                    <span class="font-size-lg">{{ trans('admin_klikbud/settings/klikbud/gallery.content.other') }}:</span>
                                                 </li>
                                                 <li class="navi-item">
                                                     <a href="{{ route('settings.klikbud.gallery.show', $item->id) }}" class="navi-link">
