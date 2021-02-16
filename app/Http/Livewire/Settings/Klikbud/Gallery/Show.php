@@ -12,7 +12,7 @@ class Show extends GalleryLivewire
     public $status_to_main_page;
     public $status_gallery_id;
 
-    private $gallery_id;
+    public $gallery_id;
 
     public function render()
     {
@@ -48,12 +48,10 @@ class Show extends GalleryLivewire
         $status = app()->make(GalleryService::class)->changeStatusToGallery($this->gallery_id, $status_id);
         $this->status_gallery_id = $status_id;
         $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.status_to_gallery');
-
         if($status === false)
         {
             $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
         }
-
         $this->checkStatus($status, $message_success, 'alert', true, 'top-end');
     }
 
@@ -61,12 +59,10 @@ class Show extends GalleryLivewire
     {
         $status = app()->make(GalleryService::class)->delete($this->gallery_id, $this->gallery->image_id);
         $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.delete');
-
         if($status === false)
         {
             $message_success = trans('admin_klikbud/settings/klikbud/gallery.session.error');
         }
-
         $this->checkStatus($status, $message_success, 'flash', false, 'center');
         return redirect()->route('settings.klikbud.gallery.index');
     }

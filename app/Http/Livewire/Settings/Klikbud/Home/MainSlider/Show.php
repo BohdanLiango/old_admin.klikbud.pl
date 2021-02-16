@@ -42,7 +42,7 @@ class Show extends MainSliderLivewire
         $count_active_status = $count_get->where('status_to_main_page_id', '=', config('klikbud.klikbud.status_to_main_page.visible'))->count();
         $count_hidden_status = $count_get->where('status_to_main_page_id', '=', config('klikbud.klikbud.status_to_main_page.not_visible'))->count();
         $count = $count_get->count();
-        $count_deleted = MainSlider::withTrashed()->count();
+        $count_deleted = MainSlider::onlyTrashed()->count();
 
         $all_sliders = $count_deleted + $count;
 

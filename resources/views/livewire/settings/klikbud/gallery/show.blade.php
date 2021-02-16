@@ -39,47 +39,47 @@
                 {{--<!--end::Example-->--}}
                     <hr>
                     @if($gallery->image !== NULL)
-                    <div>
-                        <h5>{{ trans('admin_klikbud/settings/klikbud/gallery.show_one.status_to_gallery') }}:
-                            @if($status_gallery_id == config('klikbud.klikbud.status_to_gallery.visible'))
-                                <span class="badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</span>
-                            @endif
-                            @if($status_to_main_page === config('klikbud.klikbud.status_to_gallery.not_visible'))
-                                <span class="badge badge-warning">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</span>
-                            @endif
-                            | {{ trans('admin_klikbud/settings/klikbud/gallery.show_one.change_to') }}:
-                            @if($status_gallery_id == config('klikbud.klikbud.status_to_gallery.not_visible'))
-                                <a wire:click.lazy="changeStatusToGallery({{ config('klikbud.klikbud.status_to_gallery.visible')}})"
-                                   class="btn badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</a>
-                            @endif
-                            @if($status_gallery_id == config('klikbud.klikbud.status_to_gallery.visible'))
-                                <a wire:click.lazy="changeStatusToGallery({{ config('klikbud.klikbud.status_to_gallery.not_visible') }})"
-                                   class="btn badge badge-danger">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</a>
-                            @endif
-                        </h5>
-                    </div>
+                        <div>
+                            <h5>
+                                {{ trans('admin_klikbud/settings/klikbud/gallery.show_one.status_to_gallery') }}:
+                                @if($status_gallery_id === config('klikbud.klikbud.status_to_gallery.visible'))
+                                    <span class="badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</span>
+                                @endif
+                                @if($status_gallery_id === config('klikbud.klikbud.status_to_gallery.not_visible'))
+                                    <span class="badge badge-warning">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</span>
+                                @endif
+                                | {{ trans('admin_klikbud/settings/klikbud/gallery.show_one.change_to') }}:
+                                @if($status_gallery_id === config('klikbud.klikbud.status_to_gallery.not_visible'))
+                                    <a wire:click.lazy="changeStatusToGallery({{ config('klikbud.klikbud.status_to_gallery.visible')}})"
+                                       class="btn badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</a>
+                                @endif
+                                @if($status_gallery_id === config('klikbud.klikbud.status_to_gallery.visible'))
+                                    <a wire:click.lazy="changeStatusToGallery({{ config('klikbud.klikbud.status_to_gallery.not_visible') }})"
+                                       class="btn badge badge-danger">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</a>
+                                @endif
+                            </h5>
+                        </div>
                     <hr>
-                    <div>
-                        <h5>{{ trans('admin_klikbud/settings/klikbud/gallery.show_one.status_to_main_page') }}:
-                            @if($status_to_main_page === config('klikbud.klikbud.status_to_main_page.visible'))
-                                <span
-                                    class="badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</span>
-                            @endif
-                            @if($status_to_main_page === config('klikbud.klikbud.status_to_main_page.not_visible'))
-                                <span
-                                    class="badge badge-warning">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</span>
-                            @endif
-                            | {{ trans('admin_klikbud/settings/klikbud/gallery.show_one.change_to') }}:
-                            @if($status_to_main_page == config('klikbud.klikbud.status_to_main_page.not_visible'))
-                                <a wire:click.lazy="changeStatusInMainPage({{ config('klikbud.klikbud.status_to_main_page.visible') }})"
-                                   class="btn badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</a>
-                            @endif
-                            @if($status_to_main_page == config('klikbud.klikbud.status_to_main_page.visible'))
-                                <a wire:click.lazy="changeStatusInMainPage({{ config('klikbud.klikbud.status_to_main_page.not_visible') }})"
-                                   class="btn badge badge-warning">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</a>
-                            @endif
-                        </h5>
-                    </div>
+                        <div>
+                            <h5>
+                                {{ trans('admin_klikbud/settings/klikbud/gallery.show_one.status_to_main_page') }}:
+                                @if($status_to_main_page === config('klikbud.klikbud.status_to_main_page.visible'))
+                                    <span class="badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</span>
+                                @endif
+                                @if($status_to_main_page === config('klikbud.klikbud.status_to_main_page.not_visible'))
+                                    <span class="badge badge-warning">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</span>
+                                @endif
+                                | {{ trans('admin_klikbud/settings/klikbud/gallery.show_one.change_to') }}:
+                                @if($status_to_main_page == config('klikbud.klikbud.status_to_main_page.not_visible'))
+                                    <a wire:click.lazy="changeStatusInMainPage({{ config('klikbud.klikbud.status_to_main_page.visible') }})"
+                                       class="btn badge badge-success">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active') }}</a>
+                                @endif
+                                @if($status_to_main_page == config('klikbud.klikbud.status_to_main_page.visible'))
+                                    <a wire:click.lazy="changeStatusInMainPage({{ config('klikbud.klikbud.status_to_main_page.not_visible') }})"
+                                       class="btn badge badge-warning">{{ trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden') }}</a>
+                                @endif
+                            </h5>
+                        </div>
                     @endif
                 </div>
             </div>

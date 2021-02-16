@@ -107,4 +107,16 @@ return [
         'close' => 'Zamknąć',
         'delete' => 'Usunąć'
     ],
+
+    'widget' => [
+        'all_images' => 'Obrazów ogólnie',
+        'active' => 'Aktywne',
+        'deleted' => 'Usunięte',
+        'active_to_main_page' => 'Aktywne na głownej stronie',
+        'active_to_gallery' => 'Aktywne w galerii',
+        'hidden' => 'Ukryte',
+        'hidden_to_main_page' => 'Ukryte na głownej stronie',
+        'hidden_to_gallery' => 'Ukryte w galerii',
+        'percent' => 'Procent'
+    ],
 ];

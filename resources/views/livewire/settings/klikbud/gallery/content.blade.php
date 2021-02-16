@@ -2,7 +2,10 @@
     <div class="d-flex flex-column-fluid">
         <div class="container">
             <div class="row">
-                @if($count > 0)
+                @if($count_all > 0)
+                    @include('livewire.settings.klikbud.gallery.widget')
+                @endif
+                @if($count_all > 0)
                         <div class="form-group col-xl-3 float-left">
                             <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.search') }}</label>
                             <input wire:model="searchQuery" class="form-control"/>
@@ -29,7 +32,13 @@
                             <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.category') }}</label>
                             <select wire:model="searchCategory" class="form-control ">
                                 @forelse($categories as $category)
-                                    <option value="{{ $category['value'] }}">{{ $category['title'] }}</option>
+                                    <option value="{{ $category['value'] }}">{{ $category['title'] }} -
+                                        @if((int)$category['value'] === 0)
+                                            {{ $count_all }}
+                                        @else
+                                        {{ $count_categories[(int)$category['value']] }}
+                                        @endif
+                                    </option>
                                     @empty
                                 @endforelse
                             </select>

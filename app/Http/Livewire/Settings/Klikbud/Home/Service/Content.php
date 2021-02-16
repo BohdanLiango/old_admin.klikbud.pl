@@ -32,7 +32,7 @@ class Content extends ServiceLivewire
         $count_active_status = $count_get->where('status_to_main_page_id', '=', config('klikbud.klikbud.status_to_main_page.visible'))->count();
         $count_hidden_status = $count_get->where('status_to_main_page_id', '=', config('klikbud.klikbud.status_to_main_page.not_visible'))->count();
         $count = $count_get->count(); //All Active
-        $count_deleted = Service::withTrashed()->count();
+        $count_deleted = Service::onlyTrashed()->count();
 
         $all_services = $count_deleted + $count;
 
