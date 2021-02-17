@@ -34,7 +34,7 @@
                                 @forelse($categories as $category)
                                     <option value="{{ $category['value'] }}">{{ $category['title'] }} -
                                         @if((int)$category['value'] === 0)
-                                            {{ $count_all }}
+                                            {{ $count_active }}
                                         @else
                                         {{ $count_categories[(int)$category['value']] }}
                                         @endif
