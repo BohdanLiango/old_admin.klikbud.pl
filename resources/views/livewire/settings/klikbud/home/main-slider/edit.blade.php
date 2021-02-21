@@ -87,7 +87,7 @@
                                     <div class="form-group row">
                                         <label for="image" class="col-3"></label>
                                         <div class="col-9">
-                                            <img src="{{ asset(Storage::url($slider->image->path)) }}"
+                                            <img src="{{ Storage::disk('s3')->url($slider->image->path) }}"
                                                  style="width: 300px" alt="">
                                         </div>
                                     </div>

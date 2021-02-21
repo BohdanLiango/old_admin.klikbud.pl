@@ -33,7 +33,7 @@
                                     <div class="form-group row">
                                         <label for="image" class="col-3"></label>
                                         <div class="col-9">
-                                            <img src="{{ asset(Storage::url($service->image->path)) }}" style="width: 300px">
+                                            <img src="{{ Storage::disk('s3')->url($service->image->path) }}" style="width: 300px">
                                         </div>
                                     </div>
                                 @endif

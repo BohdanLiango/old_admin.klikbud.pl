@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\Services\Files\FilesService;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileController extends AdminController
 {
@@ -21,9 +20,9 @@ class FileController extends AdminController
      * Download File
      *
      * @param $id
-     * @return BinaryFileResponse
+     * @return StreamedResponse
      */
-    public function download($id): BinaryFileResponse
+    public function download($id): StreamedResponse
     {
         return $this->file->downloadFile($id);
     }

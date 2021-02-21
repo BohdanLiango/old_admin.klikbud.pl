@@ -27,8 +27,8 @@
                 {{--<!--begin::Example-->--}}
                     <div class="example mb-10">
                         @if($gallery->image !== NULL)
-                            <a href="{{ asset(Storage::url($gallery->image->path)) }}" target="_blank">
-                                <img src="{{ asset(Storage::url($gallery->image->path)) }}" class="img-fluid" alt="">
+                            <a href="{{ Storage::disk('s3')->url($gallery->image->path) }}" target="_blank">
+                                <img src="{{ Storage::disk('s3')->url($gallery->image->path) }}" class="img-fluid" alt="">
                             </a>
                         @else
                             <a href="#" target="_blank">

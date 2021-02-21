@@ -55,7 +55,7 @@ class Add extends GalleryLivewire
         $store_id = app()->make(GalleryService::class)->store($this->gallery);
 
         if ($store_id !== false) {
-            $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false));
+            $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false), 's3');
             $image_id = app()->make(FilesDataService::class)->storeKlikBudGallery($store_image, $store_id);
             $store_image_to_gallery = app()->make(GalleryService::class)->store_image($store_id, $image_id);
 

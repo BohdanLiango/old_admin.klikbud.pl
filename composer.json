@@ -19,6 +19,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "*",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^2.3",
         "rennokki/laravel-eloquent-query-cache": "^2.5",
         "rezaamini-ir/laravel-easyblade": "^0.2.2",

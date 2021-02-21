@@ -94,6 +94,8 @@ class FilesService extends FileService
      */
     public function storeImageUseLivewire($store, $to_table, $table_record_id, $group, $subgroup): mixed
     {
+        Storage::disk('s3')->setVisibility($store, 'public');
+
         //Type File
         $file_type_id = self::FILE_TYPE_IMAGE;
 
@@ -102,17 +104,17 @@ class FilesService extends FileService
         $folder = $this->folderCreate($group, $subgroup, $folder_name);
 
         //Get Mime and Size Stored File
-        $mime = Storage::mimeType($store);
-        $size = Storage::size($store);
+        $mime = Storage::disk('s3')->mimeType($store);
+        $size = Storage::disk('s3')->size($store);
 
         //Get name stored File
         $name_file = class_basename($store);
 
         //Move to correctly folder
-        Storage::move($store,  $folder .'/' .$name_file);
+        Storage::disk('s3')->move($store,  $folder .'/' .$name_file);
 
         //Delete old folder
-        Storage::deleteDirectory(Str::before($store, '/' . $name_file));
+        Storage::disk('s3')->deleteDirectory(Str::before($store, '/' . $name_file));
 
         $full_path = $folder . '/' . $name_file;
 
@@ -130,6 +132,7 @@ class FilesService extends FileService
      */
     public function updateImageUseLivewire($update, $image_old_id,  $table_record_id, $to_table): mixed
     {
+        Storage::disk('s3')->setVisibility($update, 'public');
 
         $get_information = FileAdditionalInformation::find($image_old_id);
 
@@ -141,17 +144,17 @@ class FilesService extends FileService
         $folder = $get_information->path;
 
         //Get Mime and Size Updated File
-        $mime = Storage::mimeType($update);
-        $size = Storage::size($update);
+        $mime = Storage::disk('s3')->mimeType($update);
+        $size = Storage::disk('s3')->size($update);
 
         //Get name stored File
         $name_file = class_basename($update);
 
         //Move to correctly folder
-        Storage::move($update,  $folder .'/' .$name_file);
+        Storage::disk('s3')->move($update,  $folder .'/' .$name_file);
 
         //Delete old folder
-        Storage::deleteDirectory(Str::before($update, '/' . $name_file));
+        Storage::disk('s3')->deleteDirectory(Str::before($update, '/' . $name_file));
 
         $full_path = $folder . '/' . $name_file;
 
@@ -215,7 +218,8 @@ class FilesService extends FileService
     public function downloadFile($id)
     {
         $file = FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
-        return response()->download(storage_path('app/' . $file));
+//        return response()->download(storage_path('app/' . $file));
+        return Storage::disk('s3')->download($file);
     }
 
 
