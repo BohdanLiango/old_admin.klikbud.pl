@@ -92,7 +92,7 @@ class Content extends OpinionLivewire
             {
                 if ($this->store_image !== null and $this->store_image !== "")
                 {
-                    $image_store = $this->store_image->store('/public/uploads/other/' . uniqid('portal', false));
+                    $image_store = $this->store_image->store('/public/uploads/other/' . uniqid('portal', false), 's3');
                     $image_id = app()->make(FilesDataService::class)->storeKlikBudOpinionPortal($image_store, $store_id);
                     app()->make(OpinionPortalService::class)->updateImage($store_id, $image_id);
                 }
