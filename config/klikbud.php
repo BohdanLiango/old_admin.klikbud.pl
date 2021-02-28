@@ -1,5 +1,6 @@
 <?php
 return [
+
     'klikbud' => [
         'status_to_main_page' => [
             'visible' => 1,
