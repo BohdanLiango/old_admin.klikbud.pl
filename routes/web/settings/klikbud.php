@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Settings\Klikbud\Contact\ContactController;
+use App\Http\Controllers\Settings\Klikbud\ContactController;
 use App\Http\Controllers\Settings\Klikbud\Home\CountController;
 use App\Http\Controllers\Settings\Klikbud\Home\GalleryController;
 use App\Http\Controllers\Settings\Klikbud\Home\MainSliderController;
 use App\Http\Controllers\Settings\Klikbud\Home\OpinionController;
 use App\Http\Controllers\Settings\Klikbud\Home\OpinionPortalController;
 use App\Http\Controllers\Settings\Klikbud\Home\ServiceController;
+use App\Http\Controllers\Settings\Klikbud\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
@@ -51,5 +52,7 @@ Route::prefix('/klikbud')->name('klikbud.')->group(static function() {
         Route::get('/', [ContactController::class, 'index'])->name('index');
         Route::get('/show/{id}', [ContactController::class, 'show'])->name('show');
     });
+
+    Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter');
 
 });

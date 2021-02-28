@@ -12,6 +12,7 @@ class BreadcrumbsData extends Data
     private string $klikbudOpinin = 'Opinie';
     private string $klikbudGallery = 'Galeria';
     private string $klikbudContact = 'Kontakt';
+    private string $klikbudNewsletter = 'Newsletter';
 
     /**
      * Main functions
@@ -168,6 +169,25 @@ class BreadcrumbsData extends Data
 
         return $this->breadcrumbs($key, $array, $array_merge);
     }
+
+    /**
+     * ContactController
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function settings_klikbud_newsletter($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('settings.klikbud.newsletter'), 'name' => $this->klikbudNewsletter]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
+
+
 
 
 

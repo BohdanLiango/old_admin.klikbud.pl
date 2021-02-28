@@ -58,6 +58,15 @@ return [
                         ],
                     ]
                 ],
+                [
+                    'title' => 'Contact',
+                    'page' => 'settings.klikbud.contact.index'
+                ],
+                [
+                    'title' => 'Newsletter',
+                    'page' => 'settings.klikbud.newsletter'
+
+                ]
             ]
         ],
 //        [

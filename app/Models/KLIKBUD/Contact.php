@@ -2,8 +2,10 @@
 
 namespace App\Models\KLIKBUD;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -11,6 +13,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
 class Contact extends Model
 {
     protected $table = 'klikbud_contact';
+    protected $guarded = [];
 
     use HasFactory;
     use SoftDeletes;
@@ -27,4 +30,11 @@ class Contact extends Model
     protected bool $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     protected int $historyLimit = 5; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
 
+    /**
+     * @return BelongsTo
+     */
+    public function user_details(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_read_id');
+    }
 }

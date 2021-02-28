@@ -169,8 +169,5 @@ class GalleryService extends Services
         }catch (Exception){
             return false;
         }
-
-
-
     }
 }
