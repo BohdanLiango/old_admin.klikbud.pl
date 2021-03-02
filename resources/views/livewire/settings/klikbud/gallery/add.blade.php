@@ -60,8 +60,6 @@
                                         <div class="col-9">
                                             <select class="form-control @error('gallery.object_id') is-invalid @enderror" id="exampleSelectd" wire:model.defer="gallery.object_id">
                                                 <option value="{{ NULL }}" selected>----------</option>
-                                                <option value="1">1</option>
-
                                             </select>
                                             @error('gallery.object_id')<div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>

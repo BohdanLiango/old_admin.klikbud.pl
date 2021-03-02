@@ -68,11 +68,25 @@ class GalleryService extends Services
             $jsonDescription = $this->functionsHelper->jsonData($gallery['description_pl'], $gallery['description_en'], $gallery['description_ua'], $gallery['description_ru']);
             $jsonAlt = $this->functionsHelper->jsonData($gallery['alt_pl'], $gallery['alt_en'], $gallery['alt_ua'], $gallery['alt_ru']);
 
+            if(isset($gallery['object_id']) === false)
+            {
+                $object_id = NULL;
+            }else {
+                $object_id = $gallery['object_id'];
+            }
+
+            if(isset($gallery['category_id']) === false)
+            {
+                $category_id = NULL;
+            }else {
+                $category_id = $gallery['category_id'];
+            }
+
             $store = new Gallery();
 
             $data = [
-                'object_id' => $gallery['object_id'],
-                'category_id' => $gallery['category_id'],
+                'object_id' => $object_id,
+                'category_id' => $category_id,
                 'slug' => $jsonSlug,
                 'title' => $jsonTitle,
                 'description' => $jsonDescription,

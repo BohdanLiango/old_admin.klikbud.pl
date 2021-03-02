@@ -13,7 +13,7 @@ class FilesService extends FileService
 {
     protected const FILE_TYPE_IMAGE = 1; // IMAGE
     protected const FILE_TYPE_FILE = 2; // FILES
-    protected const STORAGE_DRIVER_PUBLIC = 'public/';
+    protected const STORAGE_DRIVER_PUBLIC = 'test/public/';
 
 
     private FolderCounterService $folderCounter;
