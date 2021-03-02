@@ -10,8 +10,15 @@
             </div>
         </div>
         @include('livewire.settings.klikbud.newsletter.delete-modal')
-        @if(count($newsletters))
+
             <div class="card-body">
+                @if($count_all_active !== 0)
+                <div class="form-group col-xl-12">
+                    <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.search') }}</label>
+                    <input wire:model="searchQuery" class="form-control"/>
+                </div>
+                @endif
+                @if(count($newsletters))
                 <div class="mb-7"></div>
                 <table class="table">
                     <thead>
@@ -38,13 +45,11 @@
                     @endforeach
                     </tbody>
                 </table>
+                @else
+                    <div class="mb-7"></div>
+                    <h3>{{ trans('admin_klikbud/settings/klikbud/newsletter.zeroItem') }}</h3>
+                @endif
             </div>
-        @else
-            <div class="card-body">
-                <div class="mb-7"></div>
-                <h3>{{ trans('admin_klikbud/settings/klikbud/newsletter.zeroItem') }}</h3>
-            </div>
-        @endif
     </div>
     {{--<!--end::Card-->--}}
     <script type="text/javascript">

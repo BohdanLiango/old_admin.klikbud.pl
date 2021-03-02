@@ -9,10 +9,13 @@ use App\Services\Settings\Klikbud\Newsletter\NewsletterService;
 class ShowLivewire extends Settings
 {
     public $pre_id, $pre_email;
+    public $searchQuery;
 
     public function render()
     {
-        $newsletters = Newsletter::orderBy('ID', 'DESC')->paginate(20);
+        $newsletters = Newsletter::when($this->searchQuery != '', function ($query) {
+            $query->where('email', 'like', '%' . $this->searchQuery . '%');
+        })->orderBy('ID', 'DESC')->paginate(20);
         $count_all_active = Newsletter::count();
         return view('livewire.settings.klikbud.newsletter.show-livewire', compact('newsletters', 'count_all_active'));
     }
