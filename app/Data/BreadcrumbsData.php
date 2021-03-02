@@ -186,9 +186,4 @@ class BreadcrumbsData extends Data
 
         return $this->breadcrumbs($key, $array, $array_merge);
     }
-
-
-
-
-
 }
