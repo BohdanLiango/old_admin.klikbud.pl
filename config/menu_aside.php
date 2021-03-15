@@ -11,6 +11,13 @@ return [
             'page' => 'dashboard',
             'new-tab' => false,
         ],
+        [
+            'title' => 'Contact',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'settings.klikbud.contact.index',
+            'new-tab' => false,
+        ],
 
         // Custom
         [
@@ -59,15 +66,18 @@ return [
                     ]
                 ],
                 [
-                    'title' => 'Contact',
-                    'page' => 'settings.klikbud.contact.index'
-                ],
-                [
                     'title' => 'Newsletter',
                     'page' => 'settings.klikbud.newsletter'
 
                 ]
             ]
+        ],
+        [
+            'title' => 'Address',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'address.show',
+            'new-tab' => false,
         ],
 //        [
 //            'title' => 'Pages',

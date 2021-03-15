@@ -122,5 +122,5 @@
             </div>
         @endif
     </div>
-    {{ $contacts->links() }}
+    {{ $contacts->links('vendor.livewire.bootstrap') }}
 </div>

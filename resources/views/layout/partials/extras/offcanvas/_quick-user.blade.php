@@ -18,10 +18,13 @@
     <div class="offcanvas-content pr-5 mr-n5">
 		{{-- Header --}}
         <div class="d-flex align-items-center mt-5">
-            <div class="symbol symbol-100 mr-5">
-                <div class="symbol-label" style="background-image:url('{{ asset('media/users/300_21.jpg') }}')"></div>
-				<i class="symbol-badge bg-success"></i>
+            <div class="symbol mr-3">
+                <span class="symbol-label font-size-h5"> {{ (Auth::user()->name)[0] }} {{ (Auth::user()->surname)[0] }}</span>
             </div>
+{{--            <div class="symbol symbol-100 mr-5">--}}
+{{--                <div class="symbol-label" style="background-image:url('{{ asset('media/users/300_21.jpg') }}')"></div>--}}
+{{--				<i class="symbol-badge bg-success"></i>--}}
+{{--            </div>--}}
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
                     {{ Auth::user()->name }} {{ Auth::user()->surname }}
