@@ -11,18 +11,17 @@ use Venturecraft\Revisionable\RevisionableTrait;
 class Address extends Model
 {
     protected $table = 'address';
-    protected $fillable = ['title', 'moderated_id', 'country_image'];
+    protected $guarded = [];
 
     use HasFactory;
     use SoftDeletes;
     use QueryCacheable;
-    protected $cacheFor = 3600 * 3600;
+    protected $cacheFor = 3600;
     protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
     protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    protected $historyLimit = 500; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
-
+    protected $historyLimit = 10; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
 }
