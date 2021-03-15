@@ -27,8 +27,8 @@
                 {{--<!--begin::Example-->--}}
                     <div class="example mb-10">
                         @if($gallery->image !== NULL)
-                            <a href="{{ Storage::disk('s3')->url($gallery->image->path) }}" target="_blank">
-                                <img src="{{ Storage::disk('s3')->url($gallery->image->path) }}" class="img-fluid" alt="">
+                            <a href="{{ Storage::disk(config('klikbud.disk_store'))->url($gallery->image->path) }}" target="_blank">
+                                <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($gallery->image->path) }}" class="img-fluid" alt="">
                             </a>
                         @else
                             <a href="#" target="_blank">

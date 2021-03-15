@@ -104,7 +104,7 @@ class Edit extends ServiceLivewire
                     'photo' => 'image|max:256'
                 ]);
 
-                $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false), 's3');
+                $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false), config('klikbud.disk_store'));
 
                 if($this->service->image !== null)
                 {

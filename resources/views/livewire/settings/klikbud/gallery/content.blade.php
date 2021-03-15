@@ -135,7 +135,7 @@
                                 <div class="pt-4" wire:load.remove>
                                     <a href="{{ route('settings.klikbud.gallery.show', $item->id) }}">
                                         <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px"
-                                             style="background-image: url({{Storage::disk('s3')->url($item->image->path) }})">
+                                             style="background-image: url({{Storage::disk(config('klikbud.disk_store'))->url($item->image->path) }})">
                                         </div>
                                     </a>
                                     <p class="text-dark-75 font-size-lg font-weight-normal pt-5 mb-2"></p>

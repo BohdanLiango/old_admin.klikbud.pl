@@ -102,7 +102,7 @@
                                 <a href="{{ route('settings.klikbud.home.service.show', [$service->id]) }}">
                                     @if($service->image !== NULL)
                                     <div class="bgi-no-repeat bgi-size-cover rounded min-h-225px"
-                                     style="background-image: url({{ Storage::disk('s3')->url($service->image->path) }})">
+                                     style="background-image: url({{ Storage::disk(config('klikbud.disk_store'))->url($service->image->path) }})">
                                     </div>
                                     @else
                                         <div class="bgi-no-repeat bgi-size-cover rounded min-h-225px"

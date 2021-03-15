@@ -92,7 +92,7 @@ class Content extends OpinionLivewire
             {
                 if ($this->store_image !== null and $this->store_image !== "")
                 {
-                    $image_store = $this->store_image->store('/public/uploads/other/' . uniqid('portal', false), 's3');
+                    $image_store = $this->store_image->store('/public/uploads/other/' . uniqid('portal', false), config('klikbud.disk_store'));
                     $image_id = app()->make(FilesDataService::class)->storeKlikBudOpinionPortal($image_store, $store_id);
                     app()->make(OpinionPortalService::class)->updateImage($store_id, $image_id);
                 }
@@ -145,7 +145,7 @@ class Content extends OpinionLivewire
 
         if($this->edit_image !== NULL and $this->edit_image !== "")
         {
-           $image_store = $this->edit_image->store('/public/uploads/other/' . uniqid('portal', false), 's3');
+           $image_store = $this->edit_image->store('/public/uploads/other/' . uniqid('portal', false), config('klikbud.disk_store'));
            $image_id = app()->make(FilesDataService::class)->updateKlikBudOpinionPortal($image_store, $this->pre_image, $this->selectedItem);
            $data['image_id'] = $image_id;
         }

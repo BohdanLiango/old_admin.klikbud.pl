@@ -6,6 +6,8 @@ use App\Helper\KlikbudFunctionsHelper;
 use App\Models\KLIKBUD\Gallery;
 use App\Services\Services;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class GalleryService extends Services
 {
@@ -112,6 +114,7 @@ class GalleryService extends Services
      * @param $gallery_id
      * @param $image_id
      * @return bool
+     * @throws GuzzleException
      */
     public function store_image($gallery_id, $image_id): bool
     {
@@ -119,6 +122,7 @@ class GalleryService extends Services
             $store_image = Gallery::findOrFail($gallery_id);
             $store_image->image_id = $image_id;
             $store_image->save();
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -130,6 +134,7 @@ class GalleryService extends Services
      * @param $gallery_id
      * @param $status_id
      * @return bool
+     * @throws GuzzleException
      */
     public function changeStatusToMainPage($gallery_id, $status_id): bool
     {
@@ -137,6 +142,7 @@ class GalleryService extends Services
             $update = Gallery::find($gallery_id);
             $update->status_to_main_page_id = $status_id;
             $update->save();
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -148,6 +154,7 @@ class GalleryService extends Services
      * @param $gallery_id
      * @param $status_id
      * @return bool
+     * @throws GuzzleException
      */
     public function changeStatusToGallery($gallery_id, $status_id): bool
     {
@@ -155,6 +162,7 @@ class GalleryService extends Services
             $update = Gallery::find($gallery_id);
             $update->status_gallery_id = $status_id;
             $update->save();
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -166,6 +174,7 @@ class GalleryService extends Services
      * @param $id
      * @param $image_id
      * @return bool
+     * @throws GuzzleException
      */
     public function delete($id, $image_id): bool
     {
@@ -178,7 +187,7 @@ class GalleryService extends Services
             }catch (Exception){
 
             }
-
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;

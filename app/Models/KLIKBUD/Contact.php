@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-//use Rennokki\QueryCache\Traits\QueryCacheable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class Contact extends Model
@@ -17,11 +17,11 @@ class Contact extends Model
 
     use HasFactory;
     use SoftDeletes;
-//    use QueryCacheable;
-//
-//    protected $cacheFor = 3600 * 3600 * 3600;
-//    public $cachePrefix = 'klikbud_contact';
-//    protected static $flushCacheOnUpdate = true;
+    use QueryCacheable;
+
+    protected $cacheFor = 3600 * 3600 * 3600;
+    public $cachePrefix = 'klikbud_contact';
+    protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
 

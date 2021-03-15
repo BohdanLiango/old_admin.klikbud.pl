@@ -6,6 +6,7 @@ use App\Helper\KlikbudFunctionsHelper;
 use App\Models\KLIKBUD\OpinionPortal;
 use App\Services\Services;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 
 class OpinionPortalService extends Services
@@ -54,11 +55,13 @@ class OpinionPortalService extends Services
      * @param $id
      * @param $data
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function edit($id, $data): bool
     {
         try {
             OpinionPortal::findOrFail($id)->update($data);
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -69,11 +72,13 @@ class OpinionPortalService extends Services
      * @param $id
      * @param $image_id
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateImage($id, $image_id): bool
     {
         try {
             OpinionPortal::findOrFail($id)->update(['image_id' => $image_id]);
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -83,6 +88,7 @@ class OpinionPortalService extends Services
     /**
      * @param $id
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function delete($id): bool
     {
@@ -97,6 +103,8 @@ class OpinionPortalService extends Services
                 }
 
                 $opinion->delete();
+
+                $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
 
                 return true;
             }

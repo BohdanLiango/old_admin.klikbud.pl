@@ -87,7 +87,7 @@ class Edit extends GalleryLivewire
             $this->validate([
                 'photo' => 'required|max:512|image'
             ]);
-            $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false), 's3');
+            $store_image = $this->photo->store('/public/uploads/gallery/' . uniqid('gallery', false), config('klikbud.disk_store'));
             $image_id = app()->make(FilesDataService::class)->updateKlikBudGallery($store_image, $this->oldPhoto, $this->gallery_id);
         }
         $update = app()->make(GalleryService::class)->update($this->gallery_id, $this->gallery, $image_id);

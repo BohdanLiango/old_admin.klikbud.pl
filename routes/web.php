@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\GetNewDataController;
 use App\Http\Controllers\PagesController;
 use App\Http\Middleware\AdministrationPanelMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes(['verify' => true]);
+
+Route::get('/asd2331dsaf34234dfdsf', [GetNewDataController::class, 'updateCache']);
 
 Route::group(['middleware' => AdministrationPanelMiddleware::class], static function () {
 

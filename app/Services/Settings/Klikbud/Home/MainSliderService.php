@@ -6,6 +6,8 @@ use App\Helper\KlikbudFunctionsHelper;
 use App\Models\KLIKBUD\MainSlider;
 use App\Services\Services;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Auth;
 
 class MainSliderService extends Services
@@ -132,6 +134,7 @@ class MainSliderService extends Services
      * @param $id
      * @param $status_id
      * @return bool
+     * @throws GuzzleException
      */
     public function changeStatusToMainPage($id, $status_id): bool
     {
@@ -139,6 +142,7 @@ class MainSliderService extends Services
             $update = MainSlider::find($id);
             $update->status_to_main_page_id = $status_id;
             $update->save();
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -148,6 +152,7 @@ class MainSliderService extends Services
     /**
      * @param $id
      * @return bool
+     * @throws GuzzleException
      */
     public function delete($id): bool
     {
@@ -158,6 +163,7 @@ class MainSliderService extends Services
                 $this->functions->deleteImage($delete->image_id);
             }
             $delete->delete();
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;

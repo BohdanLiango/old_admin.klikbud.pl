@@ -51,7 +51,7 @@ class Create extends MainSliderLivewire
         $store_id = app()->make(MainSliderService::class)->store($this->slider);
 
         if($store_id !== false) {
-            $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false), 's3');
+            $store = $this->photo->store('/public/uploads/slider/' . uniqid('slider', false), config('klikbud.disk_store'));
             $image_id = app()->make(FilesDataService::class)->klikBudMainSlider($store, $store_id);
             $store_image = app()->make(MainSliderService::class)->storeImage($store_id, $image_id);
 

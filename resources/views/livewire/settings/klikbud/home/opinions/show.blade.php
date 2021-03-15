@@ -96,7 +96,7 @@
                                     @forelse($portals as $portal)
                                         @if($portal->id === $opinion->portal_opinion_id)
                                             @if($portal->image !== null)
-                                            <img src="{{ Storage::disk('s3')->url($portal->image->path) }}" alt="" width="20px">
+                                            <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($portal->image->path) }}" alt="" width="20px">
                                             @endif
                                             <a href="{{ $portal->url }}">{{ $portal->title }}</a>
                                             @break

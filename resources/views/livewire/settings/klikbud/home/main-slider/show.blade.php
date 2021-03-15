@@ -25,7 +25,7 @@
                     <div class="card-body p-0">
                         <div class="overlay-wrapper">
                             @if($slider->image != NULL)
-                            <img src="{{ Storage::disk('s3')->url($slider->image->path) }}" alt="" class="w-100 rounded"/>
+                            <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($slider->image->path) }}" alt="" class="w-100 rounded"/>
                             @else
                                 <img src="{{ asset('media/static/slide1.jpg') }}" alt="" class="w-100 rounded" />
                             @endif

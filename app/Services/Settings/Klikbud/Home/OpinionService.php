@@ -5,6 +5,7 @@ namespace App\Services\Settings\Klikbud\Home;
 use App\Models\KLIKBUD\Opinion;
 use App\Services\Services;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +44,7 @@ class OpinionService extends Services
     {
         try {
             Opinion::findOrFail($id)->update($data);
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -58,6 +60,7 @@ class OpinionService extends Services
     {
         try {
             Opinion::findOrfail($id)->update(['status_to_main_page_id' => $status_id]);
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;
@@ -72,6 +75,7 @@ class OpinionService extends Services
     {
         try {
             Opinion::findOrFail($id)->delete();
+            $response = (new Client())->request('GET', config('klikbud.url_to_clear_cache'));
             return true;
         }catch (Exception){
             return false;

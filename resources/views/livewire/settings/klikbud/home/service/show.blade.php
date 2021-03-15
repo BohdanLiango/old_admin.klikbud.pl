@@ -30,8 +30,8 @@
                 {{--<!--begin::Example-->--}}
                 <div class="example mb-10">
                     @if($service->image !== NULL)
-                        <a href="{{ Storage::disk('s3')->url($service->image->path) }}" target="_blank"><img
-                                src="{{ Storage::disk('s3')->url($service->image->path) }}" class="img-fluid"></a>
+                        <a href="{{ Storage::disk(config('klikbud.disk_store'))->url($service->image->path) }}" target="_blank"><img
+                                src="{{ Storage::disk(config('klikbud.disk_store'))->url($service->image->path) }}" class="img-fluid"></a>
                     @else
                         <a href="#" target="_blank"><img src="{{ asset('media/static/service.jpg') }}"
                                                          class="img-fluid"></a>

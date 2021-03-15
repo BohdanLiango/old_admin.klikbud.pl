@@ -52,8 +52,8 @@
                     {{--                    <!--begin::Example-->--}}
                     @if($slider->image != NULL)
                         <div class="example mb-10">
-                            <a href="{{ Storage::disk('s3')->url($slider->image->path) }}" target="_blank">
-                                <img src="{{ Storage::disk('s3')->url($slider->image->path) }}" class="img-fluid"></a>
+                            <a href="{{ Storage::disk(config('klikbud.disk_store'))->url($slider->image->path) }}" target="_blank">
+                                <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($slider->image->path) }}" class="img-fluid"></a>
                         </div>
                         {{--                    <!--end::Example-->--}}
                     @else

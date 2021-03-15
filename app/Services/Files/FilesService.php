@@ -13,7 +13,6 @@ class FilesService extends FileService
 {
     protected const FILE_TYPE_IMAGE = 1; // IMAGE
     protected const FILE_TYPE_FILE = 2; // FILES
-    protected const STORAGE_DRIVER_PUBLIC = 'public/';
 
 
     private FolderCounterService $folderCounter;
@@ -33,10 +32,11 @@ class FilesService extends FileService
      * @param $group
      * @param $subgroup
      * @param $folder_name
+     * @return string
      */
     public function folderCreate($group, $subgroup, $folder_name)
     {
-        $storage_driver = self::STORAGE_DRIVER_PUBLIC;
+        $storage_driver = config('klikbud.main_folder_store');
 
         return $this->folderCounter->returnFoldersName($group, $subgroup, $folder_name, $storage_driver);
     }
@@ -94,7 +94,7 @@ class FilesService extends FileService
      */
     public function storeImageUseLivewire($store, $to_table, $table_record_id, $group, $subgroup): mixed
     {
-        Storage::disk('s3')->setVisibility($store, env('FILE_STORE_FOLDER'));
+        Storage::disk(config('klikbud.disk_store'))->setVisibility($store, 'public');
 
         //Type File
         $file_type_id = self::FILE_TYPE_IMAGE;
@@ -104,17 +104,17 @@ class FilesService extends FileService
         $folder = $this->folderCreate($group, $subgroup, $folder_name);
 
         //Get Mime and Size Stored File
-        $mime = Storage::disk('s3')->mimeType($store);
-        $size = Storage::disk('s3')->size($store);
+        $mime = Storage::disk(config('klikbud.disk_store'))->mimeType($store);
+        $size = Storage::disk(config('klikbud.disk_store'))->size($store);
 
         //Get name stored File
         $name_file = class_basename($store);
 
         //Move to correctly folder
-        Storage::disk('s3')->move($store,  $folder .'/' .$name_file);
+        Storage::disk(config('klikbud.disk_store'))->move($store,  $folder .'/' .$name_file);
 
         //Delete old folder
-        Storage::disk('s3')->deleteDirectory(Str::before($store, '/' . $name_file));
+        Storage::disk(config('klikbud.disk_store'))->deleteDirectory(Str::before($store, '/' . $name_file));
 
         $full_path = $folder . '/' . $name_file;
 
@@ -132,7 +132,7 @@ class FilesService extends FileService
      */
     public function updateImageUseLivewire($update, $image_old_id,  $table_record_id, $to_table): mixed
     {
-        Storage::disk('s3')->setVisibility($update, env('FILE_STORE_FOLDER'));
+        Storage::disk(config('klikbud.disk_store'))->setVisibility($update, 'public');
 
         $get_information = FileAdditionalInformation::find($image_old_id);
 
@@ -144,17 +144,17 @@ class FilesService extends FileService
         $folder = $get_information->path;
 
         //Get Mime and Size Updated File
-        $mime = Storage::disk('s3')->mimeType($update);
-        $size = Storage::disk('s3')->size($update);
+        $mime = Storage::disk(config('klikbud.disk_store'))->mimeType($update);
+        $size = Storage::disk(config('klikbud.disk_store'))->size($update);
 
         //Get name stored File
         $name_file = class_basename($update);
 
         //Move to correctly folder
-        Storage::disk('s3')->move($update,  $folder .'/' .$name_file);
+        Storage::disk(config('klikbud.disk_store'))->move($update,  $folder .'/' .$name_file);
 
         //Delete old folder
-        Storage::disk('s3')->deleteDirectory(Str::before($update, '/' . $name_file));
+        Storage::disk(config('klikbud.disk_store'))->deleteDirectory(Str::before($update, '/' . $name_file));
 
         $full_path = $folder . '/' . $name_file;
 
@@ -219,7 +219,7 @@ class FilesService extends FileService
     {
         $file = FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
 //        return response()->download(storage_path('app/' . $file));
-        return Storage::disk('s3')->download($file);
+        return Storage::disk(config('klikbud.disk_store'))->download($file);
     }
 
 

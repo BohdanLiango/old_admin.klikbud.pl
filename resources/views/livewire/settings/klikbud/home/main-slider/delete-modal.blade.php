@@ -13,7 +13,7 @@
                     <br>
                     <hr>
                     <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px"
-                         style="background-image: url({{ Storage::disk('s3')->url($image_data) }})"></div>
+                         style="background-image: url({{ Storage::disk(config('klikbud.disk_store'))->url($image_data) }})"></div>
                 @endif
             </div>
             <div class="modal-footer">

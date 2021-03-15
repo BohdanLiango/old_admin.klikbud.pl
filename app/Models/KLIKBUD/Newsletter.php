@@ -5,6 +5,7 @@ namespace App\Models\KLIKBUD;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class Newsletter extends Model
@@ -14,11 +15,11 @@ class Newsletter extends Model
 
     use HasFactory;
     use SoftDeletes;
-//    use QueryCacheable;
-//
-//    protected $cacheFor = 3600 * 3600 * 3600;
-//    public $cachePrefix = 'klikbud_newsletter';
-//    protected static $flushCacheOnUpdate = true;
+    use QueryCacheable;
+
+    protected $cacheFor = 3600 * 3600 * 3600;
+    public $cachePrefix = 'klikbud_newsletter';
+    protected static $flushCacheOnUpdate = true;
 
     use RevisionableTrait;
 

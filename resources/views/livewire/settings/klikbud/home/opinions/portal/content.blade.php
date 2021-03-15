@@ -53,7 +53,7 @@
                                 <a href="{{ $portal->url }}">
                                     @if($portal->image_id === NULL || $portal->image === null)
                                     @else
-                                        <img src="{{ Storage::disk('s3')->url($portal->image->path) }}" width="30px">
+                                        <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($portal->image->path) }}" width="30px">
                                     @endif
 
                                     {{ $portal->title }}</a>

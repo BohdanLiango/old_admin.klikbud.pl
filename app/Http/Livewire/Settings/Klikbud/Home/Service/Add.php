@@ -44,7 +44,7 @@ class Add extends ServiceLivewire
 
         if($store_id !== false)
         {
-            $store_image = $this->photo->store('/public/uploads/service/' . uniqid('service', false), 's3');
+            $store_image = $this->photo->store('/public/uploads/service/' . uniqid('service', false), config('klikbud.disk_store'));
             $image_id = app()->make(FilesDataService::class)->storeKlikBudService($store_image, $store_id);
             $store_image = app()->make(ServicesService::class)->storeImage($store_id, $image_id);
             if ($store_image === true) {
