@@ -140,8 +140,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/uxweb/sweet-alert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/rezaamini-ir/laravel-easyblade" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mtdowling/jmespath.php" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem-aws-s3-v3" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/coraxster/flysystem-aws-s3-v3-minio" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem-aws-s3-v3" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

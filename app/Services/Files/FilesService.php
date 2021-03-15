@@ -94,7 +94,7 @@ class FilesService extends FileService
      */
     public function storeImageUseLivewire($store, $to_table, $table_record_id, $group, $subgroup): mixed
     {
-        Storage::disk('s3')->setVisibility($store, 'public');
+        Storage::disk('s3')->setVisibility($store, env('FILE_STORE_FOLDER'));
 
         //Type File
         $file_type_id = self::FILE_TYPE_IMAGE;
@@ -132,7 +132,7 @@ class FilesService extends FileService
      */
     public function updateImageUseLivewire($update, $image_old_id,  $table_record_id, $to_table): mixed
     {
-        Storage::disk('s3')->setVisibility($update, 'public');
+        Storage::disk('s3')->setVisibility($update, env('FILE_STORE_FOLDER'));
 
         $get_information = FileAdditionalInformation::find($image_old_id);
 
