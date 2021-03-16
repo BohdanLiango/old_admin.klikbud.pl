@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Settings\Klikbud\Contact;
 
 use App\Http\Livewire\Settings\Settings;
 use App\Models\KLIKBUD\Contact;
+use Livewire\WithPagination;
 
 class IndexLivewire extends Settings
 {
+    use WithPagination;
+
     public function render()
     {
         $contacts = Contact::orderBy('status_id', 'DESC')->paginate(12);
