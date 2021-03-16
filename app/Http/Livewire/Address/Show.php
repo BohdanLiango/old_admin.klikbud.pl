@@ -13,6 +13,7 @@ class Show extends Component
     use WithPagination;
 
     public $types;
+    public $actions, $selectedItem, $selectedType;
 
     public function render()
     {
@@ -24,4 +25,32 @@ class Show extends Component
             ->extends('layout.default', ['page_title' => $page_title, 'breadcrumbs' => $breadcrumbs])
             ->section('content');
     }
+
+    protected $rules = [
+        'store_title' => 'string|required',
+        'store_country_id' => 'required|integer',
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function selectItem($itemId, $action, $type)
+    {
+        $this->selectedItem = $itemId;
+        $this->selectedType = $type;
+        $this->actions = $action;
+
+        if($itemId !== NULL)
+        {
+            $showPreEditData = Address::select(['id', 'title'])->findOrFail($this->selectedItem);
+        }
+
+        if($action === 'store')
+        {
+            $this->dispatchBrowserEvent('openStoreModal');
+        }
+    }
+
 }

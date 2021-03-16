@@ -9,12 +9,14 @@
             <div class="card-toolbar">
                 <a href="#" class="btn btn-success font-weight-bolder" style="margin-right: 10px"><i class="ki ki-plus icon-sm"></i>Nowa Ulica</a>
                 <a href="#" class="btn btn-success font-weight-bolder" style="margin-right: 10px"><i class="ki ki-plus icon-sm"></i>Nowe Miasto</a>
-                <a href="#" class="btn btn-success font-weight-bolder" style="margin-right: 10px"><i class="ki ki-plus icon-sm"></i>Nowe Wojewódzstwo</a>
+                <a href="#" class="btn btn-success font-weight-bolder" style="margin-right: 10px"  wire:click="selectItem({{NULL}}, 'store', {{ 2 }})">
+                    <i class="ki ki-plus icon-sm"></i>Nowe Wojewódzstwo</a>
+                @include('livewire.address.modal.add')
             </div>
         </div>
 
         <div class="card-body">
-            <!--begin::Search Form-->
+            {{--<!--begin::Search Form-->--}}
             <div class="mt-2 mb-5 mt-lg-5 mb-lg-10">
                 <div class="row align-items-center">
                     <div class="col-lg-9 col-xl-8">
@@ -56,8 +58,7 @@
                     </div>
                 </div>
             </div>
-            <!--end::Search Form-->
-
+            {{--<!--end::Search Form-->--}}
             <table class="table table-bordered table-hover" id="kt_datatable">
                 <thead>
                 <tr>
@@ -82,7 +83,8 @@
                             @empty
                             @endforelse
                         </td>
-                        <td></td>
+                        <td>
+                        </td>
                         <td></td>
                     </tr>
                 @endforeach
@@ -92,7 +94,16 @@
         </div>
 
     </div>
+    <script type="text/javascript">
 
+        window.addEventListener('openStoreModal', event => {
+            $("#addModal").modal('show')
+        })
+
+        window.addEventListener('closeStoreModal', event => {
+            $("#addModal").modal('hide')
+        })
+    </script>
     {{-- Styles Section --}}
     @section('styles')
         <link href="{{ asset('plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css"/>
