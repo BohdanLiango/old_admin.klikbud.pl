@@ -23,7 +23,7 @@
                                                             fill="#000000" opacity="0.3"/>
 													</g>
 												</svg>
-{{--<!--end::Svg Icon-->--}}
+                                                {{--<!--end::Svg Icon-->--}}
 											</span>{{ trans('admin_klikbud/settings/klikbud/opinion-portal.show.addButton') }}</a>
                 {{--<!--end::Button-->--}}
             </div>

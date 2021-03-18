@@ -76,7 +76,7 @@ return [
             'title' => 'Address',
             'root' => true,
             'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
-            'page' => 'address.show',
+            'page' => 'settings.address.show',
             'new-tab' => false,
         ],
 //        [

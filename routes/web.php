@@ -30,10 +30,12 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
 
         Route::get('/', [DashboardController::class, 'show'])->name('dashboard');
 
-        require __DIR__.'/web/address.php';
-
         Route::prefix('/settings')->name('settings.')->group(static function() {
+
             require __DIR__ . '/web/settings/klikbud.php';
+
+            require __DIR__.'/web/settings/address.php';
+
         });
 
     });

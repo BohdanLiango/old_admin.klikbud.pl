@@ -58,11 +58,11 @@ class BreadcrumbsData extends Data
      * @param $array_merge
      * @return array
      */
-    public function address($key, $array_merge): array
+    public function settings_address($key, $array_merge): array
     {
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
-            ['key' => 1, 'link' => route('address.show'), 'name' => $this->address]
+            ['key' => 1, 'link' => route('settings.address.show'), 'name' => $this->address]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);
