@@ -40,6 +40,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
         {{-- Includable CSS --}}
         @yield('styles')
+        @stack('styles_p')
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
 
@@ -69,6 +70,8 @@ License: You must have a valid license purchased only from themeforest(the above
         @yield('scripts')
         <x-livewire-alert::scripts />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        @stack('scripts_p')
+
     </body>
 </html>
 

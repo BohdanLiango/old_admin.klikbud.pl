@@ -24,4 +24,24 @@ class Address extends Model
     protected $revisionCreationsEnabled = true;
     protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     protected $historyLimit = 10; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
+
+    public function country()
+    {
+        return $this->belongsTo(__CLASS__, 'country_id');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(__CLASS__, 'state_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(__CLASS__, 'town_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

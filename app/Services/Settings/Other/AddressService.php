@@ -4,11 +4,20 @@ namespace App\Services\Settings\Other;
 
 use App\Models\Address;
 use App\Services\Services;
+use Exception;
 use Illuminate\Support\Str;
 
 class AddressService extends Services
 {
-    public function store($title, $type_id, $country_id, $state_id, $town_id)
+    /**
+     * @param $title
+     * @param $type_id
+     * @param $country_id
+     * @param $state_id
+     * @param $town_id
+     * @return array
+     */
+    public function dataCreator($title, $type_id, $country_id, $state_id, $town_id): array
     {
         $slug = Str::slug($title, '_');
         $user_id = \Auth::id();
@@ -20,7 +29,7 @@ class AddressService extends Services
             'type_id' => $type_id,
         ];
 
-        if($type_id === 2)
+        if((int)$type_id === 2)
         {
             $state = [
                 'country_id' => $country_id
@@ -29,7 +38,7 @@ class AddressService extends Services
             $data = array_merge($dataStart, $state);
         }
 
-        if($type_id === 3)
+        if((int)$type_id === 3)
         {
             $town = [
                 'country_id' => $country_id,
@@ -39,7 +48,7 @@ class AddressService extends Services
             $data = array_merge($dataStart, $town);
         }
 
-        if($type_id === 4)
+        if((int)$type_id === 4)
         {
             $street = [
                 'country_id' => $country_id,
@@ -50,17 +59,66 @@ class AddressService extends Services
             $data = array_merge($dataStart, $street);
         }
 
-        $store = new Address();
-        $store->fill($data)->save();
+        if ($type_id === 0 or $type_id === NULL or $type_id >= 5) {
+             abort(404);
+        }
 
-        return $store->id;
+        return $data;
     }
 
-    public function delete($id, $type_id)
+    /**
+     * @param $title
+     * @param $type_id
+     * @param $country_id
+     * @param $state_id
+     * @param $town_id
+     * @return bool
+     */
+    public function store($title, $type_id, $country_id, $state_id, $town_id): bool
+    {
+        try {
+            $data = $this->dataCreator($title, $type_id, $country_id, $state_id, $town_id);
+            $store = new Address();
+            $store->fill($data)->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+
+    }
+
+    /**
+     * @param $id
+     * @param $title
+     * @param $type_id
+     * @param $country_id
+     * @param $state_id
+     * @param $town_id
+     * @return bool
+     */
+    public function update($id, $title, $type_id, $country_id, $state_id, $town_id): bool
+    {
+        try {
+            $data = $this->dataCreator($title, $type_id, $country_id, $state_id, $town_id);
+            $update = Address::findOrFail($id);
+            $update->fill($data)->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $type_id
+     * @return false
+     */
+    public function delete($id, $type_id): bool
     {
         if($type_id === 4)
         {
             Address::findOrFail($id)->delete();
+            return true;
         }
 
         if($type_id === 3)
@@ -69,9 +127,10 @@ class AddressService extends Services
             if($count === 0)
             {
                 Address::findOrFail($id)->delete();
-            }else{
-                return false;
+                return true;
             }
+
+            return false;
         }
 
         if($type_id === 2)
@@ -81,9 +140,12 @@ class AddressService extends Services
             if($count1 === 0 && $count2 === 0)
             {
                 Address::findOrFail($id)->delete();
-            }else{
-                return false;
+                return true;
             }
+
+            return false;
         }
+
+        return false;
     }
 }
