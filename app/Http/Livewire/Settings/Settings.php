@@ -12,7 +12,7 @@ class Settings extends Component
         {
             $this->$method('success', $message_success, [
                 'position' =>  $position,
-                'timer' =>  3000,
+                'timer' =>  2000,
                 'toast' =>  $toast,
                 'text' =>  '',
                 'confirmButtonText' =>  'Ok',
@@ -25,7 +25,7 @@ class Settings extends Component
 
             $this->$method('error', trans('admin_klikbud/settings/klikbud/main-slider.error.sessions.messageDanger'), [
                 'position' =>  'center',
-                'timer' =>  3000,
+                'timer' =>  2000,
                 'toast' =>  $toast,
                 'text' =>  '',
                 'confirmButtonText' =>  'Ok',

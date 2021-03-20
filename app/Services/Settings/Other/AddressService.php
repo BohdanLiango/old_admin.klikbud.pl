@@ -10,6 +10,16 @@ use Illuminate\Support\Str;
 class AddressService extends Services
 {
     /**
+     * To CLientService
+     * @param $id
+     * @return mixed
+     */
+    public function showOneDataStreet($id): mixed
+    {
+        return Address::findOrFail($id);
+    }
+
+    /**
      * @param $title
      * @param $type_id
      * @param $country_id

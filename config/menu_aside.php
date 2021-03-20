@@ -19,6 +19,17 @@ return [
             'new-tab' => false,
         ],
 
+        [
+            'section' => 'Work',
+        ],
+        [
+            'title' => 'Clients',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'clients.show',
+            'new-tab' => false,
+        ],
+
         // Custom
         [
             'section' => 'Settings',

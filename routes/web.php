@@ -35,11 +35,11 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
             require __DIR__ . '/web/settings/klikbud.php';
 
             require __DIR__.'/web/settings/address.php';
-
         });
 
-    });
+        require __DIR__.'/web/clients.php';
 
+    });
 });
 
 
