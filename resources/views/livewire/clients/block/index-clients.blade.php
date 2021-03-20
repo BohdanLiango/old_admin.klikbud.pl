@@ -1,6 +1,6 @@
 <div class="row">
     @forelse($clients as $client)
-    <div class="col-xl-3">
+    <div class="col-xl-4">
         <div class="card card-custom gutter-b card-stretch">
             <div class="card-body pt-4 d-flex flex-column justify-content-between">
                 <div class="d-flex align-items-center mb-7">
