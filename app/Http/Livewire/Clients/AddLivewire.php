@@ -30,7 +30,7 @@ class AddLivewire extends ClientLivewire
         $page_title = $breadcrumbs[2]['name'];
         return view('livewire.clients.add-livewire', compact('language', 'time_zone', 'client_communication', 'address_street', 'client_gender'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
-            ->section('content');;
+            ->section('content');
     }
 
     protected array $rules = [

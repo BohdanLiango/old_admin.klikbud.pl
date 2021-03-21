@@ -14,6 +14,8 @@
                 </div>
             </div>
         </div>
+        @include('livewire.clients.block.one-add-modal')
+        @include('livewire.clients.block.one-delete')
         <div class="d-flex flex-column-fluid">
             <div class="container">
                 @include('livewire.clients.block.one-client-info')
@@ -919,4 +921,26 @@
         </div>
         <!--end::Entry-->
     </div>
+
+    <script type="text/javascript">
+
+        window.addEventListener('openAddModal', event => {
+            $("#addModal").modal('show')
+        })
+
+        window.addEventListener('closeAddModal', event => {
+            $("#addModal").modal('hide')
+        })
+
+        window.addEventListener('openDeleteModal', event => {
+            $("#deleteModal").modal('show')
+        })
+
+        window.addEventListener('closeDeleteModal', event => {
+            $("#deleteModal").modal('hide')
+        })
+
+
+        deleteModal
+    </script>
 </div>

@@ -9,7 +9,7 @@
             <div class="dropdown-menu dropdown-menu-right p-0 m-0 dropdown-menu-md">
                 <ul class="navi navi-hover py-5">
                     <li class="navi-item">
-                        <a href="#" class="navi-link">
+                        <a href="#" class="navi-link" wire:click="openAddModal('email')">
                             <span class="navi-icon">
                                 <i class="flaticon2-email"></i>
                             </span>
@@ -17,19 +17,11 @@
                         </a>
                     </li>
                     <li class="navi-item">
-                        <a href="#" class="navi-link">
+                        <a href="#" class="navi-link" wire:click="openAddModal('number')">
                             <span class="navi-icon">
                                 <i class="flaticon2-phone"></i>
                             </span>
                             <span class="navi-text">New Phone</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a href="#" class="navi-link">
-                            <span class="navi-icon">
-                                <i class="flaticon2-plus"></i>
-                            </span>
-                            <span class="navi-text">New Language</span>
                         </a>
                     </li>
                 </ul>

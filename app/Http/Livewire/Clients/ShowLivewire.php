@@ -12,6 +12,9 @@ class ShowLivewire extends ClientLivewire
     $communication, $add_info_address, $zip_code, $number_house, $number_flat,
     $description, $client_id, $country_title, $state_title, $town_title, $street_title;
 
+    public $add_number = NULL, $add_email = NULL;
+    public $modal_info = NULL, $modal_title = '';
+
 
     public function render()
     {
@@ -73,8 +76,83 @@ class ShowLivewire extends ClientLivewire
 
     public function changeStatus($status_id)
     {
+        $this->status_id = $status_id;
         $status = app()->make(ClientService::class)->changeStatus($this->client_id, $status_id);
         $this->checkStatus($status, trans('admin_klikbud/clients.one.message_success_status'), 'alert', true, 'top-end');
-        $this->status_id = $status_id;
+
+    }
+
+    public function resetInputFields()
+    {
+        $this->dispatchBrowserEvent('closeAddModal');
+        $this->add_email = NULL;
+        $this->add_number = NULL;
+        $this->modal_title = '';
+    }
+
+    public function openAddModal($modal)
+    {
+        $this->modal_info = $modal;
+
+        switch ($modal){
+            case 'number':
+                $this->modal_title = 'mobile';
+                $this->dispatchBrowserEvent('openAddModal');
+                break;
+            case 'email':
+                $this->modal_title = 'email';
+                $this->dispatchBrowserEvent('openAddModal');
+                break;
+        }
+    }
+
+    public function updateMobilesEmailsShow()
+    {
+        $update = app()->make(ClientService::class)->updateInfoShow($this->client_id);
+        $this->email = $update->email;
+        $this->mobile = $update->mobile;
+    }
+
+    public function store()
+    {
+        switch ($this->modal_info){
+            case 'number':
+                $this->validate([
+                    'add_number' => 'string|required|max:100'
+                ]);
+                $status = app()->make(ClientService::class)->updateCollectionData($this->client_id, $this->add_number, 'mobile');
+                $this->checkStatus($status, 'Udalo sie', 'alert', true, 'top-end');
+                $this->modal_info = NULL;
+                $this->updateMobilesEmailsShow();
+                $this->resetInputFields();
+                break;
+            case 'email':
+                $this->validate([
+                    'add_email' => 'email|required|max:255'
+                ]);
+                $status = app()->make(ClientService::class)->updateCollectionData($this->client_id, $this->add_email, 'email');
+                $this->checkStatus($status, 'Udalo sie', 'alert', true, 'top-end');
+                $this->modal_info = NULL;
+                $this->updateMobilesEmailsShow();
+                $this->resetInputFields();
+                break;
+        }
+    }
+
+    public function opensModals($modal)
+    {
+        switch ($modal){
+            case 'delete':
+                $this->dispatchBrowserEvent('openDeleteModal');
+                break;
+        }
+    }
+
+    public function delete()
+    {
+        $this->dispatchBrowserEvent('closeDeleteModal');
+        $status = app()->make(ClientService::class)->delete($this->client_id);
+        $this->checkStatus($status, 'Udalo sie', 'flash', false, 'center');
+        return redirect()->route('clients.show');
     }
 }

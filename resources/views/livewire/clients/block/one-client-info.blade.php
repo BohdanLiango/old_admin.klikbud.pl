@@ -87,7 +87,7 @@
                     </div>
                     <div class="mb-10">
                         <a href="#" class="btn btn-sm btn-light-warning font-weight-bolder text-uppercase mr-2">Edit</a>
-                        <a href="#" class="btn btn-sm btn-light-danger font-weight-bolder text-uppercase mr-2">Delete</a>
+                        <a href="#" class="btn btn-sm btn-light-danger font-weight-bolder text-uppercase mr-2" wire:click="opensModals('delete')">Delete</a>
                     </div>
                 </div>
                 <div class="d-flex align-items-center flex-wrap justify-content-between">
