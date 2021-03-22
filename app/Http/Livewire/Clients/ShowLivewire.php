@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Clients;
 
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
+use App\Models\Address;
 use App\Services\Clients\ClientService;
 
 class ShowLivewire extends ClientLivewire
@@ -15,9 +16,9 @@ class ShowLivewire extends ClientLivewire
     public $add_number = NULL, $add_email = NULL;
     public $modal_info = NULL, $modal_title = '';
 
-
     public function render()
     {
+        $address_street = Address::where('type_id', 4)->select('id', 'title', 'town_id', 'state_id', 'country_id')->get();
         $client_status = app()->make(DefaultData::class)->client_status();
         $client_communication = app()->make(DefaultData::class)->client_communication();
         $client_gender = app()->make(DefaultData::class)->gender();
@@ -26,7 +27,7 @@ class ShowLivewire extends ClientLivewire
         $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
         return view('livewire.clients.show-livewire', compact('client_status', 'client_communication', 'client_gender', 'client_time_zone',
-        'client_languages'))
+        'client_languages', 'address_street'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
@@ -70,8 +71,8 @@ class ShowLivewire extends ClientLivewire
         if(!is_null($get_data->street_id))
         {
             $this->street_title = $get_data->street->title;
+            $this->edit_street_id = $get_data->street_id;
         }
-
     }
 
     public function changeStatus($status_id)
@@ -96,11 +97,11 @@ class ShowLivewire extends ClientLivewire
 
         switch ($modal){
             case 'number':
-                $this->modal_title = 'mobile';
+                $this->modal_title = trans('admin_klikbud/clients.one.add_modal.phone');
                 $this->dispatchBrowserEvent('openAddModal');
                 break;
             case 'email':
-                $this->modal_title = 'email';
+                $this->modal_title =  trans('admin_klikbud/clients.one.add_modal.email');
                 $this->dispatchBrowserEvent('openAddModal');
                 break;
         }
@@ -121,7 +122,7 @@ class ShowLivewire extends ClientLivewire
                     'add_number' => 'string|required|max:100'
                 ]);
                 $status = app()->make(ClientService::class)->updateCollectionData($this->client_id, $this->add_number, 'mobile');
-                $this->checkStatus($status, 'Udalo sie', 'alert', true, 'top-end');
+                $this->checkStatus($status, trans('admin_klikbud/clients.one.messages.phone'), 'alert', true, 'top-end');
                 $this->modal_info = NULL;
                 $this->updateMobilesEmailsShow();
                 $this->resetInputFields();
@@ -131,7 +132,7 @@ class ShowLivewire extends ClientLivewire
                     'add_email' => 'email|required|max:255'
                 ]);
                 $status = app()->make(ClientService::class)->updateCollectionData($this->client_id, $this->add_email, 'email');
-                $this->checkStatus($status, 'Udalo sie', 'alert', true, 'top-end');
+                $this->checkStatus($status, trans('admin_klikbud/clients.one.messages.email'), 'alert', true, 'top-end');
                 $this->modal_info = NULL;
                 $this->updateMobilesEmailsShow();
                 $this->resetInputFields();
@@ -152,7 +153,7 @@ class ShowLivewire extends ClientLivewire
     {
         $this->dispatchBrowserEvent('closeDeleteModal');
         $status = app()->make(ClientService::class)->delete($this->client_id);
-        $this->checkStatus($status, 'Udalo sie', 'flash', false, 'center');
+        $this->checkStatus($status, trans('admin_klikbud/clients.one.messages.delete'), 'flash', false, 'center');
         return redirect()->route('clients.show');
     }
 }

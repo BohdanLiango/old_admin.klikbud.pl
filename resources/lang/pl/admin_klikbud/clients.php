@@ -61,8 +61,65 @@ return [
     ],
 
     'one' => [
-        'message_success_status' => 'Status zmieniono!'
+        'message_success_status' => 'Status zmieniono!',
+        'view_contakt' => 'Pokaż kontakt',
+        'buttons' => [
+            'back' => 'Wstecz',
+            'edit' => 'Edytuj',
+            'delete' => 'Usuń',
+            'new_email' => 'Nowy E-mail',
+            'new_phone' => 'Nowy numer'
+        ],
+        'add_modal' => [
+            'title' => 'Dodaj',
+            'phone' => 'Telefon',
+            'email' => 'E-mail',
+            'close' => 'Zamknij',
+            'save' => 'Zapisz'
+        ],
+        'delete_modal' => [
+            'question' => 'Czy chcesz usunąć?',
+            'yes' => 'Tak',
+            'no' => 'Nie'
+        ],
+        'choose_label' => 'Wybierz status',
+        'dont_description' => 'Niema opisu',
+        'info' => 'Informacje',
+        'add' => 'Dodaj',
+        'mobile' => 'Numer kontaktowy',
+        'email' => 'E-mail',
+        'time_zone' => 'Strefa czasowa',
+        'site' => 'Strona internetowa',
+        'language' => 'Języki',
+        'country' => 'Kraj',
+        'state' => 'Wojewódzstwo',
+        'town' => 'Miasto',
+        'street' => 'Ulica',
+        'zip_code' => 'Kod pocztowy',
+        'additional_info' => 'Dodatkowa informacja',
+        'menu' => [
+            'notes' => 'Notatki',
+            'objects' => 'Obiekty'
+        ],
+        'notes' => [
+            'type_notes' => 'Wpisz notatk',
+            'add_notes' => 'Dodaj nonatke',
+            'cancel' => 'Anuluj',
+            'option' => 'Opcje',
+            'delete' => 'Usuń'
+        ],
+
+        'messages' => [
+            'email' => 'E-mail dodano!',
+            'phone' => 'Numer kontaktowy dodano!',
+            'delete' => 'Klienta usunięto!'
+        ],
     ],
 
+    'edit' => [
+        'breadcrumbs' => 'Edytuj dane:',
+        'edit_button' => 'Zapisz zmiany',
+        'title' => 'Zmiana danych'
+    ],
 
 ];

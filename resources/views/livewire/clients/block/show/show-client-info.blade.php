@@ -27,7 +27,7 @@
                                 <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
                                     <ul class="navi navi-hover">
                                         <li class="navi-header font-weight-bold py-4">
-                                            <span class="font-size-lg">Choose Label:</span>
+                                            <span class="font-size-lg">{{ trans('admin_klikbud/clients.one.choose_label') }}:</span>
                                         </li>
                                         <li class="navi-separator mb-3 opacity-70"></li>
                                         <li class="navi-item">
@@ -86,8 +86,8 @@
                         </div>
                     </div>
                     <div class="mb-10">
-                        <a href="#" class="btn btn-sm btn-light-warning font-weight-bolder text-uppercase mr-2">Edit</a>
-                        <a href="#" class="btn btn-sm btn-light-danger font-weight-bolder text-uppercase mr-2" wire:click="opensModals('delete')">Delete</a>
+                        <a href="{{ route('clients.edit', $client_id) }}" class="btn btn-sm btn-light-warning font-weight-bolder text-uppercase mr-2">{{ trans('admin_klikbud/clients.one.buttons.edit') }}</a>
+                        <a href="#" class="btn btn-sm btn-light-danger font-weight-bolder text-uppercase mr-2" wire:click="opensModals('delete')">{{ trans('admin_klikbud/clients.one.buttons.delete') }}</a>
                     </div>
                 </div>
                 <div class="d-flex align-items-center flex-wrap justify-content-between">
@@ -105,7 +105,7 @@
                         @endforelse
                         @endempty
                             <hr>
-                        @empty($description) <p style="color: red">Niema opisu</p> @else{{ $description }}@endempty
+                        @empty($description) <p style="color: red">{{ trans('admin_klikbud/clients.one.dont_description') }}</p> @else{{ $description }}@endempty
                     </div>
 
                 </div>

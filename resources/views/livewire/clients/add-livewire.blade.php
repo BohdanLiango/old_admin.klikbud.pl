@@ -44,7 +44,6 @@
             </div>
         </div>
         <div class="card-body">
-{{--            <!--begin::Form-->--}}
             <form class="form" id="kt_form">
                 <div class="row">
                     <div class="col-xl-2"></div>
@@ -80,29 +79,6 @@
                                     </select>
                                 </div>
                             </div>
-
-{{--                            <div class="form-group row">--}}
-{{--                                <label class="col-3"></label>--}}
-{{--                                <div class="col-9">--}}
-{{--                                    <div class="checkbox-inline">--}}
-{{--                                        <label class="checkbox">--}}
-{{--                                            <input type="checkbox" value="true" wire:click="add_company()"/> Use as shipping address.--}}
-{{--                                            <span></span>--}}
-{{--                                        </label>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-
-{{--                            @if($company_check === true)--}}
-{{--                            <div class="form-group row">--}}
-{{--                                <label class="col-3">Company Name</label>--}}
-{{--                                <div class="col-9">--}}
-{{--                                    <input class="form-control form-control-solid" type="text" value="Loop Inc."/>--}}
-{{--                                    <span class="form-text text-muted">If you want your invoices addressed to a company. Leave blank to use your full name.</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            @endif--}}
-
                             <div class="form-group row">
                                 <label class="col-3">{{ trans('admin_klikbud/clients.mobile') }}</label>
                                 <div class="col-9">

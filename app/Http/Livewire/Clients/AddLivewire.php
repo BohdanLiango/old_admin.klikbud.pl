@@ -10,8 +10,7 @@ use App\Services\Settings\Other\AddressService;
 
 class AddLivewire extends ClientLivewire
 {
-    public $first_name = NULL, $last_name = NULL, $gender = NULL,
-        $mobile = NULL, $email = NULL, $site = NULL;
+    public $first_name = NULL, $last_name = NULL, $gender = NULL, $mobile = NULL, $email = NULL, $site = NULL;
     public $language_id = NULL, $timezone_id = NULL;
     public $email_check = NULL, $phone_check = NULL, $sms_check = NULL;
     public $street_id = NULL, $zip_code = NULL, $number_house = NULL, $number_flat = NULL, $add_info = NULL;
@@ -89,34 +88,41 @@ class AddLivewire extends ClientLivewire
         $email = array($this->email);
         $language = array($this->language_id);
         $communication = array($this->email_check, $this->phone_check, $this->sms_check);
-        if(!is_null($this->street_id))
-        {
+        if (!is_null($this->street_id)) {
             $get_street_info = app()->make(AddressService::class)->showOneDataStreet($this->street_id);
             $country_id = $get_street_info->country_id;
             $state_id = $get_street_info->state_id;
             $town_id = $get_street_info->town_id;
-        }else{
+        } else {
             $country_id = NULL;
             $state_id = NULL;
             $town_id = NULL;
         }
 
-        $status = app()->make(ClientService::class)->store($this->first_name, $this->last_name, $this->gender, $mobile, $email, $this->site, $language, $this->timezone_id,
-            $communication, $country_id, $state_id, $town_id,
+        $status = app()->make(ClientService::class)->store($this->first_name, $this->last_name, $this->gender,
+            $mobile, $email, $this->site, $language, $this->timezone_id, $communication, $country_id, $state_id, $town_id,
             $this->street_id, $this->add_info, $this->zip_code, $this->number_house, $this->number_flat);
+
+        $return_id = NULL;
+
+        if(is_numeric($status))
+        {
+            $return_id = $status;
+            $status = true;
+        }
+
         $this->resetFields();
         $this->checkStatus($status, trans('admin_klikbud/clients.message_success'), 'flash', false, 'center');
 
-        switch ($type_store_id){
+        switch ($type_store_id) {
             case 1:
                 return redirect()->route('clients.show');
-                break;
             case 2:
-//                return redirect()->route('clients.add'); // To client profil
-                break;
+                return redirect()->route('clients.one', $return_id); // To client profil
             case 3:
                 return redirect()->route('clients.add');
-                break;
         }
+
+        return abort(403);
     }
 }

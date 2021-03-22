@@ -199,7 +199,7 @@ class BreadcrumbsData extends Data
     {
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
-            ['key' => 1, 'link' => route('settings.klikbud.newsletter'), 'name' => $this->clients]
+            ['key' => 1, 'link' => route('clients.show'), 'name' => $this->clients]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

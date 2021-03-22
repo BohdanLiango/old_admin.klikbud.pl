@@ -67,10 +67,10 @@ class ClientService extends Services
      * @param $zip_code
      * @param $number_house
      * @param $number_flat
-     * @return bool
+     * @return mixed
      */
     public function store($first_name, $last_name, $gender_id, $mobile, $email, $site, $language, $timezone, $communication, $country_id, $state_id, $town_id,
-                          $street_id, $add_info_address, $zip_code, $number_house, $number_flat):bool
+                          $street_id, $add_info_address, $zip_code, $number_house, $number_flat): mixed
     {
         try {
             $data = [
@@ -96,7 +96,7 @@ class ClientService extends Services
             ];
             $store = new Clients();
             $store->fill($data)->save();
-            return true;
+            return $store->id;
         }catch (\Exception $e){
             return false;
         }
@@ -108,9 +108,7 @@ class ClientService extends Services
      * @param $last_name
      * @param $gender_id
      * @param $site
-     * @param $language
      * @param $timezone
-     * @param $communication
      * @param $country_id
      * @param $state_id
      * @param $town_id
@@ -121,19 +119,16 @@ class ClientService extends Services
      * @param $number_flat
      * @return bool
      */
-    public function update($id, $first_name, $last_name, $gender_id, $site, $language, $timezone, $communication, $country_id, $state_id, $town_id,
-                           $street_id, $add_info_address, $zip_code, $number_house, $number_flat): bool
+    public function updateContactDetails($id, $first_name, $last_name, $gender_id, $site, $timezone, $country_id, $state_id, $town_id,
+                                         $street_id, $add_info_address, $zip_code, $number_house, $number_flat): bool
     {
         try {
             $data = [
-                'status_id' => 1,
                 'first_name' => Str::title($first_name),
                 'last_name' => Str::title($last_name),
                 'gender_id' => $gender_id,
                 'site' => $site,
-                'language' => $language,
                 'timezone' => $timezone,
-                'communication' => $communication,
                 'country_id' => $country_id,
                 'state_id' => $state_id,
                 'town_id' => $town_id,
@@ -142,8 +137,6 @@ class ClientService extends Services
                 'zip_code' => $zip_code,
                 'number_house' => $number_house,
                 'number_flat' => $number_flat,
-                'user_id' => Auth::id(),
-                'moderated_id' => 2
             ];
             $store =  Clients::findOrFail($id);
             $store->fill($data)->save();
@@ -152,7 +145,6 @@ class ClientService extends Services
             return false;
         }
     }
-
 
     /**
      * @param $id

@@ -1,11 +1,11 @@
 <div class="card card-custom">
     <div class="card-header h-auto py-4">
         <div class="card-title">
-            <h3 class="card-label">Info</h3>
+            <h3 class="card-label">{{ trans('admin_klikbud/clients.one.info') }}</h3>
         </div>
         <div class="card-toolbar">
             <a href="#" class="btn btn-default btn-sm font-weight-bold" data-toggle="dropdown">
-                <i class="flaticon2-gear"></i>Add</a>
+                <i class="flaticon2-gear"></i>{{ trans('admin_klikbud/clients.one.add') }}</a>
             <div class="dropdown-menu dropdown-menu-right p-0 m-0 dropdown-menu-md">
                 <ul class="navi navi-hover py-5">
                     <li class="navi-item">
@@ -13,7 +13,7 @@
                             <span class="navi-icon">
                                 <i class="flaticon2-email"></i>
                             </span>
-                            <span class="navi-text">New Email</span>
+                            <span class="navi-text">{{ trans('admin_klikbud/clients.one.buttons.new_email') }}</span>
                         </a>
                     </li>
                     <li class="navi-item">
@@ -21,7 +21,7 @@
                             <span class="navi-icon">
                                 <i class="flaticon2-phone"></i>
                             </span>
-                            <span class="navi-text">New Phone</span>
+                            <span class="navi-text">{{ trans('admin_klikbud/clients.one.buttons.new_phone') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -31,7 +31,7 @@
     <div class="card-body py-4">
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Mobile:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.mobile') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    @forelse($mobile as $item)
@@ -42,9 +42,8 @@
             </div>
         </div>
 
-
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">E-mail:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.email') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                     @forelse($email as $item)
@@ -56,7 +55,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">TimeZone:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.time_zone') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                     @empty($timezone)
@@ -74,7 +73,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Site:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.site') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                     <a href="{{ $site }}" target="_blank">{{ $site }}</a>
@@ -83,7 +82,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Languages:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.language') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                     @empty($language)
@@ -102,7 +101,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Kraj:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.country') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    {{ $country_title }}
@@ -111,7 +110,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Wojew:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.state') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    {{ $state_title }}
@@ -120,7 +119,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Town:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.town') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    {{ $town_title }}
@@ -129,7 +128,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Street:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.street') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    {{ $street_title }} @empty($number_house) @else  {{ $number_house }} @endempty @empty($number_flat) @else / {{ $number_flat }} @endempty
@@ -138,7 +137,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Zip Code:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.zip_code') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    {{ $zip_code }}
@@ -147,7 +146,7 @@
         </div>
 
         <div class="form-group row my-2">
-            <label class="col-4 col-form-label">Dodatkowe Info:</label>
+            <label class="col-4 col-form-label">{{ trans('admin_klikbud/clients.one.additional_info') }}:</label>
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    {{ $add_info_address }}
