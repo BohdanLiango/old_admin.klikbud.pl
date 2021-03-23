@@ -1,8 +1,8 @@
 <?php
 return [
     'disk_store' => 's3',
-    'main_folder_store' => 'public/',
-    'url_to_clear_cache' => 'http://klikbud.pl/asdasd321413asdasd21312sadsad12321sadsad123123',
+    'main_folder_store' => env('APP_STORE_FOLDER') . '/',
+    'url_to_clear_cache' => 'http://127.0.0.1:8001/asdasd321413asdasd21312sadsad12321sadsad123123',
     'klikbud' => [
         'status_to_main_page' => [
             'visible' => 1,

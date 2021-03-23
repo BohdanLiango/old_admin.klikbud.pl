@@ -284,7 +284,8 @@ class DefaultData extends Data
             ["value" => 1, "title" => trans('admin_klikbud/clients.status_clients.active'), "class" => 'badge badge-success'],
             ["value" => 2, "title" => trans('admin_klikbud/clients.status_clients.disable'), "class" => 'badge badge-warning'],
             ["value" => 3, "title" => trans('admin_klikbud/clients.status_clients.co_work'), "class" => 'badge badge-primary'],
-            ["value" => 4, "title" => trans('admin_klikbud/clients.status_clients.ban'), "class" => 'badge badge-danger']
+            ["value" => 4, "title" => trans('admin_klikbud/clients.status_clients.ban'), "class" => 'badge badge-danger'],
+            ["value" => 5, "title" => trans('admin_klikbud/clients.status_clients.feature'), "class" => 'badge, badge-info']
         ];
     }
 }

@@ -39,7 +39,8 @@ return [
       'active' => 'Aktywny',
       'disable' => 'Zamknięty',
       'co_work' => 'Współpraca',
-      'ban' => 'Zablokowany'
+      'ban' => 'Zablokowany',
+       'feature' => 'Przyszły'
     ],
     'search' => 'Wyszukaj (Imię, Nazwisko, Email, Numer kontaktowy)',
     'widget' => [
