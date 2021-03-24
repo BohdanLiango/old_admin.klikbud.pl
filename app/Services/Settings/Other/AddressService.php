@@ -158,4 +158,12 @@ class AddressService extends Services
 
         return false;
     }
+
+    /**
+     * @return mixed
+     */
+    public function selectAddressToGetData(): mixed
+    {
+        return Address::where('type_id', 4)->select('id', 'title', 'town_id', 'state_id', 'country_id')->get();
+    }
 }

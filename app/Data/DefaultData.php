@@ -285,7 +285,50 @@ class DefaultData extends Data
             ["value" => 2, "title" => trans('admin_klikbud/clients.status_clients.disable'), "class" => 'badge badge-warning'],
             ["value" => 3, "title" => trans('admin_klikbud/clients.status_clients.co_work'), "class" => 'badge badge-primary'],
             ["value" => 4, "title" => trans('admin_klikbud/clients.status_clients.ban'), "class" => 'badge badge-danger'],
-            ["value" => 5, "title" => trans('admin_klikbud/clients.status_clients.feature'), "class" => 'badge, badge-info']
+            ["value" => 5, "title" => trans('admin_klikbud/clients.status_clients.feature'), "class" => 'badge badge-info']
         ];
     }
+
+    /**
+     * @return array[]
+     */
+    public function status_object(): array
+    {
+        return [
+            ["value" => 1, "title" => "Aktualny", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 2, "title" => "NieAktualny", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => "In progress", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => "Inne", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 5, "title" => "Zamkniety", "class" => 'label label-info label-inline mr-2']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function type_object(): array
+    {
+        return [
+            ["value" => 1, "title" => "Mieszkanie", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 2, "title" => "House", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => "Restaurant", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => "Biuro", "class" => 'label label-info label-inline mr-2'],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function type_repair_object(): array
+    {
+        return [
+            ["value" => 1, "title" => "Developerka", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 2, "title" => "Generalny", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => "Tynki", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => "Remont", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => "Remont kompleksowy", "class" => 'label label-info label-inline mr-2'],
+        ];
+    }
+
+
 }

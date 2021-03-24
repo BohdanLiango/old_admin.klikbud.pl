@@ -14,6 +14,7 @@ class BreadcrumbsData extends Data
     private string $klikbudContact = 'Kontakt';
     private string $klikbudNewsletter = 'Newsletter';
     private string $clients = 'Clients';
+    private string $objects = 'Objects';
 
     /**
      * Main functions
@@ -200,6 +201,23 @@ class BreadcrumbsData extends Data
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
             ['key' => 1, 'link' => route('clients.show'), 'name' => $this->clients]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
+
+    /**
+     * ObjectsLivewire
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function objects($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('objects.all'), 'name' => $this->objects]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

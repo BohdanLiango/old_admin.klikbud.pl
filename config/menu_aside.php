@@ -29,6 +29,13 @@ return [
             'page' => 'clients.show',
             'new-tab' => false,
         ],
+        [
+            'title' => 'Objects',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'objects.all',
+            'new-tab' => false,
+        ],
 
         // Custom
         [

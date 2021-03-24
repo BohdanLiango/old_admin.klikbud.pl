@@ -71,7 +71,6 @@ class ShowLivewire extends ClientLivewire
         if(!is_null($get_data->street_id))
         {
             $this->street_title = $get_data->street->title;
-            $this->edit_street_id = $get_data->street_id;
         }
     }
 
