@@ -331,4 +331,17 @@ class DefaultData extends Data
     }
 
 
+    /**
+     * @return array[]
+     */
+    public function status_object_finished(): array
+    {
+        return [
+            ["value" => 1, "title" => "Skonczony", "class" => 'label label-success label-inline mr-2'],
+            ["value" => 2, "title" => "Skasowany", "class" => 'label label-warning label-inline mr-2'],
+            ["value" => 3, "title" => "Nieskończony", "class" => 'label label-danger label-inline mr-2'],
+        ];
+    }
+
+
 }

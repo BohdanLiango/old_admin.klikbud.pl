@@ -35,4 +35,13 @@
             </div>
         </div>
     </div>
+    @include('livewire.objects.modals.one.delete-modal')
+    <script type="text/javascript">
+        window.addEventListener('openDeleteModal', event => {
+            $("#deleteModal").modal('show')
+        })
+        window.addEventListener('closeDeleteModal', event => {
+            $("#deleteModal").modal('hide')
+        })
+    </script>
 </div>

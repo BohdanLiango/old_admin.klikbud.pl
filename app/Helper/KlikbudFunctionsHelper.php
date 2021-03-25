@@ -4,10 +4,19 @@ namespace App\Helper;
 
 use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;
+use App\Services\Settings\Other\AddressService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class KlikbudFunctionsHelper extends Helper
 {
+    public $address;
+
+    public function __construct(AddressService $addressService)
+    {
+        $this->address = $addressService;
+    }
+
     /**
      * @param $items_pl
      * @param $items_en
@@ -59,4 +68,41 @@ class KlikbudFunctionsHelper extends Helper
             abort(403);
         }
     }
+
+    /**
+     * @param $date
+     * @return string|null
+     */
+    public function changeFormatDateToInsertDataBase($date): ?string
+    {
+        if (!is_null($date)) {
+            return Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+        }
+        return null;
+    }
+
+    /**
+     * @param $street_id
+     * @return array
+     */
+    public function getAddressIdByStreetId($street_id): array
+    {
+        if(!is_null($street_id))
+        {
+            $get_info = $this->address->showOneDataStreet($street_id);
+
+            return [
+                'country_id' => $get_info->country_id,
+                'state_id' => $get_info->state_id,
+                'town_id' => $get_info->town_id
+            ];
+        }
+
+        return  [
+            'country_id' => NULL,
+            'state_id' => NULL,
+            'town_id' => NULL
+        ];
+    }
+
 }

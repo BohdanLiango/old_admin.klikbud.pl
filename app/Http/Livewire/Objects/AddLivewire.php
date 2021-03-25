@@ -15,17 +15,17 @@ class AddLivewire extends ObjectLivewire
     $client_id;
 
     protected $rules = [
-        'title' => 'required',
-        'description' => 'nullable',
+        'title' => 'required|max:255',
+        'description' => 'nullable|max:65535',
         'price_start' => 'nullable|numeric',
         'm2' => 'nullable|numeric',
         'date_start' => 'nullable|date_format:d/m/Y',
         'date_end' => 'nullable|date_format:d/m/Y',
         'street_id' => 'required|integer',
-        'number' => 'nullable',
-        'apartment_number' => 'nullable',
-        'zip_code' => 'nullable',
-        'address_add_info' => 'nullable',
+        'number' => 'nullable|max:255',
+        'apartment_number' => 'nullable|max:255',
+        'zip_code' => 'nullable|max:255',
+        'address_add_info' => 'nullable|max:255',
         'status_object_id' => 'required|integer',
         'type_object_id' => 'required|integer',
         'type_repair_id' => 'required|integer',
