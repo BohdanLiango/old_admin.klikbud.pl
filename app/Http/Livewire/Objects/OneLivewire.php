@@ -12,17 +12,16 @@ class OneLivewire extends ObjectLivewire
     public $object_id, $title, $image_id, $description, $price_start, $price_end, $m2, $date_start, $date_end, $final_date_end,
     $guarantee_date_end, $country_title, $state_title, $town_title, $street_id, $street_title, $address_add_info, $number, $apartment_number, $zip_code,
     $status_object_id, $type_object_id, $type_repair_id, $client_first_name, $client_last_name, $client_id, $user_id, $user_add_first_name, $user_add_last_name,
-        $manager_id, $agreement_id, $status_success_id, $created_date, $price_to_m2_start;
+        $manager_id, $agreement_id, $created_date, $price_to_m2_start;
 
     public function render()
     {
         $breadcrumbs = app()->make(BreadcrumbsData::class)->objects(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
-        $status_finished = app()->make(DefaultData::class)->status_object_finished();
         $status_object = app()->make(DefaultData::class)->status_object();
         $type_object = app()->make(DefaultData::class)->type_object();
         $type_repair_object = app()->make(DefaultData::class)->type_repair_object();
-        return view('livewire.objects.one-livewire', compact('status_finished', 'status_object', 'type_object', 'type_repair_object'))
+        return view('livewire.objects.one-livewire', compact( 'status_object', 'type_object', 'type_repair_object'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
@@ -38,8 +37,19 @@ class OneLivewire extends ObjectLivewire
         $this->price_end = $get_data->price_end;
         $this->m2 = $get_data->m2;
 
-        $this->date_start = date('d/m/Y', strtotime($get_data->date_start));
-        $this->date_end = date('d/m/Y', strtotime($get_data->date_end));
+        if(!is_null($get_data->date_start))
+        {
+            $this->date_start = date('d/m/Y', strtotime($get_data->date_start));
+        }else{
+            $this->date_start = NULL;
+        }
+
+        if(!is_null($get_data->date_end))
+        {
+            $this->date_end = date('d/m/Y', strtotime($get_data->date_end));
+        }else{
+            $this->date_end = NULL;
+        }
 
         if(!is_null($get_data->final_date_end))
         {

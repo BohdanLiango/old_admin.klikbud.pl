@@ -47,8 +47,14 @@ class EditLivewire extends ObjectLivewire
         $this->description = $get_data->description;
         $this->price_start = $get_data->price_start;
         $this->m2 = $get_data->m2;
-        $this->date_start = Carbon::createFromFormat('Y-m-d',$get_data->date_start)->format('d/m/Y');
-        $this->date_end = Carbon::createFromFormat('Y-m-d',$get_data->date_end)->format('d/m/Y');
+        if(!is_null($get_data->date_start))
+        {
+            $this->date_start = Carbon::createFromFormat('Y-m-d', $get_data->date_start)->format('d/m/Y');
+        }
+        if(!is_null($get_data->date_end))
+        {
+            $this->date_end = Carbon::createFromFormat('Y-m-d', $get_data->date_end)->format('d/m/Y');
+        }
         $this->street_id = $get_data->street_id;
         $this->number = $get_data->number;
         $this->apartment_number = $get_data->apartment_number;

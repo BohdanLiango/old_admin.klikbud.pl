@@ -1,5 +1,35 @@
 <?php
 return [
+    'default_data' => [
+        'status_object' => [
+            'active' => 'Aktualny',
+            'not_active' => 'Nie aktualny',
+            'in_progress' => 'W trakcie',
+            'other' => 'Inne',
+            'close' => 'Zamknięty',
+            'finish' => 'Skończony',
+            'defeat' => 'Nieskończony',
+            'cancel' => 'Skasowany'
+        ],
+
+        'type_object' => [
+            'apartments' => 'Mieszkanie',
+            'house' => 'Dom',
+            'restaurant' => 'Restauracja',
+            'office' => 'Biuro',
+            'town_house' => 'Szeregówka',
+            'highy_rise_house' => 'Budynek wysokościowy'
+        ],
+
+        'type_repair_object' => [
+            'developer' => 'Deweloperka',
+            'general' => 'Generalny',
+            'tynki' => 'Tynki',
+            'repair' => 'Remont',
+            'general_repair' => 'Remont kompleksowy'
+        ]
+    ],
+
     'add_edit_page' => [
         'h3_title_add' => 'Forma dodania obiektu',
         'buttons' => [

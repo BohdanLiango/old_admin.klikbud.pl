@@ -81,7 +81,7 @@ class AddLivewire extends ObjectLivewire
             case 1:
                 return redirect()->route('objects.all');
             case 2:
-                return redirect()->route('objects.all'); // To object profil
+                return redirect()->route('objects.one', $status); // To object profil
             case 3:
                 return redirect()->route('objects.add');
         }

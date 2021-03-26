@@ -20,9 +20,8 @@ class IndexLivewire extends Component
         $status_object_data = app()->make(DefaultData::class)->status_object();
         $type_object_data = app()->make(DefaultData::class)->type_object();
         $type_repair_data = app()->make(DefaultData::class)->type_repair_object();
-        $status_success_data = app()->make(DefaultData::class)->status_object_finished();
         return view('livewire.objects.index-livewire', compact('objects_show', 'count_all', 'status_object_data',
-        'type_object_data', 'type_repair_data', 'status_success_data'))
+        'type_object_data', 'type_repair_data'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }

@@ -56,10 +56,8 @@ class ObjectsService extends Services
                           $type_repair_id, $client_id, $address_add_info): mixed
     {
         try {
-
             $date_start = $this->helpers->changeFormatDateToInsertDataBase($date_start);
             $date_end = $this->helpers->changeFormatDateToInsertDataBase($date_end);
-
             $data = [
                 'title' => $title,
                 'description' => $description,

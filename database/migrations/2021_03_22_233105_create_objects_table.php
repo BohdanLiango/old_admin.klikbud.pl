@@ -41,7 +41,6 @@ class CreateObjectsTable extends Migration
             $table->integer('moderated_id')->default(2);
             $table->json('manager_id')->nullable();
             $table->integer('agreement_id')->nullable();
-            $table->integer('status_success_id')->nullable(); // Finished success or not 1.Success 2. Cancel 3.Nie g
             $table->timestamps();
             $table->softDeletes();
         });

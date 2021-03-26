@@ -295,11 +295,14 @@ class DefaultData extends Data
     public function status_object(): array
     {
         return [
-            ["value" => 1, "title" => "Aktualny", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 2, "title" => "NieAktualny", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 3, "title" => "In progress", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 4, "title" => "Inne", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 5, "title" => "Zamkniety", "class" => 'label label-info label-inline mr-2']
+            ["value" => 1, "title" => trans('admin_klikbud/objects.default_data.status_object.active'), "class" => 'label label-success label-inline mr-2'],
+            ["value" => 2, "title" => trans('admin_klikbud/objects.default_data.status_object.not_active'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => trans('admin_klikbud/objects.default_data.status_object.in_progress'), "class" => 'label label-sucess label-inline mr-2'],
+            ["value" => 4, "title" => trans('admin_klikbud/objects.default_data.status_object.other'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 5, "title" => trans('admin_klikbud/objects.default_data.status_object.close'), "class" => 'label label-warning label-inline mr-2'],
+            ["value" => 6, "title" => trans('admin_klikbud/objects.default_data.status_object.finish'), "class" => 'label label-success label-inline mr-2'],
+            ["value" => 7, "title" => trans('admin_klikbud/objects.default_data.status_object.defeat'), "class" => 'label label-danger label-inline mr-2'],
+            ["value" => 8, "title" => trans('admin_klikbud/objects.default_data.status_object.cancel'), "class" => 'label label-danger label-inline mr-2']
         ];
     }
 
@@ -309,10 +312,12 @@ class DefaultData extends Data
     public function type_object(): array
     {
         return [
-            ["value" => 1, "title" => "Mieszkanie", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 2, "title" => "House", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 3, "title" => "Restaurant", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 4, "title" => "Biuro", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 1, "title" => trans('admin_klikbud/objects.default_data.type_object.apartments'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 2, "title" => trans('admin_klikbud/objects.default_data.type_object.house'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => trans('admin_klikbud/objects.default_data.type_object.restaurant'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => trans('admin_klikbud/objects.default_data.type_object.office'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 5, "title" => trans('admin_klikbud/objects.default_data.type_object.town_house'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 6, "title" => trans('admin_klikbud/objects.default_data.type_object.highy_rise_house'), "class" => 'label label-info label-inline mr-2'],
         ];
     }
 
@@ -322,26 +327,11 @@ class DefaultData extends Data
     public function type_repair_object(): array
     {
         return [
-            ["value" => 1, "title" => "Developerka", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 2, "title" => "Generalny", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 3, "title" => "Tynki", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 4, "title" => "Remont", "class" => 'label label-info label-inline mr-2'],
-            ["value" => 4, "title" => "Remont kompleksowy", "class" => 'label label-info label-inline mr-2'],
+            ["value" => 1, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.developer'), "class" => 'label label-success label-inline mr-2'],
+            ["value" => 2, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.general'), "class" => 'label label-warning label-inline mr-2'],
+            ["value" => 3, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.tynki'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.repair'), "class" => 'label label-primary label-inline mr-2'],
         ];
     }
-
-
-    /**
-     * @return array[]
-     */
-    public function status_object_finished(): array
-    {
-        return [
-            ["value" => 1, "title" => "Skonczony", "class" => 'label label-success label-inline mr-2'],
-            ["value" => 2, "title" => "Skasowany", "class" => 'label label-warning label-inline mr-2'],
-            ["value" => 3, "title" => "Nieskończony", "class" => 'label label-danger label-inline mr-2'],
-        ];
-    }
-
 
 }
