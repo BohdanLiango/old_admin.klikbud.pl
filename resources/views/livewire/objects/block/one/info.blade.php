@@ -120,7 +120,7 @@
                     <span class="font-weight-bolder font-size-sm">Address</span>
                     <span class="font-weight-bolder font-size-h5">
                         {{ $country_title }} | woj.{{ $state_title }} | m.{{ $town_title }} | ul.{{ $street_title }} {{ $number }}  @if(!is_null($apartment_number))
-                            / {{ $apartment_number }} @endif, {{ $zip_code }}
+                            / {{ $apartment_number }} , @endif{{ $zip_code }}
                     </span>
                 </div>
             </div>

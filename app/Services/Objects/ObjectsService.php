@@ -15,9 +15,27 @@ class ObjectsService extends Services
         $this->helpers = $klikbudFunctionsHelper;
     }
 
-    public function showAllToIndex($paginate)
+    /**
+     * @param $paginate
+     * @param $searchQuery
+     * @param $searchStatusObject
+     * @param $searchTypeObject
+     * @param $searchRepair
+     * @param $orderBy
+     * @param $orderByInfo
+     * @return mixed
+     */
+    public function showAllToIndex($paginate, $searchQuery, $searchStatusObject, $searchTypeObject, $searchRepair, $orderBy, $orderByInfo): mixed
     {
-        return Objects::orderBy('id', 'DESC')->paginate($paginate);
+        return Objects::when($searchQuery != '', function ($query) use ($searchQuery) {
+            $query->where('title', 'like', '%' . $searchQuery . '%');
+        })->when($searchStatusObject != '', function ($query) use ($searchStatusObject) {
+            $query->where('status_object_id', '=', $searchStatusObject);
+        })->when($searchTypeObject != '', function ($query) use ($searchTypeObject) {
+            $query->where('type_object_id', '=', $searchTypeObject);
+        })->when($searchRepair != '', function ($query) use ($searchRepair) {
+            $query->where('type_repair_id', '=', $searchRepair);
+        })->orderBy($orderByInfo, $orderBy)->paginate($paginate);
     }
 
     /**

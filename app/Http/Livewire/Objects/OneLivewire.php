@@ -32,7 +32,7 @@ class OneLivewire extends ObjectLivewire
         $this->object_id = $get_data->id;
         $this->title = Str::limit($get_data->title, 25);
         $this->image_id = $get_data->image_id;
-        $this->description = Str::limit($get_data->description, 500);
+        $this->description = Str::limit($get_data->description, 200);
         $this->price_start = $get_data->price_start;
         $this->price_end = $get_data->price_end;
         $this->m2 = $get_data->m2;

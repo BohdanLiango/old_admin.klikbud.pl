@@ -13,16 +13,6 @@
                             <div class="input-group-append"><span class="input-group-text"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24" /><path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" /><path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero" /></g></svg></span></span></div>
                         </div>
                     </div>
-
-                    <div class="d-flex align-items-center form-group row mb-2">
-                            <select class="form-control" data-size="7">
-                                <option value="">Select</option>
-                                <option value="AF">Afghanistan</option>
-                                <option value="AX">Åland Islands</option>
-                                <option value="AL">Albania</option>
-                                <option value="DZ">Algeria</option>
-                            </select>
-                    </div>
                 </div>
                 <div class="d-flex align-items-center">
                     <a href="#" class=""></a>
@@ -32,6 +22,42 @@
         </div>
         <div class="d-flex flex-column-fluid">
             <div class="container">
+                <div class="row">
+                        <div class="form-group col-xl-3 float-left">
+                            <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.search') }}</label>
+                            <input wire:model="searchQuery" class="form-control"/>
+                        </div>
+                        <div class="form-group col-xl-3 float-right">
+                            <label>StatusObject</label>
+                            <select wire:model="searchStatusObject" class="form-control ">
+                                <option value="" selected="selected">ALL</option>
+                                @forelse($status_object_data as $item)
+                                    <option value="{{ $item['value'] }}">{{ $item['title'] }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-3 float-right">
+                            <label>TypeObject</label>
+                            <select wire:model="searchTypeObject" class="form-control ">
+                                <option value="" selected="selected">ALL</option>
+                                @forelse($type_object_data as $item)
+                                    <option value="{{ $item['value'] }}">{{ $item['title'] }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-3 float-right">
+                            <label>SearchRepair</label>
+                            <select wire:model="searchRepair" class="form-control ">
+                                <option value="" selected="selected">ALL</option>
+                                @forelse($type_repair_data as $item)
+                                    <option value="{{ $item['value'] }}">{{ $item['title'] }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+                </div>
                @include('livewire.objects.block.index-content')
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                     <div class="d-flex flex-wrap mr-3">
