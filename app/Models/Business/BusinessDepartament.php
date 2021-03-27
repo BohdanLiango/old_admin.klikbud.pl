@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Warehouses;
+namespace App\Models\Business;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;

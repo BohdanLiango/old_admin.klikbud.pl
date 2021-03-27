@@ -36,6 +36,28 @@ return [
             'page' => 'objects.all',
             'new-tab' => false,
         ],
+        [
+            'title' => 'Warehouses',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'bullet' => 'line',
+            'root' => true,
+            'submenu' => [
+                [
+                    'title' => 'Tools',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'Tools',
+                            'page' => 'warehouses.tools.show',
+                        ],
+                        [
+                            'title' => 'Categories',
+                            'page' => 'warehouses.tools.categories.show'
+                        ],
+                    ]
+                ],
+            ]
+        ],
 
         // Custom
         [
