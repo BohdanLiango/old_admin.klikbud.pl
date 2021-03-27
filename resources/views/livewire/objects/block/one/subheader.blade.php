@@ -7,6 +7,10 @@
                 <span class="text-dark-50 font-weight-bold mr-5" id="kt_subheader_total">{{ $created_date }}</span>
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
                 <span class="text-dark-50 font-weight-bold mr-5" id="kt_subheader_total"><a href="#">{{ $user_add_first_name }} {{ $user_add_last_name }}</a></span>
+                @if(!is_null($m2))
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    <span class="text-dark-50 font-weight-bold mr-5" id="kt_subheader_total">{{ $m2 }} m2</span>
+                @endif
                 @if(!is_null($price_to_m2_start))
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
                 <span class="text-dark-50 font-weight-bold mr-5" id="kt_subheader_total">Cena startowa: {{ $price_to_m2_start }} zł za m2</span>

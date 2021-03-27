@@ -126,6 +126,9 @@ class OneLivewire extends ObjectLivewire
             case 'delete':
                 $this->dispatchBrowserEvent('openDeleteModal');
                 break;
+            case 'deleteClose':
+                $this->dispatchBrowserEvent('closeDeleteModal');
+                break;
         }
     }
 

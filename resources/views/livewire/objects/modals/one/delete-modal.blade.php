@@ -8,8 +8,8 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">{{ trans('admin_klikbud/clients.one.delete_modal.no') }}</button>
-                <button wire:click="delete()" type="button" class="btn btn-primary">{{ trans('admin_klikbud/clients.one.delete_modal.yes') }}</button>
+                <button wire:click="opensModals('deleteClose)" type="button" class="btn btn-secondary">{{ trans('admin_klikbud/clients.one.delete_modal.no') }}</button>
+                <button wire:click="delete()" type="button" class="btn btn-danger">{{ trans('admin_klikbud/clients.one.delete_modal.yes') }}</button>
             </div>
         </div>
     </div>

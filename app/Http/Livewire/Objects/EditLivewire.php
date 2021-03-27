@@ -75,7 +75,7 @@ class EditLivewire extends ObjectLivewire
         $status = app()->make(ObjectsService::class)->update($this->object_id, $this->title, $this->description, $this->price_start,
         $this->m2, $this->date_start, $this->date_end, $this->street_id, $this->number, $this->apartment_number, $this->zip_code,
         $this->client_id, $this->address_add_info);
-        $this->checkStatus($status, 'Udało się', 'flash', false, 'center');
+        $this->checkStatus($status,  trans('admin_klikbud/objects.add_edit_page.messages.success_edit') . '!', 'flash', false, 'center');
         return redirect()->route('objects.one', $this->object_id);
     }
 

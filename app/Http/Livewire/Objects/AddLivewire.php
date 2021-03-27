@@ -70,18 +70,21 @@ class AddLivewire extends ObjectLivewire
         $this->m2, $this->date_start, $this->date_end, $country_id, $state_id, $town_id, $this->street_id, $this->number, $this->apartment_number,
         $this->zip_code, $this->status_object_id, $this->type_object_id, $this->type_repair_id, $this->client_id, $this->address_add_info);
 
+        $redirect_id = $status;
+
         if(is_numeric($status))
         {
             $status = true;
         }
-
-        $this->checkStatus($status, 'Udało się', 'flash', false, 'center');
+        $title_success = trans('admin_klikbud/objects.add_edit_page.messages.success_add')
+            . ' ' . $this->title . ' ' . trans('admin_klikbud/objects.add_edit_page.messages.success_add_continue') . '!';
+        $this->checkStatus($status,  $title_success, 'flash', false, 'center');
 
         switch ($type_store_id) {
             case 1:
                 return redirect()->route('objects.all');
             case 2:
-                return redirect()->route('objects.one', $status); // To object profil
+                return redirect()->route('objects.one', $redirect_id); // To object profil
             case 3:
                 return redirect()->route('objects.add');
         }

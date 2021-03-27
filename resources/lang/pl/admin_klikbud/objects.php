@@ -32,6 +32,7 @@ return [
 
     'add_edit_page' => [
         'h3_title_add' => 'Forma dodania obiektu',
+        'h3_title_edit' => 'Edytuj',
         'buttons' => [
             'back' => 'Powrót',
             'save_form' => 'Zapisz formularz',
@@ -58,7 +59,12 @@ return [
         'status_object' => 'Status obiektu',
         'type_object' => 'Typ obiektu',
         'type_repair' => 'Typ remontu',
-        'client' => 'Klient'
+        'client' => 'Klient',
+        'messages' => [
+            'success_add' => 'Obiekt',
+            'success_add_continue' => 'dodany',
+            'success_edit' => 'Dane zmienioni'
+        ],
     ],
 
     'index' => [
@@ -78,7 +84,11 @@ return [
         'price_start' => 'Cena początkowa',
         'price_end' => 'Cena końcowa',
         'employers' => 'Pracowniki',
-        'details' => 'Detale'
+        'details' => 'Detale',
+        'status_object' => 'Status obiektów',
+        'type_object' => 'Typ obiektu',
+        'type_repair' => 'Typ remontu',
+        'select_all' => 'Wszystkie'
     ],
 
 ];
