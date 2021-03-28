@@ -16,6 +16,8 @@ class CreateWarehouseToolsTable extends Migration
         Schema::create('warehouse_tools', function (Blueprint $table) {
             $table->id();
             $table->integer('category_id')->nullable();
+            $table->integer('half_category_id')->nullable();
+            $table->integer('main_category_id')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->integer('image_id')->nullable();

@@ -15,13 +15,14 @@ class CreateWarehouseToolsCategoryTable extends Migration
     {
         Schema::create('warehouse_tools_category', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable()->unique();
-            $table->integer('type_id')->nullable(); // 1- Main, 2-half, 3-halfhalf, 4 - halfhalfhalf, 5 - ....
+            $table->string('title')->nullable();
+            $table->integer('main_category_id')->nullable();
+            $table->integer('half_category_id')->nullable();
             /**
              * Add Automatic
              */
+            $table->integer('type_id')->nullable(); // 1- Main, 2-half, 3-halfhalf, 4 - halfhalfhalf, 5 - ....
             $table->string('slug')->nullable()->unique();
-            $table->integer('parent_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('moderated_id')->default(2);
             $table->timestamps();

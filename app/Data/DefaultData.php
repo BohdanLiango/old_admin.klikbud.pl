@@ -334,4 +334,16 @@ class DefaultData extends Data
         ];
     }
 
+    /**
+     * @return array[]
+     */
+    public function tools_categories_types(): array
+    {
+        return [
+            ["value" => 1, "title" => 'MainCategory', "class" => 'label label-success label-pill label-inline mr-2'],
+            ["value" => 2, "title" => 'HalfCategory', "class" => 'label label-warning label-pill label-inline mr-2'],
+            ["value" => 3, "title" => 'Category', "class" => 'label label-info label-pill label-inline mr-2']
+        ];
+    }
+
 }

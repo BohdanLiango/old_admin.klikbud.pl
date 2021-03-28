@@ -29,6 +29,10 @@ class AddressService extends Services
      */
     public function dataCreator($title, $type_id, $country_id, $state_id, $town_id): array
     {
+        if ($type_id === 0 or $type_id === NULL or $type_id >= 5) {
+            abort(404);
+        }
+
         $slug = Str::slug($title, '_');
         $user_id = \Auth::id();
 
@@ -69,10 +73,6 @@ class AddressService extends Services
             $data = array_merge($dataStart, $street);
         }
 
-        if ($type_id === 0 or $type_id === NULL or $type_id >= 5) {
-             abort(404);
-        }
-
         return $data;
     }
 
@@ -87,9 +87,8 @@ class AddressService extends Services
     public function store($title, $type_id, $country_id, $state_id, $town_id): bool
     {
         try {
-            $data = $this->dataCreator($title, $type_id, $country_id, $state_id, $town_id);
             $store = new Address();
-            $store->fill($data)->save();
+            $store->fill($this->dataCreator($title, $type_id, $country_id, $state_id, $town_id))->save();
             return true;
         }catch (Exception $e){
             return false;
