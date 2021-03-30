@@ -5,6 +5,7 @@ namespace App\Services\Business;
 use App\Helper\KlikbudFunctionsHelper;
 use App\Models\Business\BusinessList;
 use App\Services\Services;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -28,13 +29,27 @@ class BusinessService extends Services
 
 
     /**
+     * @param $slug
+     * @return mixed
+     */
+    public function getDataOneBySlug($slug): mixed
+    {
+        try {
+            return BusinessList::where('slug', $slug)->first();
+        }catch (Exception $e){
+            abort(403);
+            return false;
+        }
+    }
+
+    /**
      * @param $paginate
      * @return mixed
      */
     public function getToIndex($paginate): mixed
     {
         return BusinessList::where('type_id', 1)->select('id', 'type_id', 'title', 'business_form_id', 'business_form_other', 'image_id',
-        'category_id', 'NIP', 'business_id')->orderBy('id', 'DESC')->paginate($paginate);
+        'category_id', 'NIP', 'business_id', 'slug')->orderBy('id', 'DESC')->paginate($paginate);
     }
 
     /**
@@ -139,10 +154,11 @@ class BusinessService extends Services
      * @param $id
      * @return bool
      */
-    public function delete($id): bool
+    public function delete($id, $image_id): bool
     {
         try {
-            BusinessList::findIrFail($id)->delete();
+            BusinessList::findOrFail($id)->delete();
+            $this->helpers->deleteImage($image_id);
             return true;
         }catch (\Exception $e){
             return false;

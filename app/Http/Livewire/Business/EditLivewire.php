@@ -12,7 +12,7 @@ use Livewire\WithFileUploads;
 class EditLivewire extends Business
 {
     public $business_data = NULL, $type_id = NULL, $type_id_update;
-    public $business, $business_id, $old_business_data;
+    public $business, $business_id, $old_business_data, $business_slug;
     public $image, $oldImage;
 
     public $business_form_class = 9;
@@ -41,9 +41,9 @@ class EditLivewire extends Business
             ->section('content');
     }
 
-    public function mount($id)
+    public function mount($slug)
     {
-        $get_data = app()->make(BusinessService::class)->getDataOneById($id);
+        $get_data = app()->make(BusinessService::class)->getDataOneBySlug($slug);
         $type = $get_data->type_id;
         $this->type_id_update = $type;
         if((int)$type === 1 || (int)$type === 2)
@@ -57,9 +57,9 @@ class EditLivewire extends Business
             {
                 $this->business_data = app()->make(BusinessService::class)->getBusinessByTypeId(1);
             }
-
+            $this->business_slug = $slug;
             $this->old_business_data = $get_data;
-            $this->business_id = $id;
+            $this->business_id = $get_data->id;
             $this->oldImage = $get_data->image_id;
             $this->business['title'] = $get_data->title;
             $this->business['title_short'] = $get_data->title_short;
@@ -146,6 +146,6 @@ class EditLivewire extends Business
 
         $status = app()->make(BusinessService::class)->update($this->business_id, $this->type_id_update, $this->business);
         $this->checkStatus($status, 'Yuppi', 'flash', false, 'center');
-        return redirect()->route('business.show');
+        return redirect()->route('business.one', $this->business_slug);
     }
 }

@@ -56,16 +56,19 @@ class KlikbudFunctionsHelper extends Helper
      */
     public function deleteImage($image_id): void
     {
-        try {
-            FileAdditionalInformation::where('file_id', '=', $image_id)->delete();
-        }catch (\Exception){
-            abort(403);
-        }
+        if($image_id !== NULL)
+        {
+            try {
+                FileAdditionalInformation::where('file_id', '=', $image_id)->delete();
+            }catch (\Exception){
+                abort(403);
+            }
 
-        try {
-            Files::findOrFail($image_id)->delete();
-        }catch (\Exception){
-            abort(403);
+            try {
+                Files::findOrFail($image_id)->delete();
+            }catch (\Exception){
+                abort(403);
+            }
         }
     }
 

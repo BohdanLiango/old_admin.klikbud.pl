@@ -37,13 +37,14 @@
                     <th scope="col">NIP</th>
                     <th scope="col">Type_id</th>
                     <th scope="col">Category_id</th>
-                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($business as $item)
                     <tr class="table-primary">
-                       <td><b>{{ $item->title }}
+                       <td>
+                           <a href="{{ route('business.one', $item->slug) }}">
+                           <b>{{ $item->title }}
                             @forelse($forms as $form)
                                 @if((int)$form['value'] === (int)$item->business_form_id)
                                     @if((int)$item->business_form_id === 99)
@@ -56,6 +57,7 @@
                             @empty
                             @endforelse
                            </b>
+                           </a>
                        </td>
                         <td><b>{{ $item->NIP }}</b></td>
                         <td>
@@ -73,10 +75,6 @@
                                     @break
                                 @endif
                             @endforeach
-                        </td>
-                        <td>
-                            <a href="" class="btn btn-icon btn-primary"><i class="flaticon-visible"></i></a>
-                            <a href="{{ route('business.edit', $item->id) }}" class="btn btn-icon btn-warning"><i class="flaticon2-edit"></i></a>
                         </td>
                     </tr>
                     @forelse($item->departments as $dep)
@@ -111,10 +109,6 @@
                                     @break
                                 @endif
                             @endforeach
-                        </td>
-                        <td>
-                            <a href=""><i class="fa fa-eye text-success mr-5"></i></a>
-                            <a href="{{ route('business.edit', $dep->id) }}"><i class="fa fa-edit text-warning mr-5"></i></a>
                         </td>
                     </tr>
                     @empty
