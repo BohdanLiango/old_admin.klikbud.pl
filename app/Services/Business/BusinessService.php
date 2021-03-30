@@ -6,7 +6,6 @@ use App\Helper\KlikbudFunctionsHelper;
 use App\Models\Business\BusinessList;
 use App\Services\Services;
 use Exception;
-use http\Exception\UnexpectedValueException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -109,7 +108,6 @@ class BusinessService extends Services
         }catch (\Exception $e){
             return false;
         }
-
     }
 
     /**

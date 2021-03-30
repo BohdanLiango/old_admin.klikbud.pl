@@ -148,7 +148,5 @@ return [
             'message_department' => 'Pomyślnie usunięto',
             'message_business' => 'usunięto'
         ],
-
-
     ],
 ];

@@ -160,6 +160,6 @@ class EditLivewire extends Business
         $status = app()->make(BusinessService::class)->update($this->business_id, $this->type_id_update, $this->business);
         $message = trans('admin_klikbud/business.add_edit_form.messages.edit_1') . ' ' . $this->business['title'] . ' ' . trans('admin_klikbud/business.add_edit_form.messages.edit_2');
         $this->checkStatus($status, $message, 'flash', false, 'center');
-        return redirect()->route('business.one', $this->business_slug);
+        return redirect()->route('business.one', $this->business_department_slug);
     }
 }
