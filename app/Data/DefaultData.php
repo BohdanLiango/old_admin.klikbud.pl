@@ -346,4 +346,37 @@ class DefaultData extends Data
         ];
     }
 
+    /**
+     * @return array[]
+     */
+    public function categories_business(): array
+    {
+        return [
+            ["value" => 1, "title" => 'Sklep', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 2, "title" => 'Hurtownia', "class" => 'label label-light-primary label-pill label-inline mr-2 label-l'],
+            ["value" => 3, "title" => 'Tankownia', "class" => 'label label-light-success label-pill label-inline mr-2 label-l']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function form_business(): array
+    {
+        return [
+            ["value" => 1, "title" => 'SP. Z O.O.', "class" => 'label label-success label-pill label-inline mr-2'],
+            ["value" => 2, "title" => 'SP.J.', "class" => 'label label-warning label-pill label-inline mr-2'],
+            ["value" => 3, "title" => 'SP.K.', "class" => 'label label-info label-pill label-inline mr-2'],
+            ["value" => 99, "title" => 'Inne', "class" => 'label label-info label-pill label-inline mr-2']
+        ];
+    }
+
+    public function business_types()
+    {
+        return [
+            ["value" => 1, 'title' => 'Business', "class" => 'font-weight-bold text-success'],
+            ["value" => 2, 'title' => 'Department', "class" => 'font-weight-bold text-warning']
+        ];
+    }
+
 }

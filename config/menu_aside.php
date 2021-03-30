@@ -37,6 +37,13 @@ return [
             'new-tab' => false,
         ],
         [
+            'title' => 'Business',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'business.show',
+            'new-tab' => false,
+        ],
+        [
             'title' => 'Warehouses',
             'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
             'bullet' => 'line',
