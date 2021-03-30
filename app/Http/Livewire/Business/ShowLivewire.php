@@ -80,7 +80,8 @@ class ShowLivewire extends Business
     {
         $this->dispatchBrowserEvent('closeDeleteModal');
         $status = app()->make(BusinessService::class)->delete($this->business['id'], $this->business['image_id']);
-        $this->checkStatus($status, 'Delete', 'flash', false, 'center');
+        $message = $this->business['title'] . ' ' . trans('admin_klikbud/business.show.delete.message_business');
+        $this->checkStatus($status, $message, 'flash', false, 'center');
         return redirect()->route('business.show');
     }
 
@@ -88,7 +89,7 @@ class ShowLivewire extends Business
     {
         $status = app()->make(BusinessService::class)->delete($this->modal_id,NULL);
         $this->dispatchBrowserEvent('closeDeleteDepartmentModal');
-        $this->checkStatus($status, 'Delete', 'alert', true, 'top-end');
+        $this->checkStatus($status, trans('admin_klikbud/business.show.delete.message_department'), 'alert', true, 'top-end');
         $this->emit('refreshComponent');
     }
 }

@@ -2,14 +2,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ trans('admin_klikbud/clients.one.delete_modal.question') }} - {{ $business['title'] }}</h5>
-                <button type="button"  wire:click="opensModals('deleteClose', {{ NULL }})" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel">{{ trans('admin_klikbud/business.show.delete.delete_business') }} - {{ $business['title'] }} ?</h5>
+                <button type="button"  wire:click="opensModals('deleteClose', {{ $business['id'] }})" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-footer">
-                <button wire:click="opensModals('deleteClose', {{ NULL }})" type="button" class="btn btn-secondary">{{ trans('admin_klikbud/clients.one.delete_modal.no') }}</button>
-                <button wire:click="delete()" type="button" class="btn btn-primary">{{ trans('admin_klikbud/clients.one.delete_modal.yes') }}</button>
+                <button wire:click="opensModals('deleteClose',  {{ $business['id'] }})" type="button" class="btn btn-secondary">{{ trans('admin_klikbud/business.show.delete.no') }}</button>
+                <button wire:click="delete()" type="button" class="btn btn-danger">{{ trans('admin_klikbud/business.show.delete.yes') }}</button>
             </div>
         </div>
     </div>

@@ -3,48 +3,58 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">{{ trans('admin_klikbud/settings/address.card-lable') }}
+                <h3 class="card-label">{{ trans('admin_klikbud/business.index.title') }}
                     <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
             </div>
             <div class="card-toolbar">
                 <a href="{{ route('dashboard') }}" class="btn btn-primary font-weight-bolder"
                    style="margin-right: 10px"><i
-                        class="flaticon2-back"></i>{{ trans('admin_klikbud/settings/address.button-back') }}</a>
+                        class="flaticon2-back"></i>{{ trans('admin_klikbud/business.index.buttons.back') }}</a>
                 <a href="{{ route('business.add', 'department') }}" class="btn btn-success font-weight-bolder"
                    style="margin-right: 10px"><i
-                        class="flaticon2-plus"></i>{{ trans('admin_klikbud/settings/address.add-button-street') }}</a>
+                        class="flaticon2-plus"></i>{{ trans('admin_klikbud/business.index.buttons.department') }}</a>
                 <a href="{{ route('business.add', 'business') }}" class="btn btn-success font-weight-bolder"
                    style="margin-right: 10px"><i
-                        class="flaticon2-plus"></i>{{ trans('admin_klikbud/settings/address.add-button-town') }}</a>
+                        class="flaticon2-plus"></i>{{ trans('admin_klikbud/business.index.buttons.business') }}</a>
             </div>
         </div>
         <div class="card-body">
             <div class="form-group col-xl-6 float-left">
-                <label>{{ trans('admin_klikbud/settings/address.search') }}</label>
+                <label>{{ trans('admin_klikbud/business.index.search') }}</label>
                 <input wire:model="searchQuery" class="form-control"/>
             </div>
             <div class="form-group col-xl-6 float-left">
-                <label>{{ trans('admin_klikbud/settings/address.type') }}</label>
-                <select wire:model="searchType" class="form-control">
+                <label>{{ trans('admin_klikbud/business.index.table.type') }}</label>
+                <select wire:model="searchCategory" class="form-control">
                     <option value="{{ NULL }}">-----------</option>
+                    @forelse($categories as $category)
+                        <option value="{{ $category['value'] }}">{{ $category['title'] }}</option>
+                    @empty
+                    @endforelse
                 </select>
             </div>
             <div class="mb-7"></div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">NIP</th>
-                    <th scope="col">Type_id</th>
-                    <th scope="col">Category_id</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.index.table.title') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.index.table.nip') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.index.table.type') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.index.table.category') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($business as $item)
                     <tr class="table-primary">
                        <td>
+
                            <a href="{{ route('business.one', $item->slug) }}">
-                           <b>{{ $item->title }}
+                               @if($item->image_id === NULL || $item->image === null)
+                               @else
+                                   <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($item->image->path) }}" width="20px">
+                               @endif
+                           <b>
+                               {{ $item->title }}
                             @forelse($forms as $form)
                                 @if((int)$form['value'] === (int)$item->business_form_id)
                                     @if((int)$item->business_form_id === 99)

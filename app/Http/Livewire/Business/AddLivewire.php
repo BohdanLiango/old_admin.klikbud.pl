@@ -11,7 +11,7 @@ use Livewire\WithFileUploads;
 
 class AddLivewire extends Business
 {
-    public $business_data = NULL, $type_id = NULL, $type_id_store;
+    public $business_data = NULL, $type_id = NULL, $type_id_store, $breadcrumbs_title;
     public $business;
     public $image;
 
@@ -21,8 +21,10 @@ class AddLivewire extends Business
 
     public function render()
     {
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
-        $page_title = $breadcrumbs[1]['name'];
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->business(2, [[
+            'key' => 2, 'link' => route('business.add', $this->type_id), 'name' => trans('admin_klikbud/business.add_edit_form.breadcrumbs_title.form_add') . ' ' . $this->breadcrumbs_title
+        ]]);
+        $page_title = $breadcrumbs[2]['name'];
         $address_street = app()->make(AddressService::class)->selectAddressToGetData();
         $categories = app()->make(DefaultData::class)->categories_business();
         $business_form = app()->make(DefaultData::class)->form_business();
@@ -46,6 +48,11 @@ class AddLivewire extends Business
         if($type !== 'business' || $type !== 'department')
         {
             $this->type_id = $type;
+
+            $this->breadcrumbs_title = match ($type) {
+                  'business' => trans('admin_klikbud/business.add_edit_form.breadcrumbs_title.business'),
+                  'department' => trans('admin_klikbud/business.add_edit_form.breadcrumbs_title.departments')
+            };
 
             $this->type_id_store = match ($type) {
                 'business' => 1,
@@ -117,12 +124,14 @@ class AddLivewire extends Business
 
         $store_id = app()->make(BusinessService::class)->store($this->type_id_store, $this->business);
 
+        $message = $this->business['title'] . ' ' . trans('admin_klikbud/business.add_edit_form.messages.store_1');
+
         if($store_id !== false && !is_null($this->image))
         {
             $store_image = $this->image->store('/public/uploads/business/' . uniqid('business', false), config('klikbud.disk_store'));
             $image_id = app()->make(FilesDataService::class)->storeBusiness($store_image, $store_id);
             $store_image_to_business = app()->make(BusinessService::class)->store_image($store_id, $image_id);
-            $this->checkStatus($store_image_to_business, 'Yuppi', 'flash', false, 'center');
+            $this->checkStatus($store_image_to_business, $message, 'flash', false, 'center');
             return redirect()->route('business.show');
         }
 
@@ -133,7 +142,7 @@ class AddLivewire extends Business
             $status = false;
         }
 
-        $this->checkStatus($status, 'Yuppi', 'flash', false, 'center');
+        $this->checkStatus($status, $message, 'flash', false, 'center');
         return redirect()->route('business.show');
     }
 }

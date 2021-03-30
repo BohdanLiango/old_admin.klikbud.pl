@@ -352,9 +352,11 @@ class DefaultData extends Data
     public function categories_business(): array
     {
         return [
-            ["value" => 1, "title" => 'Sklep', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
-            ["value" => 2, "title" => 'Hurtownia', "class" => 'label label-light-primary label-pill label-inline mr-2 label-l'],
-            ["value" => 3, "title" => 'Tankownia', "class" => 'label label-light-success label-pill label-inline mr-2 label-l']
+            ["value" => 1, "title" => trans('admin_klikbud/business.default_data.categories.shop'), "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 2, "title" => trans('admin_klikbud/business.default_data.categories.wholesale'), "class" => 'label label-light-success label-pill label-inline mr-2 label-l'],
+            ["value" => 3, "title" =>  trans('admin_klikbud/business.default_data.categories.refueling'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 4, "title" =>  trans('admin_klikbud/business.default_data.categories.show_tool'), "class" => 'label label-light-info label-pill label-inline mr-2 label-l'],
+            ["value" => 5, "title" =>  trans('admin_klikbud/business.default_data.categories.other'), "class" => 'label label-light-primary label-pill label-inline mr-2 label-l']
         ];
     }
 
@@ -364,18 +366,26 @@ class DefaultData extends Data
     public function form_business(): array
     {
         return [
-            ["value" => 1, "title" => 'SP. Z O.O.', "class" => 'label label-success label-pill label-inline mr-2'],
-            ["value" => 2, "title" => 'SP.J.', "class" => 'label label-warning label-pill label-inline mr-2'],
-            ["value" => 3, "title" => 'SP.K.', "class" => 'label label-info label-pill label-inline mr-2'],
-            ["value" => 99, "title" => 'Inne', "class" => 'label label-info label-pill label-inline mr-2']
+            ["value" => 1, "title" => trans('admin_klikbud/business.default_data.form.1.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.1.title_long')],
+            ["value" => 2, "title" => trans('admin_klikbud/business.default_data.form.2.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.2.title_long')],
+            ["value" => 3, "title" => trans('admin_klikbud/business.default_data.form.3.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.3.title_long')],
+            ["value" => 4, "title" => trans('admin_klikbud/business.default_data.form.4.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.4.title_long')],
+            ["value" => 5, "title" => trans('admin_klikbud/business.default_data.form.5.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.5.title_long')],
+            ["value" => 6, "title" => trans('admin_klikbud/business.default_data.form.6.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.6.title_long')],
+            ["value" => 7, "title" => trans('admin_klikbud/business.default_data.form.7.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.7.title_long')],
+            ["value" => 8, "title" => trans('admin_klikbud/business.default_data.form.8.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.8.title_long')],
+            ["value" => 99, "title" => trans('admin_klikbud/business.default_data.form.99.title'), "title_long" =>  trans('admin_klikbud/business.default_data.form.99.title_long')]
         ];
     }
 
-    public function business_types()
+    /**
+     * @return array[]
+     */
+    public function business_types(): array
     {
         return [
-            ["value" => 1, 'title' => 'Business', "class" => 'font-weight-bold text-success'],
-            ["value" => 2, 'title' => 'Department', "class" => 'font-weight-bold text-warning']
+            ["value" => 1, 'title' => trans('admin_klikbud/business.default_data.type.business'), "class" => 'font-weight-bold text-success'],
+            ["value" => 2, 'title' => trans('admin_klikbud/business.default_data.type.department'), "class" => 'font-weight-bold text-warning']
         ];
     }
 

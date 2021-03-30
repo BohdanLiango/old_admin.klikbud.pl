@@ -17,6 +17,7 @@ class BreadcrumbsData extends Data
     private string $objects = 'Objects';
     private string $categories = 'Kategorie';
     private string $tools = 'Narzędzia';
+    private string $business = 'Firmy';
 
     /**
      * Main functions
@@ -236,6 +237,23 @@ class BreadcrumbsData extends Data
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
             ['key' => 1, 'link' => route('warehouses.tools.show'), 'name' => $this->tools],
             ['key' => 2, 'link' => route('warehouses.tools.categories.show'), 'name' => $this->categories]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
+
+    /**
+     * BusinessLivewire
+     *
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function business($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('business.show'), 'name' => $this->business]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

@@ -6,6 +6,7 @@ use App\Helper\KlikbudFunctionsHelper;
 use App\Models\Business\BusinessList;
 use App\Services\Services;
 use Exception;
+use http\Exception\UnexpectedValueException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -17,16 +18,6 @@ class BusinessService extends Services
     {
         $this->helpers = $klikbudFunctionsHelper;
     }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getDataOneById($id): mixed
-    {
-        return BusinessList::findOrFail($id);
-    }
-
 
     /**
      * @param $slug
@@ -46,9 +37,14 @@ class BusinessService extends Services
      * @param $paginate
      * @return mixed
      */
-    public function getToIndex($paginate): mixed
+    public function getToIndex($paginate, $searchQuery, $searchCategory): mixed
     {
-        return BusinessList::where('type_id', 1)->select('id', 'type_id', 'title', 'business_form_id', 'business_form_other', 'image_id',
+        return BusinessList::when($searchQuery != '', function ($query) use ($searchQuery) {
+            $query->where('title', 'like', '%' . $searchQuery . '%')
+            ->orWhere('NIP', 'like', '%' . $searchQuery . '%');
+        })->when($searchCategory != '', function ($query) use ($searchCategory) {
+            $query->where('category_id', '=', $searchCategory);
+        })->where('type_id', 1)->select('id', 'type_id', 'title', 'business_form_id', 'business_form_other', 'image_id',
         'category_id', 'NIP', 'business_id', 'slug')->orderBy('id', 'DESC')->paginate($paginate);
     }
 
@@ -58,7 +54,7 @@ class BusinessService extends Services
      */
     public function getBusinessByTypeId($type_id): mixed
     {
-        return BusinessList::where('type_id', $type_id)->select('id', 'title', 'business_form_id', 'business_form_other')->get();
+        return BusinessList::where('type_id', $type_id)->select('id', 'title', 'business_form_id', 'business_form_other', 'slug')->get();
     }
 
 

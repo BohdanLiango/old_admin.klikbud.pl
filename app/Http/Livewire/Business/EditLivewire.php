@@ -12,7 +12,7 @@ use Livewire\WithFileUploads;
 class EditLivewire extends Business
 {
     public $business_data = NULL, $type_id = NULL, $type_id_update;
-    public $business, $business_id, $old_business_data, $business_slug;
+    public $business, $business_id, $old_business_data, $business_slug, $business_department_slug, $breadcrumbs_title, $business_department_title;
     public $image, $oldImage;
 
     public $business_form_class = 9;
@@ -21,8 +21,11 @@ class EditLivewire extends Business
 
     public function render()
     {
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
-        $page_title = $breadcrumbs[1]['name'];
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->business(3, [
+            ['key' => 2, 'link' => route('business.one', $this->business_department_slug), 'name' => $this->business_department_title],
+            ['key' => 3, 'link' => route('business.add', $this->type_id), 'name' => trans('admin_klikbud/business.add_edit_form.breadcrumbs_title.form_edit') . ' ' . $this->breadcrumbs_title ]
+        ]);
+        $page_title = $breadcrumbs[3]['name'];
         $address_street = app()->make(AddressService::class)->selectAddressToGetData();
         $categories = app()->make(DefaultData::class)->categories_business();
         $business_form = app()->make(DefaultData::class)->form_business();
@@ -48,6 +51,13 @@ class EditLivewire extends Business
         $this->type_id_update = $type;
         if((int)$type === 1 || (int)$type === 2)
         {
+            $this->business_department_slug = match ($type) {
+                1 => trans('admin_klikbud/business.add_edit_form.breadcrumbs_title.business'),
+                2 => trans('admin_klikbud/business.add_edit_form.breadcrumbs_title.departments')
+            };
+
+            $this->business_department_title = $get_data->title;
+
             $this->type_id = match ($type) {
                 1 => 'business',
                 2 => 'department'
@@ -56,6 +66,8 @@ class EditLivewire extends Business
             if((int)$type === 2)
             {
                 $this->business_data = app()->make(BusinessService::class)->getBusinessByTypeId(1);
+                $this->business_department_slug = $this->business_data->where('id', $get_data->business_id)->first()->slug;
+                $this->business_department_title = $this->business_data->where('id', $get_data->business_id)->first()->title;
             }
             $this->business_slug = $slug;
             $this->old_business_data = $get_data;
@@ -79,6 +91,7 @@ class EditLivewire extends Business
             $this->business['phone'] = $get_data->phone;
             $this->business['site'] = $get_data->site;
             $this->business['business_id'] = $get_data->business_id;
+            $this->business['slug'] = $get_data->slug;
         }else{
             abort(403);
         }
@@ -145,7 +158,8 @@ class EditLivewire extends Business
         }
 
         $status = app()->make(BusinessService::class)->update($this->business_id, $this->type_id_update, $this->business);
-        $this->checkStatus($status, 'Yuppi', 'flash', false, 'center');
+        $message = trans('admin_klikbud/business.add_edit_form.messages.edit_1') . ' ' . $this->business['title'] . ' ' . trans('admin_klikbud/business.add_edit_form.messages.edit_2');
+        $this->checkStatus($status, $message, 'flash', false, 'center');
         return redirect()->route('business.one', $this->business_slug);
     }
 }

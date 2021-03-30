@@ -5,16 +5,17 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Addresa</th>
-                    <th scope="col">Kontakts</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.show.departments_table.title') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.show.departments_table.description') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.show.departments_table.category') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.show.departments_table.address') }}</th>
+                    <th scope="col">{{ trans('admin_klikbud/business.show.departments_table.contacts') }}</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($get_data->departments as $dep)
+                    @include('livewire.business.block.show.show-delete-department-modal')
                 <tr>
                     <td>
                         {{ $dep->title }}
@@ -44,11 +45,11 @@
                     <td>
                         {{ $dep->country->title }}
                         <br>
-                        woj.{{ $dep->state->title }}
+                        {{ trans('admin_klikbud/business.show.address.state') }}{{ $dep->state->title }}
                         <br>
-                        m.{{ $dep->town->title }}
+                        {{ trans('admin_klikbud/business.show.address.town') }}{{ $dep->town->title }}
                         <br>
-                        ul.{{ $dep->street->title }} {{ $dep->number }} @empty($dep->apartment_number) @else  / {{ $dep->apartment_number }} @endempty
+                        {{ trans('admin_klikbud/business.show.address.street') }}{{ $dep->street->title }} {{ $dep->number }} @empty($dep->apartment_number) @else  / {{ $dep->apartment_number }} @endempty
                         <br>
                         {{ $dep->zip_code }}
                     </td>
@@ -60,7 +61,7 @@
                         {{ $dep->site }}
                     </td>
                     <td>
-                        <a href="{{ route('business.edit', $dep->slug) }}"><i class="flaticon2-pen text-warning mr-2"></i></a>
+                        <a href="{{ route('business.edit', $dep->slug) }}"><i class="flaticon2-edit text-warning mr-2"></i></a>
                         <a href="#" wire:click="opensModals('deleteDepartment', {{ $dep->id }})"><i class="flaticon2-delete text-danger"></i></a>
                     </td>
                 </tr>

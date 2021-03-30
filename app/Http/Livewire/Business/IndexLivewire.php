@@ -14,10 +14,10 @@ class IndexLivewire extends Component
 
     public function render()
     {
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->business(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
         $forms = app()->make(DefaultData::class)->form_business();
-        $business = app()->make(BusinessService::class)->getToIndex(10);
+        $business = app()->make(BusinessService::class)->getToIndex($this->paginate, $this->searchQuery, $this->searchCategory);
         $categories = app()->make(DefaultData::class)->categories_business();
         $types = app()->make(DefaultData::class)->business_types();
         return view('livewire.business.index-livewire', compact('forms', 'business', 'categories', 'types'))
