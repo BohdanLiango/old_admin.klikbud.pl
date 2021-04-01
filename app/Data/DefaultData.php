@@ -389,4 +389,19 @@ class DefaultData extends Data
         ];
     }
 
+    /**
+     * @return array[]
+     */
+    public function status_tools(): array
+    {
+        return [
+            ["value" => 1, 'title' => 'Active', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 2, 'title' => 'Dont work', "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 3, 'title' => 'In repair', "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 4, 'title' => 'Sell', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 5, 'title' => 'Destroy', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 6, 'title' => 'Wkradenyj', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 7, 'title' => 'Zgubiony', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+        ];
+    }
 }

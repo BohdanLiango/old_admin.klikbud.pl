@@ -17,6 +17,33 @@ class ToolsService extends Services
         $this->helpers = $klikbudFunctionsHelper;
     }
 
+    public function showToolsToIndexPage($orderBy, $orderByType, $paginate)
+    {
+        return Tools::orderBy($orderBy, $orderByType)->paginate($paginate);
+    }
+
+
+    public function getBoxToForm()
+    {
+        return Tools::where('is_box', 1)->select('id', 'title')->get();
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function showOneBySlug($slug): mixed
+    {
+        $return = Tools::where('slug', $slug)->first();
+
+        if(!is_null($return))
+        {
+            return $return;
+        }
+        abort(404);
+        return false;
+    }
+
     /**
      * @param $tools
      * @return array
@@ -88,6 +115,43 @@ class ToolsService extends Services
         try {
             $store = Tools::findOrFail($id);
             $store->image_id = $image_id;
+            $store->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $record
+     * @param $new_data
+     * @return bool
+     */
+    public function changeOneRecord($id, $record, $new_data): bool
+    {
+        try {
+            $store = Tools::findOrFail($id);
+            $store->$record = $new_data;
+            $store->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $status_id
+     * @param $status_description
+     * @return bool
+     */
+    public function changeStatusTool($id, $status_id, $status_description): bool
+    {
+        try {
+            $store = Tools::findOrFail($id);
+            $store->status_tool_id = $status_id;
+            $store->status_description = $status_description;
             $store->save();
             return true;
         }catch (Exception $e){

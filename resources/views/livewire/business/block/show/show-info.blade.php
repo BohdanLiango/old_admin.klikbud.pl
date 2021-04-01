@@ -7,7 +7,7 @@
                         <span class="symbol symbol-35 symbol-light-success">
                        <span
                            class="symbol-label font-size-h5 font-weight-bold">{{ Str::title($business['title'][0]) }}</span>
-                    </span>
+                        </span>
                     @else
                         <img alt="Pic"
                              src="{{ Storage::disk(config('klikbud.disk_store'))->url($get_data->image->path) }}"/>

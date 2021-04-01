@@ -7,6 +7,7 @@ use App\Models\Files\Files;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class FilesService extends FileService
@@ -71,7 +72,7 @@ class FilesService extends FileService
 
         if(!is_null($title))
         {
-            $name_file_store = $title . '_' . bcrypt($title);
+            $name_file_store = Str::slug($title, '_') . '_' . date('Y-m-d') . '_' .date('H:i:s') . '.' .Str::after($name_file, '.');
         }
 
         //Move to correctly folder
@@ -215,12 +216,18 @@ class FilesService extends FileService
 
     /**
      * @param $id
+     * @return bool|StreamedResponse
      */
-    public function downloadFile($id)
+    public function downloadFile($id): bool|StreamedResponse
     {
         $file = FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
-//        return response()->download(storage_path('app/' . $file));
-        return Storage::disk(config('klikbud.disk_store'))->download($file);
+        $check = Storage::disk(config('klikbud.disk_store'))->exists($file);
+        if($check === true)
+        {
+            return Storage::disk(config('klikbud.disk_store'))->download($file);
+        }
+        abort(403);
+        return false;
     }
 
 

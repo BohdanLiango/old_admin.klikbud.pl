@@ -11,7 +11,7 @@ return [
         ],
         'form' => [
             '1' => [
-                'title' => '',
+                'title' => 'JDG',
                 'title_long' => 'jednoosobowa działalność gospodarcza'
             ],
             '2' => [

@@ -24,7 +24,7 @@ class CreateWarehouseToolsTable extends Migration
             $table->integer('box_id')->nullable();
 
             $table->date('purchase_date')->nullable();
-            $table->decimal('price', 65,2)->nullable();
+            $table->decimal('price', 65,2)->nullable()->default(1.00);
             $table->string('serial_number')->nullable();
             $table->bigInteger('business_departments_id')->nullable(); // Де куплявся
             $table->bigInteger('manufacturer_id')->nullable(); // Виробник

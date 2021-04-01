@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Data\DefaultData;
 use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;
 use App\Services\Settings\Other\AddressService;
@@ -11,10 +12,12 @@ use Illuminate\Support\Str;
 class KlikbudFunctionsHelper extends Helper
 {
     public $address;
+    public $defaultData;
 
-    public function __construct(AddressService $addressService)
+    public function __construct(AddressService $addressService, DefaultData $defaultData)
     {
         $this->address = $addressService;
+        $this->defaultData = $defaultData;
     }
 
     /**
@@ -106,6 +109,30 @@ class KlikbudFunctionsHelper extends Helper
             'state_id' => NULL,
             'town_id' => NULL
         ];
+    }
+
+    /**
+     * @param $business_title
+     * @param $business_form_id
+     * @param $business_form_other
+     * @return string|null
+     */
+    public function changeTitleBusinessToEndFirmClassification($business_title, $business_form_id, $business_form_other): ?string
+    {
+        if($business_form_id === 99)
+        {
+            return $business_title . ' ' . $business_form_other;
+        }
+
+        foreach ($this->defaultData->form_business() as $form)
+        {
+            if((int)$business_form_id === (int)$form['value'])
+            {
+                return $business_title . ' ' . $form['title'];
+            }
+        }
+
+        return NULL;
     }
 
 }

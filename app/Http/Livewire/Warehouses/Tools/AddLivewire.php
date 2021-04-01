@@ -24,7 +24,7 @@ class AddLivewire extends Warehouse
         'tools.main_category_id' => 'required|integer',
         'tools.title' => 'required|max:255',
         'tools.description' => 'nullable|max:65000',
-        'image' => 'image|max:512',
+        'image' => 'nullable|image|max:512',
         'tools.purchase_date' => 'nullable|date_format:d/m/Y',
         'tools.price' => 'nullable|numeric',
         'tools.is_box' => 'nullable|boolean',
@@ -113,7 +113,7 @@ class AddLivewire extends Warehouse
         {
             $store_image = $this->image->store('/public/uploads/tools/' . uniqid('tools', true), config('klikbud.disk_store'));
             $image_id = app()->make(FilesDataService::class)->storeImageTools($store_image, $store_id);
-            app()->make(ToolsService::class)->storeGuaranteeFile($store_id, $image_id);
+            app()->make(ToolsService::class)->storeImage($store_id, $image_id);
         }
 
         if(is_numeric($store_id))
