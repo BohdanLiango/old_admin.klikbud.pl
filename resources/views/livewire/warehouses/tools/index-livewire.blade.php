@@ -53,18 +53,10 @@
                                 </li>
                                 <li class="navi-separator mb-3 opacity-70"></li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-success">Customer</span>
-														</span>
-                                    </a>
+                                    <a href="{{ route('warehouses.tools.add', 'tool') }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-success">Tool</span></span></a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-danger">Partner</span>
-														</span>
-                                    </a>
+                                    <a href="{{ route('warehouses.tools.add', 'box') }}" class="navi-link"><span class="navi-text"><span class="label label-xl label-inline label-light-danger">Box</span></span></a>
                                 </li>
                                 <li class="navi-item">
                                     <a href="#" class="navi-link">

@@ -21,7 +21,7 @@ class CreateWarehouseToolsCategoryTable extends Migration
             /**
              * Add Automatic
              */
-            $table->integer('type_id')->nullable(); // 1- Main, 2-half, 3-halfhalf, 4 - halfhalfhalf, 5 - ....
+            $table->integer('type_id')->nullable(); // 1- Main, 2-half, 3-halfhalf
             $table->string('slug')->nullable()->unique();
             $table->integer('user_id')->nullable();
             $table->integer('moderated_id')->default(2);

@@ -11,6 +11,9 @@ use Illuminate\Support\Str;
 
 class BusinessService extends Services
 {
+    private const DEPARTMENT_TYPE_ID = 2;
+    private const BUSINESS_TYPE_ID = 1;
+
     public $helpers;
 
     public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper)
@@ -46,6 +49,15 @@ class BusinessService extends Services
         })->where('type_id', 1)->select('id', 'type_id', 'title', 'business_form_id', 'business_form_other', 'image_id',
         'category_id', 'NIP', 'business_id', 'slug')->orderBy('id', 'DESC')->paginate($paginate);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBusinessToForms(): mixed
+    {
+        return BusinessList::select('id', 'title', 'business_form_id', 'business_form_other', 'type_id')->get();
+    }
+
 
     /**
      * @param $type_id

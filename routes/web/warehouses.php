@@ -13,9 +13,9 @@ Route::prefix('/warehouses')->name('warehouses.')->group(static function() {
 
     Route::prefix('/tools')->name('tools.')->group(static function() {
         Route::get('/', \App\Http\Livewire\Warehouses\Tools\IndexLivewire::class)->name('show');
-        Route::get('/add', \App\Http\Livewire\Warehouses\Tools\AddLivewire::class)->name('add');
-        Route::get('/edit/{id}', \App\Http\Livewire\Warehouses\Tools\EditLivewire::class)->name('edit');
-        Route::get('/show/{id}', \App\Http\Livewire\Warehouses\Tools\ShowLivewire::class)->name('one');
+        Route::get('/add/{type}', \App\Http\Livewire\Warehouses\Tools\AddLivewire::class)->name('add');
+        Route::get('/edit/{slug}', \App\Http\Livewire\Warehouses\Tools\EditLivewire::class)->name('edit');
+        Route::get('/show/{slug}', \App\Http\Livewire\Warehouses\Tools\ShowLivewire::class)->name('one');
 
         Route::prefix('/categories')->name('categories.')->group(static function() {
             Route::get('/', \App\Http\Livewire\Warehouses\Tools\Category\IndexLivewire::class)->name('show');

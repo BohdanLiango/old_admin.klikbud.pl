@@ -49,6 +49,11 @@ class ToolsCategoryService extends Services
         return ToolsCategory::findOrFail($id);
     }
 
+    public function getCategoriesToForms()
+    {
+        return ToolsCategory::select('id', 'title', 'main_category_id', 'half_category_id', 'type_id')->get();
+    }
+
     /**
      * @param $type_id
      * @return mixed
@@ -66,6 +71,7 @@ class ToolsCategoryService extends Services
     {
         return ToolsCategory::where('type_id', 2)->where('main_category_id', $main_category_id)->select('id', 'title')->get();
     }
+
 
     /**
      * @param $title

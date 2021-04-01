@@ -12,6 +12,7 @@ class FilesDataService extends FileService
         '3' => 'klikbud_opinion_portal',
         '4' => 'klikbud_gallery',
         '5' => 'business_list',
+        '6' => 'warehouse_tools',
     ];
 
     /**
@@ -24,24 +25,23 @@ class FilesDataService extends FileService
     }
 
     /**
-     * @param $file
+     * @param $store
      * @param $to_table
      * @param $table_record_id
+     * @param $title
      * @param $group
      * @param $subgroup
-     * @return null
+     * @return mixed
      */
-    public function preStoreImage($file, $to_table, $table_record_id, $group, $subgroup)
+    public function preStoreLivewireFile($store, $to_table, $table_record_id, $title, $group, $subgroup): mixed
     {
-        /**
-         * Повертає null якщо немає картинки
-         */
-        if (empty($file)) {
-            return null;
+        if(empty($store)){
+            return NULL;
         }
 
-        return $this->files->storeImage($file, $to_table, $table_record_id, $group, $subgroup);
+        return $this->files->storeFileUseLivewire($store, $to_table, $table_record_id, $title, $group, $subgroup);
     }
+
 
     /**
      * @param $store
@@ -200,6 +200,29 @@ class FilesDataService extends FileService
     {
         $to_table = self::TABLES['5'];
         return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_2, self::SUB_GROUP_2_1);
+    }
+
+    /**
+     * @param $store
+     * @param $table_record_id
+     * @param $title
+     * @return mixed
+     */
+    public function storeFileTools($store, $table_record_id, $title): mixed
+    {
+        $to_table = self::TABLES['6'];
+        return $this->preStoreLivewireFile($store, $to_table, $table_record_id, $title, self::GROUP_2, self::SUB_GROUP_2_2);
+    }
+
+    /**
+     * @param $store
+     * @param $table_record_id
+     * @return mixed
+     */
+    public function storeImageTools($store, $table_record_id): mixed
+    {
+        $to_table = self::TABLES['6'];
+        return $this->preStoreLivewireImage($store, $to_table, $table_record_id, self::GROUP_2, self::SUB_GROUP_2_2);
     }
 
 }
