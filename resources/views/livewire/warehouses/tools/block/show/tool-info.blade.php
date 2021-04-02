@@ -39,15 +39,15 @@
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
                     <span class="text-dark font-weight-bold mb-4">Status
-                        @if($old_description)
-                        <button class="btn btn-icon btn-primary btn-xs" data-container="body" data-toggle="tooltip" data-placement="right" title="{{ $old_description }}">
+                        @if($new_status_description)
+                        <button class="btn btn-icon btn-primary btn-xs" data-container="body" data-toggle="tooltip" data-placement="right" title="{{ $new_status_description }}">
                             <i class="flaticon2-information"></i>
                         </button>
                         @endif
                         <button wire:click="selectModal('changeStatus')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button>
                     </span>
-                    @foreach($status_tool as $status)
-                        @if((int)$status['value'] === (int)$old_status_id)
+                    @foreach($status_tool_data as $status)
+                        @if((int)$status['value'] === (int)$new_status)
                                 <span class="{{ $status['class'] }} label-xl">{{ $status['title'] }}</span>
                             @break
                         @endif
@@ -57,7 +57,20 @@
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
                     <span class="text-dark font-weight-bold mb-4">Box <button wire:click="selectModal('changeBox')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($old_box_id)) NONE @else {{ $box_title }} @endif</span>
+                    <span class="text-muted font-weight-bolder font-size-lg">
+                        @if(!is_null($new_box))
+                            @forelse($get_box as $item)
+                                @if($new_box == $item->id)
+                                    <a href="{{ route('warehouses.tools.show', $item->slug) }}" target="_blank">{{ $item->title }}</a>
+                                        @break
+                                @endif
+                            @empty
+                                NONE
+                            @endforelse
+                        @else
+                            NONE
+                        @endif
+                    </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
@@ -121,6 +134,27 @@
                             @if(is_null($tool['user_add_last_name']))
                                 NONE @else {{ $tool['user_add_last_name'] }} @endif</span>
                     </a>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="mb-8 d-flex flex-column">
+                    <span class="text-dark font-weight-bold mb-4">In_Object</span>
+                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
+                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="mb-8 d-flex flex-column">
+                    <span class="text-dark font-weight-bold mb-4">In_Warehouse</span>
+                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
+                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="mb-8 d-flex flex-column">
+                    <span class="text-dark font-weight-bold mb-4">In_Employee</span>
+                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
+                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
                 </div>
             </div>
             {{--<!--end::Info-->--}}

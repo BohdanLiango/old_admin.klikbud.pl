@@ -13,20 +13,14 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12" for="checkBox">Box</label>
                     <div wire:ignore class="col-lg-9 col-md-9 col-sm-12">
-                        <select  id="checkBox" class="form-control selectpicker @error('new_box_id') is-invalid @enderror" data-size="5" data-live-search="true" wire:model="new_box_id">
-                            @if(!is_null($old_box_id))
-                                <option value="{{ $old_box_id['id'] }}">{{ $old_box_id['title'] }}</option>
-                            @endif
+                        <select  id="checkBox" class="form-control selectpicker @error('new_box') is-invalid @enderror" data-size="5" data-live-search="true" wire:model="new_box">
                             <option value="{{ NULL }}">----------</option>
                             @forelse($get_box as $item)
-                                @if(!is_null($old_box_id) and $old_box_id['id'] == $item->id)
-                                @else
                                 <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                @endif
                             @empty
                             @endforelse
                         </select>
-                        @error('new_box_id')<div class="invalid-feedback">{{ $message }}</div> @enderror
+                        @error('new_box')<div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>

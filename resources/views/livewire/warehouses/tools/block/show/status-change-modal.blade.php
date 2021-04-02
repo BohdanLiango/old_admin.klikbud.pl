@@ -13,23 +13,22 @@
                 <div class="form-group row">
                     <label class="col-3">Status<span class="text-danger">*</span></label>
                     <div class="radio-inline col-7">
-                        @foreach($status_tool as $status)
+                        @foreach($status_tool_data as $status)
                         <label class="radio radio-rounded">
-                            <input type="radio" name="radios15_1" @if((int)$status['value'] === (int)$old_status_id ) checked="checked" @endif wire:click="clickRadio({{ $status['value'] }})"/>
+                            <input type="radio" name="radios15_1" @if((int)$status['value'] === (int)$new_status ) checked="checked" @endif wire:click="clickRadio({{ $status['value'] }})"/>
                             <span></span>
                             {{ $status['title'] }}
                         </label>
                         @endforeach
-                            @error('new_status_id')
-                            <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('new_status')<div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="store_title" class="col-3">Info</label>
                     <div class="col-9">
-                        <input id="store_title" class="form-control @error('new_description') is-invalid @enderror"
-                               type="text" wire:model.lazy="new_description"/>
-                        @error('new_description')
+                        <input id="store_title" class="form-control @error('new_status_description') is-invalid @enderror"
+                               type="text" wire:model.lazy="new_status_description"/>
+                        @error('new_status_description')
                         <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
