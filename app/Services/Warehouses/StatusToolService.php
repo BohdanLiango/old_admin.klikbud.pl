@@ -7,11 +7,25 @@ use App\Models\Warehouses\StatusTool;
 class StatusToolService extends StatusToolRegisterService
 {
     /**
+     * @param $id
+     * @return null
+     */
+    public function getStatusToolData($id)
+    {
+        try {
+            return StatusTool::where('tool_id', $id)->select('table', 'table_id')->first();
+        }catch (\Exception $e){
+            return NULL;
+        }
+    }
+
+    /**
      * @param $tool_id
      * @param $table
      * @param $table_id
+     * @return bool
      */
-    public function store_or_update($tool_id, $table, $table_id): void
+    public function store_or_update($tool_id, $table, $table_id): bool
     {
         try {
             $find = StatusTool::where('tool_id', $tool_id)->first();
@@ -44,8 +58,9 @@ class StatusToolService extends StatusToolRegisterService
 
                 $this->storeRegister($find->id, $tool_id, $table, $table_id, config('klikbud.status_tools_status.start'), $unique_number);
             }
+            return true;
         }catch (\Exception $e){
-            abort(403);
+            return false;
         }
     }
 }

@@ -38,6 +38,15 @@ class ObjectsService extends Services
         })->orderBy($orderByInfo, $orderBy)->paginate($paginate);
     }
 
+    public function selectObjectsToForms()
+    {
+        try {
+            return Objects::select('id', 'title')->get();
+        }catch (\Exception $e){
+            return NULL;
+        }
+    }
+
     /**
      * @param $id
      * @return mixed
@@ -46,7 +55,6 @@ class ObjectsService extends Services
     {
         return Objects::findOrFail($id);
     }
-
 
     /**
      * @param $title

@@ -95,6 +95,14 @@ class Tools extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function global_status()
+    {
+        return $this->belongsTo(StatusTool::class, 'id', 'tool_id');
+    }
+
     public function sluggable(): array
     {
         return [

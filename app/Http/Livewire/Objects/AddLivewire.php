@@ -15,7 +15,7 @@ class AddLivewire extends ObjectLivewire
     $client_id;
 
     protected $rules = [
-        'title' => 'required|max:255',
+        'title' => 'required|unique:objects,title|max:255',
         'description' => 'nullable|max:65535',
         'price_start' => 'nullable|numeric',
         'm2' => 'nullable|numeric',
@@ -89,7 +89,8 @@ class AddLivewire extends ObjectLivewire
                 return redirect()->route('objects.add');
         }
 
-        return abort(403);
+        abort(403);
+        return false;
 
     }
 }

@@ -13,21 +13,6 @@ class EditLivewire extends ObjectLivewire
     public $object_id, $title, $description, $price_start,  $m2, $date_start, $date_end, $street_id, $number,
         $apartment_number, $address_add_info,  $zip_code, $client_id;
 
-    protected $rules = [
-        'title' => 'required|max:255',
-        'description' => 'nullable|max:65535',
-        'price_start' => 'nullable|numeric',
-        'm2' => 'nullable|numeric',
-        'date_start' => 'nullable|date_format:d/m/Y',
-        'date_end' => 'nullable|date_format:d/m/Y',
-        'street_id' => 'required|integer',
-        'number' => 'nullable|max:255',
-        'apartment_number' => 'nullable|max:255',
-        'zip_code' => 'nullable|max:255',
-        'address_add_info' => 'nullable|max:255',
-        'client_id' => 'required|integer'
-    ];
-
     public function render()
     {
         $breadcrumbs = app()->make(BreadcrumbsData::class)->objects(1, NULL);
@@ -63,15 +48,22 @@ class EditLivewire extends ObjectLivewire
         $this->client_id = $get_data->client_id;
     }
 
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
     public function update()
     {
-        $this->validate();
+        $this->validate([
+            'title' => 'required|max:255|unique:objects,title,' . $this->object_id,
+            'description' => 'nullable|max:65535',
+            'price_start' => 'nullable|numeric',
+            'm2' => 'nullable|numeric',
+            'date_start' => 'nullable|date_format:d/m/Y',
+            'date_end' => 'nullable|date_format:d/m/Y',
+            'street_id' => 'required|integer',
+            'number' => 'nullable|max:255',
+            'apartment_number' => 'nullable|max:255',
+            'zip_code' => 'nullable|max:255',
+            'address_add_info' => 'nullable|max:255',
+            'client_id' => 'required|integer'
+        ]);
         $status = app()->make(ObjectsService::class)->update($this->object_id, $this->title, $this->description, $this->price_start,
         $this->m2, $this->date_start, $this->date_end, $this->street_id, $this->number, $this->apartment_number, $this->zip_code,
         $this->client_id, $this->address_add_info);

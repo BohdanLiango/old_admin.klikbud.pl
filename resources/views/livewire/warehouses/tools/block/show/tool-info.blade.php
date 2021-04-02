@@ -76,7 +76,7 @@
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
                     <span class="text-dark font-weight-bold mb-4">purchase_date</span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['purchase_date']))
+                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['purchase_date']) || $tool['purchase_date'] === '01/01/1970')
                             NONE @else {{ $tool['purchase_date'] }} @endif</span>
                 </div>
             </div>
@@ -121,7 +121,7 @@
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
                     <span class="text-dark font-weight-bold mb-4">guarantee_date_end</span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
+                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']) || $tool['guarantee_date_end'] === '01/01/1970')
                             NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
                 </div>
             </div>
@@ -138,23 +138,78 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Object</span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
-                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
+                    <span class="text-dark font-weight-bold mb-4">In_Object <button wire:click="selectModal('changeObject')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-muted font-weight-bolder font-size-lg">
+                        @if($get_global_status_table === config('klikbud.status_tools_table.object'))
+                            @forelse($objects as $object)
+                                @if((int)$get_global_status_table_id === (int)$object->id)
+                                    <a href="">{{ $object->title }}</a>
+                                    @break
+                                @endif
+                            @empty
+                                NONE
+                            @endforelse
+                        @else
+                        NONE
+                        @endif
+                    </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Warehouse</span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
-                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
+                    <span class="text-dark font-weight-bold mb-4">In_Warehouse <button wire:click="selectModal('changeWarehouse')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-muted font-weight-bolder font-size-lg">
+                        @if($get_global_status_table === config('klikbud.status_tools_table.warehouse'))
+                            @forelse($warehouses as $warehouse)
+                                @if((int)$get_global_status_table_id === (int)$warehouse->id)
+                                    <a href="">{{ $warehouse->title }} @empty($warehouse->square) @else - ({{ $warehouse->square }} m2) @endempty</a>
+                                    @break
+                                @endif
+                            @empty
+                                NONE
+                            @endforelse
+                        @else
+                            NONE
+                        @endif
+                    </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Employee</span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']))
-                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
+                    <span class="text-dark font-weight-bold mb-4">In_Client <button wire:click="selectModal('changeClient')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-muted font-weight-bolder font-size-lg">
+                         @if($get_global_status_table === config('klikbud.status_tools_table.client'))
+                            @forelse($clients as $client)
+                                @if((int)$get_global_status_table_id === (int)$client->id)
+                                    <a href="">{{ $client->first_name }} {{ $client->last_name }}</a>
+                                    @break
+                                @endif
+                            @empty
+                                NONE
+                            @endforelse
+                        @else
+                            NONE
+                        @endif
+                    </span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="mb-8 d-flex flex-column">
+                    <span class="text-dark font-weight-bold mb-4">In_Business <button wire:click="selectModal('changeBusiness')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-muted font-weight-bolder font-size-lg">
+                        @if($get_global_status_table === config('klikbud.status_tools_table.business'))
+                            @forelse($business as $item)
+                                @if((int)$get_global_status_table_id === (int)$item->id)
+                                    <a href="">{{ $item->title }}</a>
+                                    @break
+                                @endif
+                            @empty
+                                NONE
+                            @endforelse
+                        @else
+                            NONE
+                        @endif
+                    </span>
                 </div>
             </div>
             {{--<!--end::Info-->--}}
@@ -175,5 +230,9 @@
         {{--<!--end::Buttons-->--}}
         @include('livewire.warehouses.tools.block.show.status-change-modal')
         @include('livewire.warehouses.tools.block.show.change-box-modal')
+        @include('livewire.warehouses.tools.block.show.change-global-status-business')
+        @include('livewire.warehouses.tools.block.show.change-global-status-warehouse')
+        @include('livewire.warehouses.tools.block.show.change-global-status-client')
+        @include('livewire.warehouses.tools.block.show.change-global-status-object')
     </div>
 </div>

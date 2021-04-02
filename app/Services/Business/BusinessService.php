@@ -53,6 +53,19 @@ class BusinessService extends Services
     /**
      * @return mixed
      */
+    public function selectBusinessToForm(): mixed
+    {
+        try {
+            return BusinessList::select('id', 'title', 'business_form_id', 'business_form_other', 'type_id')->get();
+        }catch (Exception $e){
+            return NULL;
+        }
+
+    }
+
+    /**
+     * @return mixed
+     */
     public function getBusinessToForms(): mixed
     {
         return BusinessList::select('id', 'title', 'business_form_id', 'business_form_other', 'type_id')->get();
