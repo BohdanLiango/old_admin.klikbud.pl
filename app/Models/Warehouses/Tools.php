@@ -3,11 +3,13 @@
 namespace App\Models\Warehouses;
 
 use App\Models\Business\BusinessList;
+use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -37,6 +39,14 @@ class Tools extends Model
     public function guarantee_file(): BelongsTo
     {
         return $this->belongsTo(Files::class, 'guarantee_file_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function guarantee_file_add(): BelongsTo
+    {
+        return $this->belongsTo(FileAdditionalInformation::class, 'guarantee_file_id', 'file_id');
     }
 
     /**
@@ -98,9 +108,17 @@ class Tools extends Model
     /**
      * @return BelongsTo
      */
-    public function global_status()
+    public function global_status(): BelongsTo
     {
         return $this->belongsTo(StatusTool::class, 'id', 'tool_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function global_status_register(): HasMany
+    {
+        return $this->hasMany(StatusToolRegister::class, 'id', 'tool_id');
     }
 
     public function sluggable(): array

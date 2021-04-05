@@ -1,6 +1,24 @@
 <div>
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         @include('livewire.warehouses.tools.block.index.subheader')
+        @include('livewire.warehouses.tools.block.index.widget')
+        <div class=" d-flex flex-column-fluid row">
+            <div class="container">
+                <div class="form-group col-xl-6 float-left">
+                    <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.search') }}</label>
+                    <input wire:model="searchQuery" class="form-control"/>
+                </div>
+                <div class="form-group col-xl-6 float-right">
+                    <label>{{ trans('admin_klikbud/settings/klikbud/gallery.content.status_in_gallery_to_main_page') }}</label>
+                    <select wire:model="searchStatus" class="form-control ">
+                        <option value="">--------</option>
+                        @foreach($status as $item)
+                            <option value="{{ $item['value'] }}">{{ $item['title'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="d-flex flex-column-fluid">
             <div class="container">
                 <div class="d-flex flex-row">

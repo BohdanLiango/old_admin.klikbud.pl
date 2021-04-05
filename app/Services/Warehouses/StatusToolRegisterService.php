@@ -31,4 +31,12 @@ class StatusToolRegisterService
             abort(403);
         }
     }
+
+    /**
+     * @param $tool_id
+     */
+    public function deleteRecords($tool_id)
+    {
+        StatusToolRegister::where('tool_id', $tool_id)->delete();
+    }
 }

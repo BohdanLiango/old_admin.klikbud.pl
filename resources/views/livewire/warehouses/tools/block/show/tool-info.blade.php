@@ -16,7 +16,9 @@
                 {{--<!--end::Image-->--}}
             </div>
             <div class="col-xxl-7 pl-xxl-11">
-                <h2 class="font-weight-bolder text-dark mb-7" style="font-size: 32px;">{{ $tool['title'] }}</h2>
+                <h2 class="font-weight-bolder text-dark mb-7" style="font-size: 32px;">{{ $tool['title'] }}
+                    <a href="{{ route('warehouses.tools.edit', $tool['slug']) }}" class="btn btn-icon btn-warning ml-10"><i class="flaticon2-edit"></i></a>
+                    <a wire:click="selectModal('openDeleteModal')" class="btn btn-icon btn-danger"><i class="flaticon2-delete"></i></a></h2>
                 <div class="font-size-h2 mb-7 text-dark-50">Cena<span class="text-info font-weight-boldest ml-2">{{ $tool['price'] }} zł</span>
                 </div>
                 <div class="line-height-xl">{{ $tool['description'] }}</div>
@@ -234,5 +236,6 @@
         @include('livewire.warehouses.tools.block.show.change-global-status-warehouse')
         @include('livewire.warehouses.tools.block.show.change-global-status-client')
         @include('livewire.warehouses.tools.block.show.change-global-status-object')
+        @include('livewire.warehouses.tools.block.show.delete-modal')
     </div>
 </div>

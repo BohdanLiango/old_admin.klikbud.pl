@@ -90,7 +90,6 @@ class AddLivewire extends Warehouse
         }
     }
 
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);

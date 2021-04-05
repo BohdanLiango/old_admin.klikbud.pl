@@ -6,6 +6,11 @@ use App\Models\Warehouses\StatusTool;
 
 class StatusToolService extends StatusToolRegisterService
 {
+    public function get_all()
+    {
+        return StatusTool::all();
+    }
+
     /**
      * @param $id
      * @return null
@@ -58,6 +63,21 @@ class StatusToolService extends StatusToolRegisterService
 
                 $this->storeRegister($find->id, $tool_id, $table, $table_id, config('klikbud.status_tools_status.start'), $unique_number);
             }
+            return true;
+        }catch (\Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $tool_id
+     * @return bool
+     */
+    public function delete($tool_id): bool
+    {
+        try {
+            $this->deleteRecords($tool_id);
+            StatusTool::where('tool_id', $tool_id)->delete();
             return true;
         }catch (\Exception $e){
             return false;

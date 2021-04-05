@@ -39,10 +39,9 @@ class ShowLivewire extends Warehouse
         $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
         $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
         $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
-        $random_icons = collect(app()->make(DefaultData::class)->rand_repair_tools_svg());
         $this->new_data();
 
-        return view('livewire.warehouses.tools.show-livewire', compact('random_icons'))
+        return view('livewire.warehouses.tools.show-livewire')
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title, 'actions' => $actions])
             ->section('content');
     }
@@ -108,6 +107,14 @@ class ShowLivewire extends Warehouse
         $this->modal_info = $modal;
 
         switch ($modal){
+            case 'openDeleteModal':
+                $this->dispatchBrowserEvent('openDeleteModal');
+                break;
+            case 'closeDeleteModal':
+                $this->dispatchBrowserEvent('closeDeleteModal');
+                break;
+
+
             case 'changeStatus':
                 $this->dispatchBrowserEvent('openChangeStatusModal');
                 break;
@@ -244,5 +251,13 @@ class ShowLivewire extends Warehouse
             $status = true;
         }
         $this->checkStatus($status, 'Yuppi', 'alert', true, 'top-end');
+    }
+
+    public function delete()
+    {
+        $status = app()->make(ToolsService::class)->delete($this->tool['id']);
+        $this->selectModal('closeDeleteModal');
+        $this->checkStatus($status, 'YUPPI', 'flash', false, 'center');
+        return redirect()->route('warehouses.tools.show');
     }
 }

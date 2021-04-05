@@ -71,7 +71,22 @@ License: You must have a valid license purchased only from themeforest(the above
         <x-livewire-alert::scripts />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         @stack('scripts_p')
-
+        <script>
+            @if(Route::currentRouteName() == app('router')->getRoutes()->match(app('request')->create(URL::previous()))->getName())
+            let cords = ['scrollX','scrollY'];
+            // Перед закрытием записываем в локалсторадж window.scrollX и window.scrollY как scrollX и scrollY
+            window.addEventListener('unload', e => cords.forEach(cord => localStorage[cord] = window[cord]));
+            // Прокручиваем страницу к scrollX и scrollY из localStorage (либо 0,0 если там еще ничего нет)
+            window.scroll(...cords.map(cord => localStorage[cord]));
+            @else
+            localStorage.clear();
+            let cords = ['scrollX','scrollY'];
+            // Перед закрытием записываем в локалсторадж window.scrollX и window.scrollY как scrollX и scrollY
+            window.addEventListener('unload', e => cords.forEach(cord => localStorage[cord] = window[cord]));
+            // Прокручиваем страницу к scrollX и scrollY из localStorage (либо 0,0 если там еще ничего нет)
+            window.scroll(...cords.map(cord => localStorage[cord]));
+            @endif
+        </script>
     </body>
 </html>
 

@@ -42,24 +42,6 @@ class FilesDataService extends FileService
         return $this->files->storeFileUseLivewire($store, $to_table, $table_record_id, $title, $group, $subgroup);
     }
 
-
-    /**
-     * @param $store
-     * @param $to_table
-     * @param $table_record_id
-     * @param $group
-     * @param $subgroup
-     * @return mixed
-     */
-    public function  preStoreLivewireImage($store, $to_table, $table_record_id, $group, $subgroup): mixed
-    {
-        if(empty($store))
-        {
-            return NULL;
-        }
-        return $this->files->storeImageUseLivewire($store, $to_table, $table_record_id, $group, $subgroup);
-    }
-
     /**
      * @param $update
      * @param $image_old_id
@@ -84,6 +66,48 @@ class FilesDataService extends FileService
         return $this->files->updateImageUseLivewire($update, $image_old_id,  $table_record_id, $to_table);
     }
 
+    /**
+     * @param $update
+     * @param $file_old_id
+     * @param $to_table
+     * @param $table_record_id
+     * @param $title
+     * @param $group
+     * @param $subgroup
+     * @return mixed
+     */
+    public function preUpdateLivewireFile($update, $file_old_id, $to_table, $table_record_id, $title, $group, $subgroup): mixed
+    {
+        if(empty($update))
+        {
+            return NULL;
+        }
+
+        if($file_old_id === null)
+        {
+            return $this->preStoreLivewireFile($update, $to_table, $table_record_id, $title, $group, $subgroup);
+        }
+
+        return $this->files->updateFilesUseLivewire($update, $file_old_id, $table_record_id, $to_table, $title);
+    }
+
+
+    /**
+     * @param $store
+     * @param $to_table
+     * @param $table_record_id
+     * @param $group
+     * @param $subgroup
+     * @return mixed
+     */
+    public function  preStoreLivewireImage($store, $to_table, $table_record_id, $group, $subgroup): mixed
+    {
+        if(empty($store))
+        {
+            return NULL;
+        }
+        return $this->files->storeImageUseLivewire($store, $to_table, $table_record_id, $group, $subgroup);
+    }
 
     #####################################################################################################################
 
@@ -224,5 +248,31 @@ class FilesDataService extends FileService
         $to_table = self::TABLES['6'];
         return $this->preStoreLivewireImage($store, $to_table, $table_record_id, self::GROUP_2, self::SUB_GROUP_2_2);
     }
+
+    /**
+     * @param $update
+     * @param $image_old_id
+     * @param $table_record_id
+     * @return mixed
+     */
+    public function updateImageTool($update, $image_old_id, $table_record_id): mixed
+    {
+        $to_table = self::TABLES['6'];
+        return $this->preUpdateLivewireImage($update, $image_old_id, $table_record_id, $to_table, self::GROUP_2, self::SUB_GROUP_2_2);
+    }
+
+    /**
+     * @param $update
+     * @param $old_file_id
+     * @param $table_record_id
+     * @param $title
+     * @return mixed
+     */
+    public function updateFileTools($update, $old_file_id, $table_record_id, $title): mixed
+    {
+        $to_table = self::TABLES['6'];
+        return $this->preUpdateLivewireFile($update, $old_file_id, $to_table, $table_record_id, $title, self::GROUP_2, self::SUB_GROUP_2_2);
+    }
+
 
 }

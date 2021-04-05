@@ -11,21 +11,73 @@ use Illuminate\Support\Str;
 class ToolsService extends Services
 {
     public $helpers;
+    public $globalStatus;
 
-    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper)
+    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper, StatusToolService $statusToolService)
     {
         $this->helpers = $klikbudFunctionsHelper;
+        $this->globalStatus = $statusToolService;
     }
 
-    public function showToolsToIndexPage($orderBy, $orderByType, $paginate)
+    /**
+     * @param $searchMainCategory
+     * @param $searchHalfCategory
+     * @param $searchCategory
+     * @param $searchQuery
+     * @param $searchStatus
+     * @param $orderBy
+     * @param $orderByType
+     * @param $paginate
+     * @return mixed
+     */
+    public function showToolsToIndexPage($searchId, $searchMainCategory, $searchHalfCategory, $searchCategory,
+                                         $searchQuery, $searchStatus, $orderBy, $orderByType, $paginate): mixed
     {
-        return Tools::orderBy($orderBy, $orderByType)->paginate($paginate);
+        return Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
+            $query->where('title', 'like', '%' . $searchQuery . '%');
+        })->when($searchStatus != '', function ($query) use ($searchStatus) {
+            $query->where('status_tool_id', 'like', '%' . $searchStatus . '%');
+        })->when($searchMainCategory != '', function ($query) use ($searchMainCategory) {
+            $query->where('main_category_id', 'like', '%' . $searchMainCategory . '%');
+        })->when($searchHalfCategory != '', function ($query) use ($searchHalfCategory) {
+            $query->where('half_category_id', 'like', '%' . $searchHalfCategory . '%');
+        })->when($searchCategory != '', function ($query) use ($searchCategory) {
+            $query->where('category_id', 'like', '%' . $searchCategory . '%');
+        })->when($searchId != '', function ($query) use ($searchId) {
+            $query->whereIn('id', $searchId);
+        })->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
-
+    /**
+     * @return mixed
+     */
     public function getBoxToForm()
     {
         return Tools::where('is_box', 1)->select('id', 'title')->get();
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function getAllActiveToolsSelectIdCount(): bool|int
+    {
+        try {
+            return Tools::select('id')->count();
+        }catch (Exception $e){
+            return  false;
+        }
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function getAllTrashedToolsSelectIdCount(): bool|int
+    {
+        try {
+            return Tools::onlyTrashed()->select('id')->count();
+        }catch (Exception $e){
+            return  false;
+        }
     }
 
     /**
@@ -83,6 +135,22 @@ class ToolsService extends Services
             $store = new Tools();
             $store->fill($this->creatorData($tools))->save();
             return $store->id;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $tools
+     * @return bool
+     */
+    public function update($id, $tools): bool
+    {
+        try {
+            $update = Tools::findOrFail($id);
+            $update->fill($this->creatorData($tools))->save();
+            return true;
         }catch (Exception $e){
             return false;
         }
@@ -153,6 +221,23 @@ class ToolsService extends Services
             $store->status_tool_id = $status_id;
             $store->status_description = $status_description;
             $store->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id): bool
+    {
+        try {
+            $tools = Tools::findOrFail($id);
+            $this->helpers->deleteImage($tools->image_id);
+            $tools->delete();
+            $this->globalStatus->delete($id);
             return true;
         }catch (Exception $e){
             return false;

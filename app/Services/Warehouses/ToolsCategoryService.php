@@ -51,7 +51,7 @@ class ToolsCategoryService extends Services
 
     public function getCategoriesToForms()
     {
-        return ToolsCategory::select('id', 'title', 'main_category_id', 'half_category_id', 'type_id')->get();
+        return ToolsCategory::select('id', 'title', 'main_category_id', 'half_category_id', 'type_id', 'slug')->get();
     }
 
     /**

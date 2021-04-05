@@ -63,6 +63,30 @@ class ToolsCategory extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function tools_main(): HasMany
+    {
+        return $this->hasMany(Tools::class, 'main_category_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function tools_half(): HasMany
+    {
+        return $this->hasMany(Tools::class, 'half_category_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function tools_category(): HasMany
+    {
+        return $this->hasMany(Tools::class, 'category_id', 'id');
+    }
+
+    /**
      * @return string[][]
      */
     public function sluggable(): array

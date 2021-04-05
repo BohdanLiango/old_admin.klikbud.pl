@@ -125,6 +125,57 @@ class FilesService extends FileService
 
     /**
      * @param $update
+     * @param $file_old_id
+     * @param $table_record_id
+     * @param $to_table
+     * @return mixed
+     */
+    public function updateFilesUseLivewire($update, $file_old_id,  $table_record_id, $to_table, $title): mixed
+    {
+        Storage::disk(config('klikbud.disk_store'))->setVisibility($update, 'public');
+
+        $get_information = FileAdditionalInformation::find($file_old_id);
+
+        //Type File
+        $file_type_id = self::FILE_TYPE_FILE;
+
+        //Create Folder
+        $folder_name = $get_information->folder;
+        $folder = $get_information->path;
+
+        //Get Mime and Size Updated File
+        $mime = Storage::disk(config('klikbud.disk_store'))->mimeType($update);
+        $size = Storage::disk(config('klikbud.disk_store'))->size($update);
+
+        //Get name stored File
+        $name_file = class_basename($update);
+        $name_file_store = $name_file;
+
+        if(!is_null($title))
+        {
+            $name_file_store = Str::slug($title, '_') . '_' . date('Y-m-d') . '_' .date('H:i:s') . '.' .Str::after($name_file, '.');
+        }
+
+        //Move to correctly folder
+        Storage::disk(config('klikbud.disk_store'))->move($update,  $folder .'/' .$name_file_store);
+
+        //Delete old folder
+        Storage::disk(config('klikbud.disk_store'))->deleteDirectory(Str::before($update, '/' . $name_file_store));
+
+        $full_path = $folder . '/' . $name_file_store;
+
+        // Soft Delete File
+        $softDeleteFile = Files::findOrFail($get_information->file_id);
+        $softDeleteFile->delete();
+
+        // Soft Delete Additional Information
+        $get_information->delete();
+
+        return $this->store($to_table, $table_record_id, $name_file_store, $folder_name, $folder, $size, $mime, $file_type_id, $full_path);
+    }
+
+    /**
+     * @param $update
      * @param $image_old_id
      * @param $table_record_id
      * @param $to_table

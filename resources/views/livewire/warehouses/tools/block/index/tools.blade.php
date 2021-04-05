@@ -17,8 +17,8 @@
                     </div>
                 </div>
                 <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
-                    <a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">{{ $tool->title }}</a>
-                    <span class="font-size-lg">Outlines keep poorly thought</span>
+                    <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">{{ $tool->title }}</a>
+                    <span class="font-size-lg"></span>
                 </div>
             </div>
         </div>

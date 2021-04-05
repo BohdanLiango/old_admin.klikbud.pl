@@ -88,6 +88,18 @@ class KlikbudFunctionsHelper extends Helper
     }
 
     /**
+     * @param $date
+     * @return string|null
+     */
+    public function changeFormatDataToShow($date): ?string
+    {
+        if (!is_null($date)){
+            return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+        }
+        return null;
+    }
+
+    /**
      * @param $street_id
      * @return array
      */
