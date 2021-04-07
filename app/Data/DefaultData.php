@@ -395,13 +395,13 @@ class DefaultData extends Data
     public function status_tools(): array
     {
         return [
-            ["value" => 1, 'title' => 'Active', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
-            ["value" => 2, 'title' => 'Dont work', "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
-            ["value" => 3, 'title' => 'In repair', "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
-            ["value" => 4, 'title' => 'Sell', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
-            ["value" => 5, 'title' => 'Destroy', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
-            ["value" => 6, 'title' => 'Wkradenyj', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
-            ["value" => 7, 'title' => 'Zgubiony', "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 1, 'title' => trans('admin_klikbud/warehouse/tools.default_data.active'), "class" => 'label label-light-success label-pill label-inline mr-2 label-l'],
+            ["value" => 2, 'title' => trans('admin_klikbud/warehouse/tools.default_data.dont_work'), "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 3, 'title' => trans('admin_klikbud/warehouse/tools.default_data.in_repair'), "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 4, 'title' => trans('admin_klikbud/warehouse/tools.default_data.sell'), "class" => 'label label-light-info label-pill label-inline mr-2 label-l'],
+            ["value" => 5, 'title' => trans('admin_klikbud/warehouse/tools.default_data.destroy'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 6, 'title' => trans('admin_klikbud/warehouse/tools.default_data.stolen'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 7, 'title' => trans('admin_klikbud/warehouse/tools.default_data.lost'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
         ];
     }
 }

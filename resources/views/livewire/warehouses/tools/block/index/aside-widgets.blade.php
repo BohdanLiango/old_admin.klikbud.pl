@@ -2,7 +2,7 @@
 <div class="card card-custom gutter-b">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column mb-3">
-            <span class="card-label font-size-h3 font-weight-bolder text-dark">Kategories</span>
+            <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.categories') }}</span>
         </h3>
     </div>
     <div class="card-body pt-4">
@@ -97,7 +97,7 @@
     <div class="card card-custom gutter-b">
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column mb-3">
-                <span class="card-label font-size-h3 font-weight-bolder text-dark">Warehouse</span>
+                <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.warehouse') }}</span>
             </h3>
         </div>
         <div class="card-body pt-4">
@@ -119,11 +119,10 @@
             </ul>
         </div>
     </div>
-
 <div class="card card-custom gutter-b">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column mb-3">
-            <span class="card-label font-size-h3 font-weight-bolder text-dark">Objects</span>
+            <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.objects') }}</span>
         </h3>
     </div>
     <div class="card-body pt-4">
@@ -133,7 +132,7 @@
                     @else
                 <li class="navi-item">
                     <a class="navi-link" href="#" wire:click.prevent="searchStatus('object', {{ $object->id }})">
-                        <span class="navi-icon"><i class="flaticon2-world"></i></span>
+                        <span class="navi-icon"><i class="flaticon2-architecture-and-city"></i></span>
                         <span class="navi-text">{{ Str::limit($object->title, 20) }}</span>
                         <span class="navi-label">
                               <span class="label label-info label-rounded">
@@ -151,7 +150,7 @@
 <div class="card card-custom gutter-b">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column mb-3">
-            <span class="card-label font-size-h3 font-weight-bolder text-dark">Clients</span>
+            <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.clients') }}</span>
         </h3>
     </div>
     <div class="card-body pt-4">
@@ -161,7 +160,7 @@
                 @else
                     <li class="navi-item">
                         <a class="navi-link" href="#" wire:click.prevent="searchStatus('client', {{ $client->id }})">
-                            <span class="navi-icon"><i class="flaticon2-world"></i></span>
+                            <span class="navi-icon"><i class="flaticon2-group"></i></span>
                             <span class="navi-text">{{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}</span>
                             <span class="navi-label">
                               <span class="label label-info label-rounded">
@@ -180,7 +179,7 @@
 <div class="card card-custom gutter-b">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column mb-3">
-            <span class="card-label font-size-h3 font-weight-bolder text-dark">Business</span>
+            <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.business') }}</span>
         </h3>
     </div>
     <div class="card-body pt-4">
@@ -190,7 +189,7 @@
                 @else
                     <li class="navi-item">
                         <a class="navi-link" href="#" wire:click="searchStatus('business', {{ $item->id }})">
-                            <span class="navi-icon"><i class="flaticon2-world"></i></span>
+                            <span class="navi-icon"><i class="flaticon-presentation"></i></span>
                             <span class="navi-text">{{ Str::limit($item->title, 20) }}</span>
                             <span class="navi-label">
                               <span class="label label-info label-rounded">

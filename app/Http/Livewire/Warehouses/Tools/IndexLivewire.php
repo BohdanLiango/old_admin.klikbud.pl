@@ -17,7 +17,7 @@ use Livewire\WithPagination;
 
 class IndexLivewire extends Component
 {
-    public $orderBy = 'id', $orderByType = 'desc', $paginate = 20, $searchQuery = '', $searchStatus = '',
+    public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
         $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '';
     public $categories, $warehouses, $status_tool, $objects, $clients, $business;
     public $countAll, $countActive, $countDeleted, $percentActive, $percentDeleted, $status;
@@ -109,5 +109,16 @@ class IndexLivewire extends Component
                 $this->searchGlobalStatusId = $table_id;
                 break;
         }
+    }
+
+    public function clearSearchOptions()
+    {
+        $this->searchQuery = '';
+        $this->searchStatus = '';
+        $this->searchMainCategory = '';
+        $this->searchHalfCategory = '';
+        $this->searchCategory = '';
+        $this->searchGlobalStatusTable = '';
+        $this->searchGlobalStatusId = '';
     }
 }
