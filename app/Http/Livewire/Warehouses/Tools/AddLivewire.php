@@ -15,6 +15,7 @@ class AddLivewire extends Warehouse
     public $main_category_check = false, $half_category_check = false, $categories_check = false;
     public $category_id_refresh, $category_half_refresh;
     public $tools, $half_categories, $categories, $image, $guarantee_file, $show_categories, $departments, $business;
+    public $type_add;
 
     use WithFileUploads;
 
@@ -32,11 +33,12 @@ class AddLivewire extends Warehouse
         'tools.business_departments_id' => 'nullable|integer',
         'tools.manufacturer_id' => 'nullable|integer',
         'tools.guarantee_date_end' => 'nullable|date_format:d/m/Y',
-        'guarantee_file' => 'nullable|file|mimes:pdf'
+        'guarantee_file' => 'nullable|file|mimes:pdf|max:2048'
     ];
 
-    public function mount()
+    public function mount($type)
     {
+        $this->type_add = $type;
         $this->show_categories = collect(app()->make(ToolsCategoryService::class)->getCategoriesToForms());
         $show_business = collect(app()->make(BusinessService::class)->getBusinessToForms());
         $this->departments = $show_business->where('type_id', 2);
@@ -45,8 +47,10 @@ class AddLivewire extends Warehouse
 
     public function render()
     {
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
-        $page_title = $breadcrumbs[1]['name'];
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(2, [[
+            'key' => 2, 'link' => route('warehouses.tools.add', $this->type_add), 'name' => trans('admin_klikbud/warehouse/tools.add_edit.add_title')
+        ]]);
+        $page_title = $breadcrumbs[2]['name'];
 
         $collect_tools = collect($this->tools);
         $main_categories = $this->show_categories->where('type_id', 1);
@@ -122,7 +126,21 @@ class AddLivewire extends Warehouse
             $status = false;
         }
 
-        $this->checkStatus($status, 'YUPPI', 'flash', false, 'center');
-        return redirect()->route('warehouses.tools.show');
+        $message = trans('admin_klikbud/warehouse/tools.add_edit.message.add_form_1') . ' ' . $this->tools['title'] . ' ' . trans('admin_klikbud/warehouse/tools.add_edit.message.add_form_2');
+
+        $this->checkStatus($status, $message, 'flash', false, 'center');
+
+        switch ($id){
+            case 1:
+                return redirect()->route('warehouses.tools.show');
+            case 2:
+                $slug = app()->make(ToolsService::class)->getSlug($store_id);
+                return redirect()->route('warehouses.tools.one', $slug);
+            case 3:
+                return redirect()->route('warehouses.tools.add', $this->type_add);
+        }
+
+        abort(403);
+        return false;
     }
 }

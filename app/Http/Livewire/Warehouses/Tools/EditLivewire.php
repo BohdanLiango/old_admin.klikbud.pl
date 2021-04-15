@@ -65,8 +65,11 @@ class EditLivewire extends Warehouse
 
     public function render()
     {
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
-        $page_title = $breadcrumbs[1]['name'];
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(3, [
+            ['key' => 2, 'link' => route('warehouses.tools.one', $this->tools['slug']), 'name' => $this->tools['title']],
+            ['key' => 3, 'link' => route('warehouses.tools.edit', $this->tools['slug']), 'name' => trans('admin_klikbud/warehouse/tools.add_edit.edit_title')]
+        ]);
+        $page_title = $breadcrumbs[3]['name'];
         $collect_tools = collect($this->tools);
         $main_categories = $this->show_categories->where('type_id', 1);
         $this->getHalfCategories($collect_tools);
@@ -133,7 +136,8 @@ class EditLivewire extends Warehouse
             app()->make(ToolsService::class)->storeImage($this->tools['id'], $image_id);
         }
 
-        $this->checkStatus($status, 'YUPPI', 'flash', false, 'center');
+        $message = trans('admin_klikbud/warehouse/tools.add_edit.message.edit_form_1') . ' ' . $this->tools['title'] . ' ' . trans('admin_klikbud/warehouse/tools.add_edit.message.edit_form_2');
+        $this->checkStatus($status, $message, 'flash', false, 'center');
         return redirect()->route('warehouses.tools.one', $this->tools['slug']);
     }
 }

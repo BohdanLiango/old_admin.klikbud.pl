@@ -31,7 +31,7 @@
                                         <span class="navi-icon"><i class="flaticon2-check-mark"></i></span>
                                         <span class="navi-text">{{ $main_category->title }}</span>
                                         <span class="navi-label">
-                                        <span class="label label-info label-rounded">@if(!is_null($main_category->tools_main)) {{ count($main_category->tools_main) }} @else 0 @endif</span>
+                                        <span class="label label-success label-rounded">@if(!is_null($main_category->tools_main)) {{ count($main_category->tools_main) }} @else 0 @endif</span>
                                     </span>
                                     </a>
                                     <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="accordionExample8">
@@ -58,7 +58,7 @@
                                                             <span class="navi-icon"><i class="flaticon2-check-mark"></i></span>
                                                             <span class="navi-text">{{ $half_category->title }}</span>
                                                             <span class="navi-label">
-                                                            <span class="label label-info label-rounded">@if(!is_null($half_category->tools_half)) {{ count($half_category->tools_half) }} @else 0 @endif</span>
+                                                            <span class="label label-success label-rounded">@if(!is_null($half_category->tools_half)) {{ count($half_category->tools_half) }} @else 0 @endif</span>
                                                         </span>
                                                         </a>
                                                         @forelse($categories as $category)

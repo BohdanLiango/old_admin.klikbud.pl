@@ -10,6 +10,7 @@ use App\Http\Livewire\Warehouses\Warehouse;
 use App\Services\Business\BusinessService;
 use App\Services\Clients\ClientService;
 use App\Services\Objects\ObjectsService;
+use App\Services\Warehouses\StatusToolRegisterService;
 use App\Services\Warehouses\StatusToolService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
@@ -25,8 +26,10 @@ class ShowLivewire extends Warehouse
     public function render()
     {
         //Subheader data
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
-        $page_title = $breadcrumbs[1]['name'];
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(2, [[
+            'key' => 2, 'link' => route('warehouses.tools.one', $this->tool['slug']), 'name' => $this->tool['title']
+        ]]);
+        $page_title = $breadcrumbs[2]['name'];
         $actions = app()->make(ActionsData::class)->warehouse_tool_one(1);
         //End subheader data
         $get_global_status = app()->make(StatusToolService::class)->getStatusToolData($this->tool['id']);
@@ -78,9 +81,9 @@ class ShowLivewire extends Warehouse
         $this->tool['created_at'] =  date('d/m/Y', strtotime($collect->get('created_at')));
         $this->status_tool_data = collect(app()->make(DefaultData::class)->status_tools());
         $this->tool['slug'] =  $collect->get('slug');
-        $this->tool['box_id'] = (!is_null($get_data->box)) ? $collect->get('box_id') : NULL;
         $this->tool['status_tool_id'] = $collect->get('status_tool_id');
         $this->tool['status_description'] = $collect->get('status_description');
+        $this->tool['box_id'] = (!is_null($this->get_data->box_id)) ? $this->get_data->box_id : NULL;
         $this->get_box = app()->make(ToolsService::class)->getBoxToForm();
     }
 
@@ -190,22 +193,22 @@ class ShowLivewire extends Warehouse
 
        switch ($this->modal_info){
            case ('changeWarehouse'):
-               $message = 'Warehouse Change';
+               $message = trans('admin_klikbud/warehouse/tools.one.messages.warehouse_change');
                $table = config('klikbud.status_tools_table.warehouse');
                $this->selectModal('closeChangeWarehouse');
                break;
            case ('changeClient'):
-               $message = 'changeClient Change';
+               $message = trans('admin_klikbud/warehouse/tools.one.messages.client_change');
                $table = config('klikbud.status_tools_table.client');
                $this->selectModal('closeChangeClient');
                break;
            case ('changeObject'):
-               $message = 'changeObject Change';
+               $message = trans('admin_klikbud/warehouse/tools.one.messages.object_change');
                $table = config('klikbud.status_tools_table.object');
                $this->selectModal('closeChangeObject');
                break;
            case ('changeBusiness'):
-               $message = 'changeBusiness Change';
+               $message = trans('admin_klikbud/warehouse/tools.one.messages.business_change');
                $table = config('klikbud.status_tools_table.business');
                $this->selectModal('closeChangeBusiness');
                break;
@@ -235,7 +238,7 @@ class ShowLivewire extends Warehouse
         }else{
             $status = true;
         }
-        $this->checkStatus($status, 'Yuppi', 'alert', true, 'top-end');
+        $this->checkStatus($status, trans('admin_klikbud/warehouse/tools.one.messages.status_change'), 'alert', true, 'top-end');
     }
 
     public function changeBox()
@@ -247,17 +250,34 @@ class ShowLivewire extends Warehouse
         if($this->new_box !== $this->tool['box_id'])
         {
             $status = app()->make(ToolsService::class)->changeOneRecord($this->tool['id'], 'box_id', $this->new_box);
+            app()->make(StatusToolRegisterService::class)->storeRegister(NULL, $this->tool['id'], 'box_id', $this->new_box, 1, NULL);
+            $this->status_box_change = 1;
         }else{
-            $status = true;
+            $status = false;
         }
-        $this->checkStatus($status, 'Yuppi', 'alert', true, 'top-end');
+        $this->checkStatus($status, trans('admin_klikbud/warehouse/tools.one.messages.box_change'), 'alert', true, 'top-end');
+    }
+
+    public function deleteBox()
+    {
+        if($this->new_box !== NULL)
+        {
+            $status = app()->make(ToolsService::class)->changeOneRecord($this->tool['id'], 'box_id', NULL);
+            app()->make(StatusToolRegisterService::class)->storeRegister(NULL, $this->tool['id'], 'box_id', NULL, 2, NULL);
+        }else{
+            $status = false;
+        }
+
+        $this->checkStatus($status, trans('admin_klikbud/warehouse/tools.one.messages.box_change_delete'), 'alert', true, 'top-end');
+        return redirect()->route('warehouses.tools.one', $this->tool['slug']);
     }
 
     public function delete()
     {
         $status = app()->make(ToolsService::class)->delete($this->tool['id']);
         $this->selectModal('closeDeleteModal');
-        $this->checkStatus($status, 'YUPPI', 'flash', false, 'center');
+        $message = trans('admin_klikbud/warehouse/tools.one.messages.delete_1') . ' ' . $this->tool['title'] . ' ' . trans('admin_klikbud/warehouse/tools.one.messages.delete_2');
+        $this->checkStatus($status, $message, 'flash', false, 'center');
         return redirect()->route('warehouses.tools.show');
     }
 }

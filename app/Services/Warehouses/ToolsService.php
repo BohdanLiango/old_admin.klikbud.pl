@@ -48,6 +48,12 @@ class ToolsService extends Services
         })->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
+
+    public function getSlug($id)
+    {
+        return Tools::findOrFail($id)->slug;
+    }
+
     /**
      * @return mixed
      */
@@ -149,7 +155,24 @@ class ToolsService extends Services
     {
         try {
             $update = Tools::findOrFail($id);
-            $update->fill($this->creatorData($tools))->save();
+            $collect = collect($tools);
+            if((int)$collect->get('main_category_id') !== (int)$update->main_category_id)
+            {
+                if((int)$collect->get('half_category_id') === (int)$update->half_category_id)
+                {
+                    $collect->forget('half_category_id');
+                    $collect->forget('category_id');
+                }
+            }
+
+            if((int)$collect->get('half_category_id') !== (int)$update->half_category_id)
+            {
+                if((int)$collect->get('category_id') === (int)$update->category_id)
+                {
+                    $collect->forget('category_id');
+                }
+            }
+            $update->fill($this->creatorData($collect->toArray()))->save();
             return true;
         }catch (Exception $e){
             return false;

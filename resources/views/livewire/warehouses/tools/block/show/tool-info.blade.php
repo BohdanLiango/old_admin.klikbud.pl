@@ -19,11 +19,11 @@
                 <h2 class="font-weight-bolder text-dark mb-7" style="font-size: 32px;">{{ $tool['title'] }}
                     <a href="{{ route('warehouses.tools.edit', $tool['slug']) }}" class="btn btn-icon btn-warning ml-10"><i class="flaticon2-edit"></i></a>
                     <a wire:click="selectModal('openDeleteModal')" class="btn btn-icon btn-danger"><i class="flaticon2-delete"></i></a></h2>
-                <div class="font-size-h2 mb-7 text-dark-50">Cena<span class="text-info font-weight-boldest ml-2">{{ $tool['price'] }} zł</span>
+                <div class="font-size-h2 mb-7 text-dark-50">{{ trans('admin_klikbud/warehouse/tools.one.price') }}<span class="text-info font-weight-boldest ml-2">{{ $tool['price'] }} {{ trans('admin_klikbud/warehouse/tools.one.value') }}</span>
                 </div>
                 <div class="line-height-xl">{{ $tool['description'] }}</div>
                 <hr>
-                <div class="line-height-xl">Kategoria:
+                <div class="line-height-xl">
                     @if(!is_null($tool['category_id']))
                         {{ $tool['main_category_id'] }} /
                     @endif
@@ -40,7 +40,7 @@
             {{--<!--begin::Info-->--}}
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">Status
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.status') }}
                         @if($new_status_description)
                         <button class="btn btn-icon btn-primary btn-xs" data-container="body" data-toggle="tooltip" data-placement="right" title="{{ $new_status_description }}">
                             <i class="flaticon2-information"></i>
@@ -58,7 +58,12 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">Box <button wire:click="selectModal('changeBox')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.box') }}
+                        <button wire:click="selectModal('changeBox')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button>
+                        @if($new_box !== NULL)
+                        <button wire:click="deleteBox()" class="btn btn-icon btn-danger btn-xs"><i class="flaticon2-delete"></i></button>
+                        @endif
+                    </span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if(!is_null($new_box))
                             @forelse($get_box as $item)
@@ -67,40 +72,33 @@
                                         @break
                                 @endif
                             @empty
-                                NONE
+                                {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                             @endforelse
                         @else
-                            NONE
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                         @endif
                     </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">purchase_date</span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.purchase_date') }}</span>
                     <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['purchase_date']) || $tool['purchase_date'] === '01/01/1970')
-                            NONE @else {{ $tool['purchase_date'] }} @endif</span>
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }} @else {{ $tool['purchase_date'] }} @endif</span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">price</span>
-                    <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['price']))
-                            NONE @else {{ $tool['price'] }} zł @endif</span>
-                </div>
-            </div>
-            <div class="col-6 col-md-4">
-                <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">serial_number</span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.serial_number') }}</span>
                     <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['serial_number']))
-                            NONE @else {{ $tool['serial_number'] }} @endif</span>
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }} @else {{ $tool['serial_number'] }} @endif</span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">Business_department</span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.business_department') }}</span>
                     @if(is_null($tool['business_departments_id']))
-                        <span class="text-muted font-weight-bolder font-size-lg">NONE</span>
+                        <span class="text-muted font-weight-bolder font-size-lg"> {{ trans('admin_klikbud/warehouse/tools.one.none') }}</span>
                     @else
                         <span class="text-muted font-weight-bolder font-size-lg"><a
                                 href="{{ route('business.one', $tool['business_departments_id_business_slug']) }}"
@@ -110,9 +108,9 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">Manufacturer</span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.manufacturer') }}</span>
                     @if(is_null($tool['manufacturer_id']))
-                        <span class="text-muted font-weight-bolder font-size-lg">NONE</span>
+                        <span class="text-muted font-weight-bolder font-size-lg"> {{ trans('admin_klikbud/warehouse/tools.one.none') }}</span>
                     @else
                         <span class="text-muted font-weight-bolder font-size-lg"><a
                                 href="{{ route('business.one', $tool['manufacturer_slug']) }}"
@@ -122,25 +120,26 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">guarantee_date_end</span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.guarantee_date_end') }}</span>
                     <span class="text-muted font-weight-bolder font-size-lg">@if(is_null($tool['guarantee_date_end']) || $tool['guarantee_date_end'] === '01/01/1970')
-                            NONE @else {{ $tool['guarantee_date_end'] }} @endif</span>
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }} @else {{ $tool['guarantee_date_end'] }} @endif</span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">User add</span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.user_add') }}</span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         <a href="">
-                        @if(is_null($tool['user_add_first_name'])) NONE @else {{ $tool['user_add_first_name'] }} @endif
+                        @if(is_null($tool['user_add_first_name'])) {{ trans('admin_klikbud/warehouse/tools.one.none') }} @else {{ $tool['user_add_first_name'] }} @endif
                             @if(is_null($tool['user_add_last_name']))
-                                NONE @else {{ $tool['user_add_last_name'] }} @endif</span>
-                    </a>
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }} @else {{ $tool['user_add_last_name'] }} @endif
+                        </a>
+                    </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Object <button wire:click="selectModal('changeObject')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_object') }} <button wire:click="selectModal('changeObject')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if($get_global_status_table === config('klikbud.status_tools_table.object'))
                             @forelse($objects as $object)
@@ -149,17 +148,17 @@
                                     @break
                                 @endif
                             @empty
-                                NONE
+                                {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                             @endforelse
                         @else
-                        NONE
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                         @endif
                     </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Warehouse <button wire:click="selectModal('changeWarehouse')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_warehouse') }} <button wire:click="selectModal('changeWarehouse')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if($get_global_status_table === config('klikbud.status_tools_table.warehouse'))
                             @forelse($warehouses as $warehouse)
@@ -168,17 +167,17 @@
                                     @break
                                 @endif
                             @empty
-                                NONE
+                                {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                             @endforelse
                         @else
-                            NONE
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                         @endif
                     </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Client <button wire:click="selectModal('changeClient')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_client') }} <button wire:click="selectModal('changeClient')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                          @if($get_global_status_table === config('klikbud.status_tools_table.client'))
                             @forelse($clients as $client)
@@ -187,17 +186,17 @@
                                     @break
                                 @endif
                             @empty
-                                NONE
+                                {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                             @endforelse
                         @else
-                            NONE
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                         @endif
                     </span>
                 </div>
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">In_Business <button wire:click="selectModal('changeBusiness')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_business') }} <button wire:click="selectModal('changeBusiness')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if($get_global_status_table === config('klikbud.status_tools_table.business'))
                             @forelse($business as $item)
@@ -206,10 +205,10 @@
                                     @break
                                 @endif
                             @empty
-                                NONE
+                                {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                             @endforelse
                         @else
-                            NONE
+                            {{ trans('admin_klikbud/warehouse/tools.one.none') }}
                         @endif
                     </span>
                 </div>
@@ -220,12 +219,12 @@
         <div class="d-flex">
             @if(!is_null($tool['guarantee_file']))
             <a href="{{ route('download', $tool['guarantee_file_id'] ) }}" class="btn btn-primary font-weight-bolder mr-6 px-6 font-size-sm" target="_blank"><i
-                    class="flaticon2-download"></i>Download Guarantee File
+                    class="flaticon2-download"></i>{{ trans('admin_klikbud/warehouse/tools.one.download_file') }}
             </a>
             @endif
             @if(!is_null($tool['image']))
             <a href="{{ route('download', $tool['image_id'] ) }}" class="btn btn-light-primary font-weight-bolder  mr-6 px-6 font-size-sm" target="_blank"><i
-                    class="flaticon2-download-1"></i>Download Image
+                    class="flaticon2-download-1"></i>{{ trans('admin_klikbud/warehouse/tools.one.download_image') }}
             </a>
             @endif
         </div>

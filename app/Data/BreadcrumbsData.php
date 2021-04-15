@@ -259,5 +259,19 @@ class BreadcrumbsData extends Data
         return $this->breadcrumbs($key, $array, $array_merge);
     }
 
+    /**
+     * @param $key
+     * @param $array_merge
+     * @return array
+     */
+    public function tools($key, $array_merge): array
+    {
+        $array = [
+            ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
+            ['key' => 1, 'link' => route('warehouses.tools.show'), 'name' => $this->tools]
+        ];
+
+        return $this->breadcrumbs($key, $array, $array_merge);
+    }
 
 }

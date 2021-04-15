@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Warehouses\Tools\Category;
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
 use App\Services\Warehouses\ToolsCategoryService;
+use Livewire\WithPagination;
 
 class IndexLivewire extends Category
 {
@@ -15,6 +16,8 @@ class IndexLivewire extends Category
     public $main_categories = NULL, $half_categories = NULL;
     public $class_change = 4;
     public $deleteTitle = NULL, $deleteCategoryTitle = NULL;
+
+    use WithPagination;
 
     public function render()
     {

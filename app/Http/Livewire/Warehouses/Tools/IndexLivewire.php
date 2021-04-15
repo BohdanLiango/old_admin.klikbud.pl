@@ -11,7 +11,6 @@ use App\Services\Warehouses\StatusToolService;
 use App\Services\Warehouses\ToolsCategoryService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
-use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -26,7 +25,7 @@ class IndexLivewire extends Component
 
     public function render()
     {
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
 
         $status_global_search = collect($this->status_tool)->where('table', $this->searchGlobalStatusTable)->where('table_id', $this->searchGlobalStatusId);
@@ -60,11 +59,15 @@ class IndexLivewire extends Component
         $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
         $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
         $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
-        $this->countActive = app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount();
-        $this->countDeleted = app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount();
-        $this->countAll = $this->countActive + $this->countDeleted;
-        $this->percentActive = round($this->countActive / $this->countAll * 100, 2);
-        $this->percentDeleted  = 100 - $this->percentActive;
+        if(app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount() > 0 || app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount() > 0)
+        {
+            $this->countActive = app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount();
+            $this->countDeleted = app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount();
+            $this->countAll = $this->countActive + $this->countDeleted;
+            $this->percentActive = round($this->countActive / $this->countAll * 100, 2);
+            $this->percentDeleted  = 100 - $this->percentActive;
+        }
+
         $this->status = app()->make(DefaultData::class)->status_tools();
     }
 
