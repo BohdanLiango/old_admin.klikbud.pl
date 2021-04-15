@@ -7,6 +7,7 @@ use App\Models\Files\Files;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class FilesService extends FileService
@@ -41,48 +42,49 @@ class FilesService extends FileService
         return $this->folderCounter->returnFoldersName($group, $subgroup, $folder_name, $storage_driver);
     }
 
+    /**
+     * @param $store
+     * @param $to_table
+     * @param $table_record_id
+     * @param $title
+     * @param $group
+     * @param $subgroup
+     * @return mixed
+     */
+    public function storeFileUseLivewire($store, $to_table, $table_record_id, $title, $group, $subgroup): mixed
+    {
+        Storage::disk(config('klikbud.disk_store'))->setVisibility($store, 'public');
 
-//    /**
-//     * @param $file
-//     * @param $to_table
-//     * @param $table_record_id
-//     * @param $name
-//     * @param $model
-//     * @param $group
-//     * @param $subgroup
-//     * @return mixed
-//     */
-//    public function storeImage($file, $to_table, $table_record_id, $group, $subgroup): mixed
-//    {
-//        $file_type_id = self::FILE_TYPE_IMAGE;
-//        if(empty($file))
-//        {
-//            $path = '/storage/public/';
-//            $size = '';
-//            $mime = '';
-//            $folder_name = '/static/';
-//            $name = 'static.png';
-//
-//        }elseif (is_file($file)){
-//            $mime = $file->getMimeType();
-//            $size = $file->getSize();
-////            $size = number_format($size / 1048576,2);
-//            $folder_name = md5(uniqid(now(), true));
-//            $folder = $this->folderCreate($group, $subgroup, $folder_name);
-//            $name = 'Image-' . time() . uniqid('$', false) .  '.' . $file->getClientOriginalExtension();
-//            $path = $file->storeAs($folder, $name);
-//        }else{
-//            $name = NULL;
-//            $folder_name = NULL;
-//            $size = NULL;
-//            $mime = NULL;
-//            $path = NULL;
-//            abort(403);
-//        }
-//
-//        return $this->store($to_table, $table_record_id, $name, $folder_name, $path, $size, $mime, $file_type_id);
-//
-//    }
+        //Type File
+        $file_type_id = self::FILE_TYPE_FILE;
+
+        //Create Folder
+        $folder_name = md5(uniqid(now(), true));
+        $folder = $this->folderCreate($group, $subgroup, $folder_name);
+
+        //Get Mime and Size Stored File
+        $mime = Storage::disk(config('klikbud.disk_store'))->mimeType($store);
+        $size = Storage::disk(config('klikbud.disk_store'))->size($store);
+
+        //Get name stored File
+        $name_file = class_basename($store);
+        $name_file_store = $name_file;
+
+        if(!is_null($title))
+        {
+            $name_file_store = Str::slug($title, '_') . '_' . date('Y-m-d') . '_' .date('H:i:s') . '.' .Str::after($name_file, '.');
+        }
+
+        //Move to correctly folder
+        Storage::disk(config('klikbud.disk_store'))->move($store,  $folder .'/' .$name_file_store);
+
+        //Delete old folder
+        Storage::disk(config('klikbud.disk_store'))->deleteDirectory(Str::before($store, '/' . $name_file_store));
+
+        $full_path = $folder . '/' . $name_file_store;
+
+        return $this->store($to_table, $table_record_id, $name_file_store, $folder_name, $folder, $size, $mime, $file_type_id, $full_path);
+    }
 
     /**
      * @param $store
@@ -119,6 +121,57 @@ class FilesService extends FileService
         $full_path = $folder . '/' . $name_file;
 
         return $this->store($to_table, $table_record_id, $name_file, $folder_name, $folder, $size, $mime, $file_type_id, $full_path);
+    }
+
+    /**
+     * @param $update
+     * @param $file_old_id
+     * @param $table_record_id
+     * @param $to_table
+     * @return mixed
+     */
+    public function updateFilesUseLivewire($update, $file_old_id,  $table_record_id, $to_table, $title): mixed
+    {
+        Storage::disk(config('klikbud.disk_store'))->setVisibility($update, 'public');
+
+        $get_information = FileAdditionalInformation::find($file_old_id);
+
+        //Type File
+        $file_type_id = self::FILE_TYPE_FILE;
+
+        //Create Folder
+        $folder_name = $get_information->folder;
+        $folder = $get_information->path;
+
+        //Get Mime and Size Updated File
+        $mime = Storage::disk(config('klikbud.disk_store'))->mimeType($update);
+        $size = Storage::disk(config('klikbud.disk_store'))->size($update);
+
+        //Get name stored File
+        $name_file = class_basename($update);
+        $name_file_store = $name_file;
+
+        if(!is_null($title))
+        {
+            $name_file_store = Str::slug($title, '_') . '_' . date('Y-m-d') . '_' .date('H:i:s') . '.' .Str::after($name_file, '.');
+        }
+
+        //Move to correctly folder
+        Storage::disk(config('klikbud.disk_store'))->move($update,  $folder .'/' .$name_file_store);
+
+        //Delete old folder
+        Storage::disk(config('klikbud.disk_store'))->deleteDirectory(Str::before($update, '/' . $name_file_store));
+
+        $full_path = $folder . '/' . $name_file_store;
+
+        // Soft Delete File
+        $softDeleteFile = Files::findOrFail($get_information->file_id);
+        $softDeleteFile->delete();
+
+        // Soft Delete Additional Information
+        $get_information->delete();
+
+        return $this->store($to_table, $table_record_id, $name_file_store, $folder_name, $folder, $size, $mime, $file_type_id, $full_path);
     }
 
     /**
@@ -214,12 +267,18 @@ class FilesService extends FileService
 
     /**
      * @param $id
+     * @return bool|StreamedResponse
      */
-    public function downloadFile($id)
+    public function downloadFile($id): bool|StreamedResponse
     {
         $file = FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
-//        return response()->download(storage_path('app/' . $file));
-        return Storage::disk(config('klikbud.disk_store'))->download($file);
+        $check = Storage::disk(config('klikbud.disk_store'))->exists($file);
+        if($check === true)
+        {
+            return Storage::disk(config('klikbud.disk_store'))->download($file);
+        }
+        abort(403);
+        return false;
     }
 
 

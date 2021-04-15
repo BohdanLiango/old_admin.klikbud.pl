@@ -83,4 +83,16 @@ class ActionsData extends Data
         return $this->action($key, $array);
     }
 
+    /**
+     * @param $key
+     * @return Collection
+     */
+    public function warehouse_tool_one($key): Collection
+    {
+        $array = [
+            ['key' => 1, 'route' => 'warehouses.tools.show', 'color' => 'primary', 'name' => 'Back']
+        ];
+        return $this->action($key, $array);
+    }
+
 }

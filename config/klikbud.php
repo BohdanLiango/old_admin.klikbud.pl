@@ -22,4 +22,16 @@ return [
         'moderated' => 1,
         'to_moderation' => 2
     ],
+
+    'status_tools_table' => [
+        'object' => 'object_id',
+        'warehouse' => 'warehouse_id',
+        'client' => 'client_id',
+        'business' => 'business_id'
+    ],
+
+    'status_tools_status' => [
+        'start' => 1,
+        'finish' => 2
+    ],
 ];

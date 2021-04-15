@@ -29,6 +29,42 @@ return [
             'page' => 'clients.show',
             'new-tab' => false,
         ],
+        [
+            'title' => 'Objects',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'objects.all',
+            'new-tab' => false,
+        ],
+        [
+            'title' => 'Business',
+            'root' => true,
+            'icon' => 'media/svg/icons/Design/Layers.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'business.show',
+            'new-tab' => false,
+        ],
+        [
+            'title' => 'Warehouses',
+            'icon' => 'media/svg/icons/Layout/Layout-4-blocks.svg',
+            'bullet' => 'line',
+            'root' => true,
+            'submenu' => [
+                [
+                    'title' => 'Tools',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'Tools',
+                            'page' => 'warehouses.tools.show',
+                        ],
+                        [
+                            'title' => 'Categories',
+                            'page' => 'warehouses.tools.categories.show'
+                        ],
+                    ]
+                ],
+            ]
+        ],
 
         // Custom
         [

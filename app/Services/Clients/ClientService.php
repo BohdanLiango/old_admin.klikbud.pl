@@ -10,6 +10,15 @@ use Illuminate\Support\Str;
 class ClientService extends Services
 {
     /**
+     * @return mixed
+     */
+    public function showClientSelectIdName(): mixed
+    {
+        return Clients::select('id', 'first_name', 'last_name')->get();
+    }
+
+
+    /**
      * @param $id
      * @return mixed
      */

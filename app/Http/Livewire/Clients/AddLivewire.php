@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Clients;
 
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
-use App\Models\Address;
 use App\Services\Clients\ClientService;
 use App\Services\Settings\Other\AddressService;
 
@@ -23,7 +22,7 @@ class AddLivewire extends ClientLivewire
         $language = app()->make(DefaultData::class)->language();
         $time_zone = app()->make(DefaultData::class)->time_zone();
         $client_communication = app()->make(DefaultData::class)->client_communication();
-        $address_street = Address::where('type_id', 4)->select('id', 'title', 'town_id', 'state_id', 'country_id')->get();
+        $address_street = app()->make(AddressService::class)->selectAddressToGetData();
         $client_gender = app()->make(DefaultData::class)->gender();
         $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(2, [['key' => 2, 'link' => route('clients.add'), 'name' => trans('admin_klikbud/clients.title')]]);
         $page_title = $breadcrumbs[2]['name'];
@@ -54,26 +53,6 @@ class AddLivewire extends ClientLivewire
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
-    }
-
-    private function resetFields()
-    {
-        $first_name = NULL;
-        $last_name = NULL;
-        $gender = NULL;
-        $mobile = NULL;
-        $email = NULL;
-        $site = NULL;
-        $language_id = NULL;
-        $timezone_id = NULL;
-        $email_check = NULL;
-        $phone_check = NULL;
-        $sms_check = NULL;
-        $street_id = NULL;
-        $zip_code = NULL;
-        $number_house = NULL;
-        $number_flat = NULL;
-        $add_info = NULL;
     }
 
     public function add_company()
@@ -111,7 +90,6 @@ class AddLivewire extends ClientLivewire
             $status = true;
         }
 
-        $this->resetFields();
         $this->checkStatus($status, trans('admin_klikbud/clients.message_success'), 'flash', false, 'center');
 
         switch ($type_store_id) {

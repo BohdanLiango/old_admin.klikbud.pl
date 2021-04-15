@@ -1,18 +1,16 @@
 <div>
     <div class="flex-row-lg-fluid ml-lg-8">
         @include('livewire.clients.block.index-widget')
-
         <div class="form-group">
             <label>{{ trans('admin_klikbud/clients.search') }}</label>
             <input wire:model="searchQuery" class="form-control" />
         </div>
         <div class="mb-7"></div>
-
         @include('livewire.clients.block.index-clients')
-        {{--        <!--begin::Pagination-->--}}
+        {{--<!--begin::Pagination-->--}}
         <div class="card card-custom">
             <div class="card-body py-7">
-                {{--                <!--begin::Pagination-->--}}
+                {{--<!--begin::Pagination-->--}}
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                     <div class="d-flex flex-wrap mr-3">
                         {{ $clients->links('vendor.livewire.bootstrap') }}
@@ -33,7 +31,7 @@
                 {{--<!--end:: Pagination-->--}}
             </div>
         </div>
-        {{--        <!--end::Pagination-->--}}
+        {{--<!--end::Pagination-->--}}
     </div>
     @push('scripts_p')
         <script src="{{ asset('js/pages/custom/contacts/list-columns.js') }}"></script>

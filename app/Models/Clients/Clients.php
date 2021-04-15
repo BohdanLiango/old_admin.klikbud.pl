@@ -4,6 +4,7 @@ namespace App\Models\Clients;
 
 use App\Models\Address;
 use App\Models\User;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +25,7 @@ class Clients extends Model
     use HasFactory;
     use SoftDeletes;
     use QueryCacheable;
+    use Sluggable;
     protected $cacheFor = 3600 * 3600 * 3600;
     protected static $flushCacheOnUpdate = true;
 
@@ -56,5 +58,14 @@ class Clients extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'last_name'
+            ]
+        ];
     }
 }

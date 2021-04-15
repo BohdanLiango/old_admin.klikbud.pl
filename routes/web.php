@@ -38,6 +38,9 @@ Route::group(['middleware' => AdministrationPanelMiddleware::class], static func
         });
 
         require __DIR__.'/web/clients.php';
+        require __DIR__.'/web/objects.php';
+        require __DIR__.'/web/business.php';
+        require __DIR__.'/web/warehouses.php';
 
     });
 });

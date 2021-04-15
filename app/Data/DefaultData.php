@@ -38,11 +38,11 @@ class DefaultData extends Data
      */
     public function klikbud_status_to_main_page(): array
     {
-       return [
-           ['value' => NULL, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.all'), 'class' => 'primary'],
-           ['value' => config('klikbud.klikbud.status_to_main_page.visible'), 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active'), 'class' => 'success'],
-           ['value' => config('klikbud.klikbud.status_to_main_page.not_visible'), 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'warning'],
-       ];
+        return [
+            ['value' => NULL, 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.all'), 'class' => 'primary'],
+            ['value' => config('klikbud.klikbud.status_to_main_page.visible'), 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.active'), 'class' => 'success'],
+            ['value' => config('klikbud.klikbud.status_to_main_page.not_visible'), 'title' => trans('admin_klikbud/settings/klikbud/all.status_to_main_page.hidden'), 'class' => 'warning'],
+        ];
     }
 
     /**
@@ -285,7 +285,123 @@ class DefaultData extends Data
             ["value" => 2, "title" => trans('admin_klikbud/clients.status_clients.disable'), "class" => 'badge badge-warning'],
             ["value" => 3, "title" => trans('admin_klikbud/clients.status_clients.co_work'), "class" => 'badge badge-primary'],
             ["value" => 4, "title" => trans('admin_klikbud/clients.status_clients.ban'), "class" => 'badge badge-danger'],
-            ["value" => 5, "title" => trans('admin_klikbud/clients.status_clients.feature'), "class" => 'badge, badge-info']
+            ["value" => 5, "title" => trans('admin_klikbud/clients.status_clients.feature'), "class" => 'badge badge-info']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function status_object(): array
+    {
+        return [
+            ["value" => 1, "title" => trans('admin_klikbud/objects.default_data.status_object.active'), "class" => 'label label-success label-inline mr-2'],
+            ["value" => 2, "title" => trans('admin_klikbud/objects.default_data.status_object.not_active'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => trans('admin_klikbud/objects.default_data.status_object.in_progress'), "class" => 'label label-sucess label-inline mr-2'],
+            ["value" => 4, "title" => trans('admin_klikbud/objects.default_data.status_object.other'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 5, "title" => trans('admin_klikbud/objects.default_data.status_object.close'), "class" => 'label label-warning label-inline mr-2'],
+            ["value" => 6, "title" => trans('admin_klikbud/objects.default_data.status_object.finish'), "class" => 'label label-success label-inline mr-2'],
+            ["value" => 7, "title" => trans('admin_klikbud/objects.default_data.status_object.defeat'), "class" => 'label label-danger label-inline mr-2'],
+            ["value" => 8, "title" => trans('admin_klikbud/objects.default_data.status_object.cancel'), "class" => 'label label-danger label-inline mr-2']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function type_object(): array
+    {
+        return [
+            ["value" => 1, "title" => trans('admin_klikbud/objects.default_data.type_object.apartments'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 2, "title" => trans('admin_klikbud/objects.default_data.type_object.house'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 3, "title" => trans('admin_klikbud/objects.default_data.type_object.restaurant'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => trans('admin_klikbud/objects.default_data.type_object.office'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 5, "title" => trans('admin_klikbud/objects.default_data.type_object.town_house'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 6, "title" => trans('admin_klikbud/objects.default_data.type_object.highy_rise_house'), "class" => 'label label-info label-inline mr-2'],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function type_repair_object(): array
+    {
+        return [
+            ["value" => 1, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.developer'), "class" => 'label label-success label-inline mr-2'],
+            ["value" => 2, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.general'), "class" => 'label label-warning label-inline mr-2'],
+            ["value" => 3, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.tynki'), "class" => 'label label-info label-inline mr-2'],
+            ["value" => 4, "title" => trans('admin_klikbud/objects.default_data.type_repair_object.repair'), "class" => 'label label-primary label-inline mr-2'],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function tools_categories_types(): array
+    {
+        return [
+            ["value" => 1, "title" => 'MainCategory', "class" => 'label label-success label-pill label-inline mr-2'],
+            ["value" => 2, "title" => 'HalfCategory', "class" => 'label label-warning label-pill label-inline mr-2'],
+            ["value" => 3, "title" => 'Category', "class" => 'label label-info label-pill label-inline mr-2']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function categories_business(): array
+    {
+        return [
+            ["value" => 1, "title" => trans('admin_klikbud/business.default_data.categories.shop'), "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 2, "title" => trans('admin_klikbud/business.default_data.categories.wholesale'), "class" => 'label label-light-success label-pill label-inline mr-2 label-l'],
+            ["value" => 3, "title" => trans('admin_klikbud/business.default_data.categories.refueling'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 4, "title" => trans('admin_klikbud/business.default_data.categories.show_tool'), "class" => 'label label-light-info label-pill label-inline mr-2 label-l'],
+            ["value" => 5, "title" => trans('admin_klikbud/business.default_data.categories.other'), "class" => 'label label-light-primary label-pill label-inline mr-2 label-l']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function form_business(): array
+    {
+        return [
+            ["value" => 1, "title" => trans('admin_klikbud/business.default_data.form.1.title'), "title_long" => trans('admin_klikbud/business.default_data.form.1.title_long')],
+            ["value" => 2, "title" => trans('admin_klikbud/business.default_data.form.2.title'), "title_long" => trans('admin_klikbud/business.default_data.form.2.title_long')],
+            ["value" => 3, "title" => trans('admin_klikbud/business.default_data.form.3.title'), "title_long" => trans('admin_klikbud/business.default_data.form.3.title_long')],
+            ["value" => 4, "title" => trans('admin_klikbud/business.default_data.form.4.title'), "title_long" => trans('admin_klikbud/business.default_data.form.4.title_long')],
+            ["value" => 5, "title" => trans('admin_klikbud/business.default_data.form.5.title'), "title_long" => trans('admin_klikbud/business.default_data.form.5.title_long')],
+            ["value" => 6, "title" => trans('admin_klikbud/business.default_data.form.6.title'), "title_long" => trans('admin_klikbud/business.default_data.form.6.title_long')],
+            ["value" => 7, "title" => trans('admin_klikbud/business.default_data.form.7.title'), "title_long" => trans('admin_klikbud/business.default_data.form.7.title_long')],
+            ["value" => 8, "title" => trans('admin_klikbud/business.default_data.form.8.title'), "title_long" => trans('admin_klikbud/business.default_data.form.8.title_long')],
+            ["value" => 99, "title" => trans('admin_klikbud/business.default_data.form.99.title'), "title_long" => trans('admin_klikbud/business.default_data.form.99.title_long')]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function business_types(): array
+    {
+        return [
+            ["value" => 1, 'title' => trans('admin_klikbud/business.default_data.type.business'), "class" => 'font-weight-bold text-success'],
+            ["value" => 2, 'title' => trans('admin_klikbud/business.default_data.type.department'), "class" => 'font-weight-bold text-warning']
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function status_tools(): array
+    {
+        return [
+            ["value" => 1, 'title' => trans('admin_klikbud/warehouse/tools.default_data.active'), "class" => 'label label-light-success label-pill label-inline mr-2 label-l'],
+            ["value" => 2, 'title' => trans('admin_klikbud/warehouse/tools.default_data.dont_work'), "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 3, 'title' => trans('admin_klikbud/warehouse/tools.default_data.in_repair'), "class" => 'label label-light-warning label-pill label-inline mr-2 label-l'],
+            ["value" => 4, 'title' => trans('admin_klikbud/warehouse/tools.default_data.sell'), "class" => 'label label-light-info label-pill label-inline mr-2 label-l'],
+            ["value" => 5, 'title' => trans('admin_klikbud/warehouse/tools.default_data.destroy'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 6, 'title' => trans('admin_klikbud/warehouse/tools.default_data.stolen'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
+            ["value" => 7, 'title' => trans('admin_klikbud/warehouse/tools.default_data.lost'), "class" => 'label label-light-danger label-pill label-inline mr-2 label-l'],
         ];
     }
 }
