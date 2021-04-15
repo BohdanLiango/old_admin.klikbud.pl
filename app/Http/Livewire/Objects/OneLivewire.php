@@ -12,7 +12,7 @@ class OneLivewire extends ObjectLivewire
     public $object_id, $title, $image_id, $description, $price_start, $price_end, $m2, $date_start, $date_end, $final_date_end,
     $guarantee_date_end, $country_title, $state_title, $town_title, $street_id, $street_title, $address_add_info, $number, $apartment_number, $zip_code,
     $status_object_id, $type_object_id, $type_repair_id, $client_first_name, $client_last_name, $client_id, $user_id, $user_add_first_name, $user_add_last_name,
-        $manager_id, $agreement_id, $created_date, $price_to_m2_start;
+        $manager_id, $agreement_id, $created_date, $price_to_m2_start, $object_slug;
 
     public function render()
     {
@@ -26,10 +26,11 @@ class OneLivewire extends ObjectLivewire
             ->section('content');
     }
 
-    public function mount($id)
+    public function mount($slug)
     {
-        $get_data = app()->make(ObjectsService::class)->showOne($id);
+        $get_data = app()->make(ObjectsService::class)->showOneBySlug($slug);
         $this->object_id = $get_data->id;
+        $this->object_slug = $slug;
         $this->title = Str::limit($get_data->title, 25);
         $this->image_id = $get_data->image_id;
         $this->description = Str::limit($get_data->description, 200);

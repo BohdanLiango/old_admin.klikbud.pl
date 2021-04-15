@@ -15,6 +15,7 @@ class EditLivewire extends ClientLivewire
     public $timezone_id = NULL;
     public $street_id = NULL, $zip_code = NULL, $number_house = NULL, $number_flat = NULL, $add_info = NULL;
     public $client_id = NULL;
+    public $client_slug = NULL;
 
 
     public function render()
@@ -22,7 +23,7 @@ class EditLivewire extends ClientLivewire
         $time_zone = app()->make(DefaultData::class)->time_zone();
         $address_street = Address::where('type_id', 4)->select('id', 'title', 'town_id', 'state_id', 'country_id')->get();
         $client_gender = app()->make(DefaultData::class)->gender();
-        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(2, [['key' => 2, 'link' => route('clients.edit', $this->client_id),
+        $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(2, [['key' => 2, 'link' => route('clients.edit', $this->client_slug),
             'name' => trans('admin_klikbud/clients.edit.breadcrumbs') . ' ' . $this->first_name . ' ' . $this->last_name  ]]);
         $page_title = $breadcrumbs[2]['name'];
         return view('livewire.clients.edit-livewire', compact('time_zone', 'address_street', 'client_gender'))
@@ -30,9 +31,9 @@ class EditLivewire extends ClientLivewire
             ->section('content');
     }
 
-    public function mount($id)
+    public function mount($slug)
     {
-        $get_data = Clients::findOrFail($id);
+        $get_data = app()->make(ClientService::class)->showOneBySlug($slug);
         $this->first_name = $get_data->first_name;
         $this->last_name = $get_data->last_name;
         $this->gender = $get_data->gender_id;
@@ -42,7 +43,8 @@ class EditLivewire extends ClientLivewire
         $this->zip_code = $get_data->zip_code;
         $this->number_house = $get_data->number_house;
         $this->number_flat = $get_data->number_flat;
-        $this->client_id = $id;
+        $this->client_id = $get_data->id;
+        $this->client_slug = $slug;
 
         if(!is_null($get_data->street_id))
         {
@@ -88,7 +90,7 @@ class EditLivewire extends ClientLivewire
         $this->site, $this->timezone_id, $country_id, $state_id, $town_id, $this->street_id, $this->add_info,
             $this->zip_code, $this->number_house, $this->number_flat);
         $this->checkStatus($status, trans('admin_klikbud/clients.message_success'), 'flash', false, 'center');
-        return redirect()->route('clients.one', $this->client_id);
+        return redirect()->route('clients.one', $this->client_slug);
     }
 
 }

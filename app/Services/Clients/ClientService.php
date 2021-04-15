@@ -22,9 +22,26 @@ class ClientService extends Services
      * @param $id
      * @return mixed
      */
-    public function showOne($id): mixed
+    public function showOneById($id): mixed
     {
         return Clients::findOrfail($id);
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function showOneBySlug($slug): mixed
+    {
+        $return = Clients::where('slug', $slug)->first();
+
+        if($return !== NULL)
+        {
+            return $return;
+        }
+
+        abort(404);
+        return false;
     }
 
     /**

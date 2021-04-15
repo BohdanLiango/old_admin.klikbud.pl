@@ -7,7 +7,7 @@
                 </h3>
             </div>
             <div class="card-toolbar">
-                <a href="{{ route('objects.one', $object_id) }}" class="btn btn-light-primary font-weight-bolder mr-2">
+                <a href="{{ route('objects.one', $object_slug) }}" class="btn btn-light-primary font-weight-bolder mr-2">
                     <i class="ki ki-long-arrow-back icon-sm"></i>
                     {{ trans('admin_klikbud/objects.add_edit_page.buttons.back') }}
                 </a>

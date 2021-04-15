@@ -11,7 +11,7 @@ class ShowLivewire extends ClientLivewire
 {
     public $status_id, $first_name, $last_name, $gender_id, $company_id, $mobile, $email, $site, $language, $timezone,
     $communication, $add_info_address, $zip_code, $number_house, $number_flat,
-    $description, $client_id, $country_title, $state_title, $town_title, $street_title;
+    $description, $client_id, $country_title, $state_title, $town_title, $street_title, $client_slug;
 
     public $add_number = NULL, $add_email = NULL;
     public $modal_info = NULL, $modal_title = '';
@@ -32,9 +32,9 @@ class ShowLivewire extends ClientLivewire
             ->section('content');
     }
 
-    public function mount($id)
+    public function mount($slug)
     {
-       $get_data = app()->make(ClientService::class)->showOne($id);
+       $get_data = app()->make(ClientService::class)->showOneBySlug($slug);
         $this->status_id = $get_data->status_id;
         $this->first_name = $get_data->first_name;
         $this->last_name = $get_data->last_name;
@@ -51,7 +51,8 @@ class ShowLivewire extends ClientLivewire
         $this->number_house = $get_data->number_house;
         $this->number_flat = $get_data->number_flat;
         $this->description = $get_data->description;
-        $this->client_id = $id;
+        $this->client_id = $get_data->id;
+        $this->client_slug = $slug;
 
         if(!is_null($get_data->country_id))
         {
