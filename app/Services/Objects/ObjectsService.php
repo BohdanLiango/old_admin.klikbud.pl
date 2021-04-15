@@ -51,9 +51,27 @@ class ObjectsService extends Services
      * @param $id
      * @return mixed
      */
-    public function showOne($id): mixed
+    public function showOneById($id): mixed
     {
         return Objects::findOrFail($id);
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function showOneBySlug($slug): mixed
+    {
+        $return = Objects::where('slug', $slug)->first();
+
+        if($return !== NULL)
+        {
+            return $return;
+        }
+
+        abort(404);
+
+        return false;
     }
 
     /**

@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="mb-10">
-                        <a href="{{ route('clients.edit', $client_id) }}" class="btn btn-sm btn-light-warning font-weight-bolder text-uppercase mr-2">{{ trans('admin_klikbud/clients.one.buttons.edit') }}</a>
+                        <a href="{{ route('clients.edit', $client_slug) }}" class="btn btn-sm btn-light-warning font-weight-bolder text-uppercase mr-2">{{ trans('admin_klikbud/clients.one.buttons.edit') }}</a>
                         <a href="#" class="btn btn-sm btn-light-danger font-weight-bolder text-uppercase mr-2" wire:click="opensModals('delete')">{{ trans('admin_klikbud/clients.one.buttons.delete') }}</a>
                     </div>
                 </div>

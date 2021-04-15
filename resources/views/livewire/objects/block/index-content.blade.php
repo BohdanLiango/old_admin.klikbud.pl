@@ -174,7 +174,7 @@
                             <a href="#" class="font-weight-bolder text-primary ml-2">648 Comments</a>
                         </div>
                     </div>
-                    <a href="{{ route('objects.one', $object->id) }}"
+                    <a href="{{ route('objects.one', $object->slug) }}"
                        class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">{{ trans('admin_klikbud/objects.index.details') }}</a>
                 </div>
             </div>

@@ -96,11 +96,12 @@ class AddLivewire extends ClientLivewire
             case 1:
                 return redirect()->route('clients.show');
             case 2:
-                return redirect()->route('clients.one', $return_id); // To client profil
+                $slug = app()->make(ClientService::class)->showOneById($return_id);
+                return redirect()->route('clients.one', $slug->slug); // To client profil
             case 3:
                 return redirect()->route('clients.add');
         }
-
-        return abort(403);
+        abort(403);
+        return false;
     }
 }

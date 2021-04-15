@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column">
-                        <a href="{{ route('clients.one', $client->id) }}" class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">{{ Str::title($client->first_name) }} {{ Str::title($client->last_name) }}</a>
+                        <a href="{{ route('clients.one', $client->slug) }}" class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">{{ Str::title($client->first_name) }} {{ Str::title($client->last_name) }}</a>
 {{--                        <span class="text-muted font-weight-bold">Head of Development</span>--}}
                         @forelse($client_status as $status)
                             @if($status['value'] === $client->status_id)
@@ -58,7 +58,7 @@
                         </span>
                     </div>
                 </div>
-                <a href="{{ route('clients.one', $client->id) }}" class="btn btn-block btn-sm btn-light-primary font-weight-bolder text-uppercase py-4">{{ trans('admin_klikbud/clients.index.details') }}</a>
+                <a href="{{ route('clients.one', $client->slug) }}" class="btn btn-block btn-sm btn-light-primary font-weight-bolder text-uppercase py-4">{{ trans('admin_klikbud/clients.index.details') }}</a>
             </div>
         </div>
     </div>

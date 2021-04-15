@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 class EditLivewire extends ObjectLivewire
 {
     public $object_id, $title, $description, $price_start,  $m2, $date_start, $date_end, $street_id, $number,
-        $apartment_number, $address_add_info,  $zip_code, $client_id;
+        $apartment_number, $address_add_info,  $zip_code, $client_id, $object_slug;
 
     public function render()
     {
@@ -24,10 +24,11 @@ class EditLivewire extends ObjectLivewire
             ->section('content');
     }
 
-    public function mount($id)
+    public function mount($slug)
     {
-        $this->object_id = $id;
-        $get_data = app()->make(ObjectsService::class)->showOne($id);
+        $this->object_slug = $slug;
+        $get_data = app()->make(ObjectsService::class)->showOneBySlug($slug);
+        $this->object_id = $get_data->id;
         $this->title = $get_data->title;
         $this->description = $get_data->description;
         $this->price_start = $get_data->price_start;
@@ -68,7 +69,7 @@ class EditLivewire extends ObjectLivewire
         $this->m2, $this->date_start, $this->date_end, $this->street_id, $this->number, $this->apartment_number, $this->zip_code,
         $this->client_id, $this->address_add_info);
         $this->checkStatus($status,  trans('admin_klikbud/objects.add_edit_page.messages.success_edit') . '!', 'flash', false, 'center');
-        return redirect()->route('objects.one', $this->object_id);
+        return redirect()->route('objects.one', $this->object_slug);
     }
 
 
