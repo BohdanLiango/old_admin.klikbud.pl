@@ -3,6 +3,7 @@
 namespace App\Models\Clients;
 
 use App\Models\Address;
+use App\Models\Objects\Objects;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,6 +60,14 @@ class Clients extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function objects(): HasMany
+    {
+        return $this->hasMany(Objects::class, 'client_id', 'id');
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Data\DefaultData;
 use App\Models\Address;
 use App\Services\Clients\ClientNoteService;
 use App\Services\Clients\ClientService;
+use App\Services\Objects\ObjectsService;
 use Livewire\WithPagination;
 
 class ShowLivewire extends ClientLivewire
@@ -20,8 +21,6 @@ class ShowLivewire extends ClientLivewire
 
     public $store_note;
 
-    public $get_data;
-
     use WithPagination;
 
     public function render()
@@ -33,10 +32,11 @@ class ShowLivewire extends ClientLivewire
         $client_time_zone = app()->make(DefaultData::class)->time_zone();
         $client_languages = app()->make(DefaultData::class)->language();
         $notes = app()->make(ClientNoteService::class)->showNotes($this->client_id);
+        $objects = app()->make(ObjectsService::class)->selectObjectsToCLient($this->client_id);
         $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
         return view('livewire.clients.show-livewire', compact('client_status', 'client_communication', 'client_gender', 'client_time_zone',
-        'client_languages', 'address_street', 'notes'))
+        'client_languages', 'address_street', 'notes', 'objects'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
@@ -44,7 +44,6 @@ class ShowLivewire extends ClientLivewire
     public function mount($slug)
     {
         $get_data = app()->make(ClientService::class)->showOneBySlug($slug);
-        $this->get_data = $get_data;
         $this->status_id = $get_data->status_id;
         $this->first_name = $get_data->first_name;
         $this->last_name = $get_data->last_name;
