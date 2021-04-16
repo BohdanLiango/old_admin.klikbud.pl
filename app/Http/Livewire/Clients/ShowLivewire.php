@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Clients;
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
 use App\Models\Address;
+use App\Services\Clients\ClientNoteService;
 use App\Services\Clients\ClientService;
+use Livewire\WithPagination;
 
 class ShowLivewire extends ClientLivewire
 {
@@ -16,6 +18,12 @@ class ShowLivewire extends ClientLivewire
     public $add_number = NULL, $add_email = NULL;
     public $modal_info = NULL, $modal_title = '';
 
+    public $store_note;
+
+    public $get_data;
+
+    use WithPagination;
+
     public function render()
     {
         $address_street = Address::where('type_id', 4)->select('id', 'title', 'town_id', 'state_id', 'country_id')->get();
@@ -24,17 +32,19 @@ class ShowLivewire extends ClientLivewire
         $client_gender = app()->make(DefaultData::class)->gender();
         $client_time_zone = app()->make(DefaultData::class)->time_zone();
         $client_languages = app()->make(DefaultData::class)->language();
+        $notes = app()->make(ClientNoteService::class)->showNotes($this->client_id);
         $breadcrumbs = app()->make(BreadcrumbsData::class)->clients(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
         return view('livewire.clients.show-livewire', compact('client_status', 'client_communication', 'client_gender', 'client_time_zone',
-        'client_languages', 'address_street'))
+        'client_languages', 'address_street', 'notes'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
 
     public function mount($slug)
     {
-       $get_data = app()->make(ClientService::class)->showOneBySlug($slug);
+        $get_data = app()->make(ClientService::class)->showOneBySlug($slug);
+        $this->get_data = $get_data;
         $this->status_id = $get_data->status_id;
         $this->first_name = $get_data->first_name;
         $this->last_name = $get_data->last_name;
@@ -147,6 +157,34 @@ class ShowLivewire extends ClientLivewire
                 $this->dispatchBrowserEvent('openDeleteModal');
                 break;
         }
+    }
+
+    public function storeNote()
+    {
+        $this->validate([
+            'store_note' => 'required'
+        ]);
+
+        if(!is_null($this->store_note))
+        {
+            $status = app()->make(ClientNoteService::class)->store($this->client_id, $this->store_note);
+            $this->store_note = '';
+        }else{
+            $status = false;
+        }
+
+        $this->checkStatus($status, 'YUPPI', 'alert', true, 'top-end');
+    }
+
+    public function clearValueNotes()
+    {
+        $this->store_note = '';
+    }
+
+    public function deleteNote($id)
+    {
+        $status = app()->make(ClientNoteService::class)->delete($id);
+        $this->checkStatus($status, 'YUPPI', 'alert', true, 'top-end');
     }
 
     public function delete()
