@@ -2,26 +2,31 @@
     <div class="container">
         <form class="form">
             <div class="form-group">
-                <textarea class="form-control form-control-lg form-control-solid" id="exampleTextarea" rows="3" placeholder="{{ trans('admin_klikbud/clients.one.notes.type_notes') }}"></textarea>
+                <textarea class="form-control form-control-lg form-control-solid" id="exampleTextarea" rows="3" placeholder="{{ trans('admin_klikbud/clients.one.notes.type_notes') }}" wire:model="store_note"></textarea>
             </div>
             <div class="row">
                 <div class="col">
-                    <a href="#" class="btn btn-light-primary font-weight-bold">{{ trans('admin_klikbud/clients.one.notes.add_notes') }}</a>
-                    <a href="#" class="btn btn-clean font-weight-bold">{{ trans('admin_klikbud/clients.one.notes.cancel') }}</a>
+                    <a href="#" class="btn btn-light-primary font-weight-bold" wire:click.prevent="storeNote()">{{ trans('admin_klikbud/clients.one.notes.add_notes') }}</a>
+                    <a href="#" class="btn btn-clean font-weight-bold" wire:click.prevent="clearValueNotes()">{{ trans('admin_klikbud/clients.one.notes.cancel') }}</a>
                 </div>
             </div>
         </form>
         <div class="separator separator-dashed my-10"></div>
         <div class="timeline timeline-3">
             <div class="timeline-items">
+                @forelse($notes as $note)
                 <div class="timeline-item">
                     <div class="timeline-media">
-                        <img alt="Pic" src="assets/media/users/300_25.jpg" />
+                        <img alt="Pic" src="{{ asset('media/users/default.jpg') }}" />
                     </div>
                     <div class="timeline-content">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="mr-2">
-                                <span class="text-muted ml-2">Today</span>
+                                <span class="text-muted ml-2"><a href="">{{ $note->user->name }} {{ $note->user->surname }}</a> | {{ date("H:i:s d/m/Y", strtotime($note->created_at)) }}
+                                    @if(\Illuminate\Support\Facades\Auth::id() == $note->user_id)
+                                 | <button wire:click="deleteNote({{ $note->id }})" class="btn btn-icon btn-danger btn-xs"><i class="flaticon2-delete"></i></button>
+                                    @endif
+                                </span>
                             </div>
                             <div class="dropdown ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
                                 <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
@@ -42,9 +47,13 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="p-0">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
+                        <p class="p-0">{{ $note->note }}</p>
                     </div>
                 </div>
+                    @empty
+                @endforelse
+
+                    {{ $notes->links('vendor.livewire.bootstrap') }}
             </div>
         </div>
     </div>

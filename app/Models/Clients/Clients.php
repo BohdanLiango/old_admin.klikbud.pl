@@ -7,6 +7,7 @@ use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -58,6 +59,14 @@ class Clients extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(ClientNotes::class, 'client_id', 'id');
     }
 
     public function sluggable(): array
