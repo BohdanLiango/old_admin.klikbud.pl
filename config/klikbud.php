@@ -34,4 +34,10 @@ return [
         'start' => 1,
         'finish' => 2
     ],
+
+    'type_categories' => [
+        'main_category' => 1,
+        'half_category' => 2,
+        'category' => 3
+    ],
 ];

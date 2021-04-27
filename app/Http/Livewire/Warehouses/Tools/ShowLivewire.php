@@ -10,8 +10,6 @@ use App\Http\Livewire\Warehouses\Warehouse;
 use App\Services\Business\BusinessService;
 use App\Services\Clients\ClientService;
 use App\Services\Objects\ObjectsService;
-use App\Services\Warehouses\StatusToolRegisterService;
-use App\Services\Warehouses\StatusToolService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
 use Illuminate\Support\Str;
@@ -32,17 +30,15 @@ class ShowLivewire extends Warehouse
         $page_title = $breadcrumbs[2]['name'];
         $actions = app()->make(ActionsData::class)->warehouse_tool_one(1);
         //End subheader data
-        $get_global_status = app()->make(StatusToolService::class)->getStatusToolData($this->tool['id']);
-        if(!is_null($get_global_status))
-        {
-            $this->get_global_status_table = $get_global_status->table;
-            $this->get_global_status_table_id = $get_global_status->table_id;
-        }
+        //Start dynamic status
+        $this->get_global_status_table = $this->get_data->status_table;
+        $this->get_global_status_table_id = $this->get_data->status_table_id;
+        //End dynamic status
         $this->warehouses = app()->make(WarehousesService::class)->selectToForms();
         $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
         $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
         $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
-        $this->new_data();
+        $this->new_data();//Dynamic data
 
         return view('livewire.warehouses.tools.show-livewire')
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title, 'actions' => $actions])
@@ -216,7 +212,7 @@ class ShowLivewire extends Warehouse
 
        if((int)$this->new_global_status_id !== (int)$this->get_global_status_table_id and $table !== $this->get_global_status_table )
        {
-           $status = app()->make(StatusToolService::class)->store_or_update($this->tool['id'], $table, $this->new_global_status_id);
+           $status = app()->make(ToolsService::class)->storeOrUpdateGlobalData($this->tool['id'], $table, $this->new_global_status_id);
        }else{
            $status = true;
        }
@@ -250,7 +246,7 @@ class ShowLivewire extends Warehouse
         if($this->new_box !== $this->tool['box_id'])
         {
             $status = app()->make(ToolsService::class)->changeOneRecord($this->tool['id'], 'box_id', $this->new_box);
-            app()->make(StatusToolRegisterService::class)->storeRegister(NULL, $this->tool['id'], 'box_id', $this->new_box, 1, NULL);
+            app()->make(ToolsService::class)->storeRegister($this->tool['id'], 'box_id', $this->new_box, 1);
             $this->status_box_change = 1;
         }else{
             $status = false;
@@ -263,7 +259,7 @@ class ShowLivewire extends Warehouse
         if($this->new_box !== NULL)
         {
             $status = app()->make(ToolsService::class)->changeOneRecord($this->tool['id'], 'box_id', NULL);
-            app()->make(StatusToolRegisterService::class)->storeRegister(NULL, $this->tool['id'], 'box_id', NULL, 2, NULL);
+            app()->make(ToolsService::class)->storeRegister($this->tool['id'], 'box_id', NULL, 2);
         }else{
             $status = false;
         }

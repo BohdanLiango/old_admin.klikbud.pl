@@ -3,6 +3,7 @@
 namespace App\Services\Warehouses;
 
 use App\Helper\KlikbudFunctionsHelper;
+use App\Models\Warehouses\StatusToolRegister;
 use App\Models\Warehouses\Tools;
 use App\Services\Services;
 use Exception;
@@ -13,10 +14,9 @@ class ToolsService extends Services
     public $helpers;
     public $globalStatus;
 
-    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper, StatusToolService $statusToolService)
+    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper)
     {
         $this->helpers = $klikbudFunctionsHelper;
-        $this->globalStatus = $statusToolService;
     }
 
     /**
@@ -25,13 +25,15 @@ class ToolsService extends Services
      * @param $searchCategory
      * @param $searchQuery
      * @param $searchStatus
+     * @param $searchGlobalStatusTable
+     * @param $searchGlobalStatusId
      * @param $orderBy
      * @param $orderByType
      * @param $paginate
      * @return mixed
      */
-    public function showToolsToIndexPage($searchId, $searchMainCategory, $searchHalfCategory, $searchCategory,
-                                         $searchQuery, $searchStatus, $orderBy, $orderByType, $paginate): mixed
+    public function showToolsToIndexPage($searchMainCategory, $searchHalfCategory, $searchCategory,
+                                         $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate): mixed
     {
         return Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
             $query->where('title', 'like', '%' . $searchQuery . '%');
@@ -43,8 +45,10 @@ class ToolsService extends Services
             $query->where('half_category_id', 'like', '%' . $searchHalfCategory . '%');
         })->when($searchCategory != '', function ($query) use ($searchCategory) {
             $query->where('category_id', 'like', '%' . $searchCategory . '%');
-        })->when($searchId != '', function ($query) use ($searchId) {
-            $query->whereIn('id', $searchId);
+        })->when($searchGlobalStatusTable != '', function ($query) use ($searchGlobalStatusTable) {
+            $query->whereIn('status_table', $searchGlobalStatusTable);
+        })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
+            $query->whereIn('status_table_id', $searchGlobalStatusId);
         })->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
@@ -124,7 +128,9 @@ class ToolsService extends Services
                 'manufacturer_id' =>  $collect->get('manufacturer_id'),
                 'guarantee_date_end' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('guarantee_date_end')),
                 'is_box' =>  $collect->get('is_box'),
-                'user_id' => \Auth::id()
+                'user_id' => \Auth::id(),
+                'status_table' => NULL,
+                'status_table_id' => NULL
             ];
         }catch (Exception $e){
             abort(403);
@@ -266,4 +272,62 @@ class ToolsService extends Services
             return false;
         }
     }
+
+    /**
+     * Global Status
+     * @param $tool_id
+     * @param $table
+     * @param $table_id
+     * @return bool
+     */
+    public function storeOrUpdateGlobalData($tool_id, $table, $table_id): bool
+    {
+        try {
+            $find = Tools::findOrFail($tool_id);
+            if(is_null($find->status_table) && is_null($find->status_table_id))
+            {
+                $data = [
+                    'status_table' => $table,
+                    'status_table_id' => $table_id
+                ];
+                $find->fill($data)->save();
+                $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.start'));
+            }else{
+                $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.finish'));
+                $data = [
+                    'status_table' => $table,
+                    'status_table_id' => $table_id
+                ];
+                $find->fill($data)->save();
+                $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.start'));
+            }
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * Store data to accountant service
+     * @param $tool_id
+     * @param $table
+     * @param $table_id
+     * @param $status_id
+     */
+    public function storeRegister($tool_id, $table, $table_id, $status_id): void
+    {
+        try {
+            $store = new StatusToolRegister();
+            $data = [
+                'tool_id' => $tool_id,
+                'table' => $table,
+                'table_id' => $table_id,
+                'status_id' => $status_id,
+            ];
+            $store->fill($data)->save();
+        }catch (\Exception $e){
+            abort(403);
+        }
+    }
+
 }

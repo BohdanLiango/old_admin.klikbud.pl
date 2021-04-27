@@ -25,39 +25,46 @@
                                 @break
                             @endif
                         @endforeach
-                        @forelse($status_tool as $item)
-                                @if($item->tool_id ==  $tool->id)
-                                    @if($item->table == config('klikbud.status_tools_table.warehouse'))
-                                        @foreach($warehouses as $ware)
-                                            @if($ware->id == $item->table_id)
-                                                <i class="flaticon2-box-1"></i> {{ $ware->title }}
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                        @if($item->table == config('klikbud.status_tools_table.object'))
-                                            @foreach($objects as $object)
-                                                @if($object->id == $item->table_id)
-                                                    <i class="flaticon2-architecture-and-city"></i> {{ $object->title }}
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if($item->table == config('klikbud.status_tools_table.client'))
-                                            @foreach($clients as $client)
-                                                @if($client->id == $item->table_id)
-                                                    <i class="flaticon2-group"></i> {{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if($item->table == config('klikbud.status_tools_table.business'))
-                                            @foreach($business as $buss)
-                                                @if($buss->id == $item->table_id)
-                                                    <i class="flaticon-presentation"></i> {{ Str::limit($buss->title, 20) }}
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                @endif
-                            @empty
-                        @endforelse
+{{--                        @if($tool->status_table)--}}
+
+
+
+
+
+
+{{--                        @forelse($status_tool as $item)--}}
+{{--                                @if($item->tool_id ==  $tool->id)--}}
+{{--                                    @if($item->table == config('klikbud.status_tools_table.warehouse'))--}}
+{{--                                        @foreach($warehouses as $ware)--}}
+{{--                                            @if($ware->id == $item->table_id)--}}
+{{--                                                <i class="flaticon2-box-1"></i> {{ $ware->title }}--}}
+{{--                                            @endif--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
+{{--                                        @if($item->table == config('klikbud.status_tools_table.object'))--}}
+{{--                                            @foreach($objects as $object)--}}
+{{--                                                @if($object->id == $item->table_id)--}}
+{{--                                                    <i class="flaticon2-architecture-and-city"></i> {{ $object->title }}--}}
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
+{{--                                        @endif--}}
+{{--                                        @if($item->table == config('klikbud.status_tools_table.client'))--}}
+{{--                                            @foreach($clients as $client)--}}
+{{--                                                @if($client->id == $item->table_id)--}}
+{{--                                                    <i class="flaticon2-group"></i> {{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}--}}
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
+{{--                                        @endif--}}
+{{--                                        @if($item->table == config('klikbud.status_tools_table.business'))--}}
+{{--                                            @foreach($business as $buss)--}}
+{{--                                                @if($buss->id == $item->table_id)--}}
+{{--                                                    <i class="flaticon-presentation"></i> {{ Str::limit($buss->title, 20) }}--}}
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
+{{--                                        @endif--}}
+{{--                                @endif--}}
+{{--                            @empty--}}
+{{--                        @endforelse--}}
                     </span>
                     <span class="font-size-lg">
                         @empty($tool->main_category) @else <i class="flaticon2-check-mark"></i> {{ $tool->main_category->title }} @endempty

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusToolTable extends Migration
+class CreateEmployeeObjectHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateStatusToolTable extends Migration
      */
     public function up()
     {
-        Schema::create('status_tool', function (Blueprint $table) {
+        Schema::create('employee_object_history', function (Blueprint $table) {
             $table->id();
-            $table->integer('tool_id')->nullable();
-            $table->string('table')->nullable();
-            $table->string('table_id')->nullable();
-            $table->integer('status_id')->nullable();
-            $table->string('unique_number')->nullable();
+            $table->integer('employee_id')->nullable();
+            $table->integer('object_id')->nullable();
+            $table->date('date_start')->nullable();
+            $table->date('date_end')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateStatusToolTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_tool');
+        Schema::dropIfExists('employee_object_history');
     }
 }

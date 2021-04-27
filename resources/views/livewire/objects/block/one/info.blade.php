@@ -3,7 +3,11 @@
         <div class="d-flex">
             <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                 <div class="symbol symbol-50 symbol-lg-120">
-                    <img alt="Pic" src="{{ asset('media/project-logos/3.png') }}"/>
+                    @if(is_null($image_id))
+                        <img alt="Pic" src="{{ asset('media/static/no-image.jpg') }}"/>
+                            @else
+                        <img alt="Pic" src="{{ asset('media/project-logos/3.png') }}"/>
+                    @endif
                 </div>
             </div>
             <div class="flex-grow-1">

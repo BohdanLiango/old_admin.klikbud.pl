@@ -24,14 +24,14 @@
                 <div class="line-height-xl">{{ $tool['description'] }}</div>
                 <hr>
                 <div class="line-height-xl">
-                    @if(!is_null($tool['category_id']))
-                        {{ $tool['main_category_id'] }} /
+                    @if(!is_null($tool['main_category_id']))
+                        {{ $tool['main_category_id'] }}
+                    @endif
+                    @if(!is_null($tool['half_category_id']))
+                         / {{ $tool['half_category_id'] }}
                     @endif
                     @if(!is_null($tool['category_id']))
-                        {{ $tool['half_category_id'] }} /
-                    @endif
-                    @if(!is_null($tool['category_id']))
-                        {{ $tool['category_id'] }}
+                        / {{ $tool['category_id'] }}
                     @endif
                 </div>
             </div>

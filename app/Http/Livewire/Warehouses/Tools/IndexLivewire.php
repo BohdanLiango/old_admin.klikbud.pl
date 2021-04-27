@@ -7,7 +7,6 @@ use App\Data\DefaultData;
 use App\Services\Business\BusinessService;
 use App\Services\Clients\ClientService;
 use App\Services\Objects\ObjectsService;
-use App\Services\Warehouses\StatusToolService;
 use App\Services\Warehouses\ToolsCategoryService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
@@ -28,23 +27,8 @@ class IndexLivewire extends Component
         $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
 
-        $status_global_search = collect($this->status_tool)->where('table', $this->searchGlobalStatusTable)->where('table_id', $this->searchGlobalStatusId);
-
-        $id_status = array();
-        foreach ($status_global_search->values() as $status)
-        {
-            $id_status[] = $status->tool_id;
-        }
-
-        if(empty($id_status))
-        {
-            $search_id = '';
-        }else{
-            $search_id = $id_status;
-        }
-
-        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($search_id, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
-            $this->searchQuery, $this->searchStatus, $this->orderBy, $this->orderByType, $this->paginate);
+        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
+            $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate);
 
         return view('livewire.warehouses.tools.index-livewire', compact('tools'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
@@ -55,7 +39,6 @@ class IndexLivewire extends Component
     {
         $this->categories = app()->make(ToolsCategoryService::class)->getCategoriesToForms();
         $this->warehouses = app()->make(WarehousesService::class)->selectToForms();
-        $this->status_tool = app()->make(StatusToolService::class)->get_all();
         $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
         $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
         $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
