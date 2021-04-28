@@ -39,9 +39,13 @@
                             <div class="form-group row">
                                 <label class="col-3 col-form-label">{{ trans('admin_klikbud/warehouse/tools.add_edit.form.is_box') }}</label>
                                 <div class="col-9">
+                                    @if($tools['is_box'] !== 1)
                                     <span class="switch switch-icon">
                                         <label><input wire:model="tools.is_box" type="checkbox" checked="checked" name="select"/><span></span></label>
                                     </span>
+                                    @else
+                                        Najpierw usuń narzędzia!
+                                    @endif
                                 </div>
                             </div>
 

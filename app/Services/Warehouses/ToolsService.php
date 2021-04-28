@@ -7,6 +7,7 @@ use App\Models\Warehouses\StatusToolRegister;
 use App\Models\Warehouses\Tools;
 use App\Services\Services;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ToolsService extends Services
@@ -63,7 +64,7 @@ class ToolsService extends Services
      */
     public function getBoxToForm()
     {
-        return Tools::where('is_box', 1)->select('id', 'title')->get();
+        return Tools::where('is_box', 1)->select('id', 'title', 'slug')->get();
     }
 
     /**
@@ -128,7 +129,7 @@ class ToolsService extends Services
                 'manufacturer_id' =>  $collect->get('manufacturer_id'),
                 'guarantee_date_end' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('guarantee_date_end')),
                 'is_box' =>  $collect->get('is_box'),
-                'user_id' => \Auth::id(),
+                'user_id' => Auth::id(),
                 'status_table' => NULL,
                 'status_table_id' => NULL
             ];
@@ -293,7 +294,7 @@ class ToolsService extends Services
                 $find->fill($data)->save();
                 $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.start'));
             }else{
-                $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.finish'));
+                $this->updateRegisterToStatusDisable($tool_id, $find->status_table, $find->status_table_id);
                 $data = [
                     'status_table' => $table,
                     'status_table_id' => $table_id
@@ -323,11 +324,43 @@ class ToolsService extends Services
                 'table' => $table,
                 'table_id' => $table_id,
                 'status_id' => $status_id,
+                'user_id' => Auth::id()
             ];
             $store->fill($data)->save();
         }catch (\Exception $e){
             abort(403);
         }
+    }
+
+    /**
+     * @param $tool_id
+     * @param $table
+     * @param $table_id
+     * @return bool
+     */
+    public function updateRegisterToStatusDisable($tool_id, $table, $table_id): bool
+    {
+        try {
+            $update = StatusToolRegister::where('tool_id', $tool_id)->where('table', $table)->where('table_id', $table_id)->orderBy('id', 'desc')->first();
+            $data = [
+                'status_id' => config('klikbud.status_tools_status.finish'),
+                'user_last_update_id' => Auth::id()
+            ];
+            $update->fill($data)->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $tool_id
+     * @param $paginate
+     * @return mixed
+     */
+    public function getRegisterData($tool_id, $paginate): mixed
+    {
+        return StatusToolRegister::where('tool_id', $tool_id)->orderBy('id', 'desc')->paginate($paginate);
     }
 
 }

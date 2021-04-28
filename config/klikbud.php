@@ -27,7 +27,8 @@ return [
         'object' => 'object_id',
         'warehouse' => 'warehouse_id',
         'client' => 'client_id',
-        'business' => 'business_id'
+        'business' => 'business_id',
+        'box' => 'box_id'
     ],
 
     'status_tools_status' => [
