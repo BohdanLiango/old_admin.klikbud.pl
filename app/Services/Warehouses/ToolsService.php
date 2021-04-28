@@ -53,6 +53,18 @@ class ToolsService extends Services
         })->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
+    /**
+     * @param $box_id
+     * @param $paginate
+     * @return mixed
+     */
+    public function getAllWhereBoxId($box_id, $paginate): mixed
+    {
+        return Tools::where('box_id', $box_id)
+            ->select('id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'slug')
+            ->orderBy('id', 'desc')
+            ->paginate($paginate);
+    }
 
     public function getSlug($id)
     {
@@ -238,6 +250,64 @@ class ToolsService extends Services
         }
     }
 
+
+    /**
+     * @param $tool_id
+     * @param $box_id
+     * @param $old_box_id
+     * @return bool
+     */
+    public function changeBox($tool_id, $box_id, $old_box_id): bool
+    {
+        try {
+            if(!is_null($old_box_id))
+            {
+                $this->updateRegisterToStatusDisable($tool_id, config('klikbud.status_tools_table.box'), $old_box_id);
+            }
+
+            $this->changeOneRecord($tool_id, config('klikbud.status_tools_table.box'), $box_id); //To tool add box_id
+            $this->storeRegister($tool_id, config('klikbud.status_tools_table.box'), $box_id, 1); // History save
+
+            /**
+             * Get last global status tool, and end it
+             */
+            $status_tool_last = $this->getRegisterDataLast($tool_id);
+            if(!is_null($status_tool_last))
+            {
+                $this->updateRegisterToStatusDisable($tool_id, $status_tool_last->table, $status_tool_last->table_id);
+            }
+
+            /**
+             * Get last global status BOX and change global status BOX->TOOL
+             */
+            $status_box_last = $this->getRegisterDataLast($box_id);
+            if(!is_null($status_box_last))
+            {
+                $this->storeOrUpdateGlobalData($tool_id, $status_box_last->table, $status_box_last->table_id);
+            }
+            return true;
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $tool_id
+     * @param $box_id
+     * @return bool
+     */
+    public function deleteBoxIdInTool($tool_id, $box_id): bool
+    {
+        try {
+            $this->changeOneRecord($tool_id, config('klikbud.status_tools_table.box'), NULL);
+            $this->updateRegisterToStatusDisable($tool_id, config('klikbud.status_tools_table.box'), $box_id);
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
     /**
      * @param $id
      * @param $status_id
@@ -361,6 +431,15 @@ class ToolsService extends Services
     public function getRegisterData($tool_id, $paginate): mixed
     {
         return StatusToolRegister::where('tool_id', $tool_id)->orderBy('id', 'desc')->paginate($paginate);
+    }
+
+    /**
+     * @param $box_id
+     * @return mixed
+     */
+    public function getRegisterDataLast($tool_id): mixed
+    {
+        return StatusToolRegister::where('tool_id', $tool_id)->where('table', '!=', config('klikbud.status_tools_table.box'))->orderBy('id', 'desc')->first();
     }
 
 }

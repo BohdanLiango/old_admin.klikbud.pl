@@ -106,14 +106,6 @@ class Tools extends Model
     }
 
     /**
-     * @return BelongsTo
-     */
-    public function global_status(): BelongsTo
-    {
-        return $this->belongsTo(StatusTool::class, 'id', 'tool_id');
-    }
-
-    /**
      * @return HasMany
      */
     public function global_status_register(): HasMany
@@ -128,5 +120,13 @@ class Tools extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function tools(): HasMany
+    {
+        return $this->hasMany(__CLASS__, 'box_id', 'id');
     }
 }

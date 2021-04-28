@@ -18,7 +18,9 @@
             <div class="col-xxl-7 pl-xxl-11">
                 <h2 class="font-weight-bolder text-dark mb-7" style="font-size: 32px;">{{ $tool['title'] }}
                     <a href="{{ route('warehouses.tools.edit', $tool['slug']) }}" class="btn btn-icon btn-warning ml-10"><i class="flaticon2-edit"></i></a>
+                    @if($tools_in_box === 0 or count($tools_in_box) === 0)
                     <a wire:click="selectModal('openDeleteModal')" class="btn btn-icon btn-danger"><i class="flaticon2-delete"></i></a></h2>
+                    @endif
                 <div class="font-size-h2 mb-7 text-dark-50">{{ trans('admin_klikbud/warehouse/tools.one.price') }}<span class="text-info font-weight-boldest ml-2">{{ $tool['price'] }} {{ trans('admin_klikbud/warehouse/tools.one.value') }}</span>
                 </div>
                 <div class="line-height-xl">{{ $tool['description'] }}</div>
@@ -141,7 +143,12 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_object') }} <button wire:click="selectModal('changeObject')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_object') }}
+                        @empty($tool['box_id'])
+                            <button wire:click="selectModal('changeObject')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button>
+                        @else
+                        @endempty
+                    </span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if($tool['status_table'] === config('klikbud.status_tools_table.object'))
                             @forelse($objects as $object)
@@ -160,7 +167,12 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_warehouse') }} <button wire:click="selectModal('changeWarehouse')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_warehouse') }}
+                        @empty($tool['box_id'])
+                            <button wire:click="selectModal('changeWarehouse')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button>
+                        @else
+                        @endempty
+                    </span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if($tool['status_table'] === config('klikbud.status_tools_table.warehouse'))
                             @forelse($warehouses as $warehouse)
@@ -179,7 +191,12 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_client') }} <button wire:click="selectModal('changeClient')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_client') }}
+                        @empty($tool['box_id'])
+                            <button wire:click="selectModal('changeClient')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button>
+                        @else
+                        @endempty
+                    </span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                          @if($tool['status_table'] === config('klikbud.status_tools_table.client'))
                             @forelse($clients as $client)
@@ -198,7 +215,12 @@
             </div>
             <div class="col-6 col-md-4">
                 <div class="mb-8 d-flex flex-column">
-                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_business') }} <button wire:click="selectModal('changeBusiness')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button></span>
+                    <span class="text-dark font-weight-bold mb-4">{{ trans('admin_klikbud/warehouse/tools.one.in_business') }}
+                        @empty($tool['box_id'])
+                            <button wire:click="selectModal('changeBusiness')" class="btn btn-icon btn-warning btn-xs"><i class="flaticon2-edit"></i></button>
+                        @else
+                        @endempty
+                    </span>
                     <span class="text-muted font-weight-bolder font-size-lg">
                         @if($tool['status_table'] === config('klikbud.status_tools_table.business'))
                             @forelse($business as $item)
@@ -232,7 +254,9 @@
         </div>
         {{--<!--end::Buttons-->--}}
         @include('livewire.warehouses.tools.block.show.status-change-modal')
-        @include('livewire.warehouses.tools.block.show.change-box-modal')
+        @if($tool['is_box'] !== 1)
+            @include('livewire.warehouses.tools.block.show.change-box-modal')
+        @endif
         @include('livewire.warehouses.tools.block.show.change-global-status-business')
         @include('livewire.warehouses.tools.block.show.change-global-status-warehouse')
         @include('livewire.warehouses.tools.block.show.change-global-status-client')

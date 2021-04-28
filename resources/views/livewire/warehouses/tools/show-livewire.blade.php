@@ -13,6 +13,11 @@
                                 @include('livewire.warehouses.tools.block.show.last-buy-accessories')
                             </div>
                         </div>
+                        <div class="col-md-12 col-lg-12 col-xxl-12">
+                        @if($tool['is_box'] === 1)
+                            @include('livewire.warehouses.tools.block.show.box-tools')
+                        @endif
+                        </div>
                         @include('livewire.warehouses.tools.block.show.last-global-status')
                     </div>
                 </div>

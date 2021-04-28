@@ -89,9 +89,12 @@
                         </span>
                     </td>
                     <td>
-                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Początek: {{ \Carbon\Carbon::parse($status->created_at)->format('H:i:s d/m/Y')}}</span>
+                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Początek: {{ \Carbon\Carbon::parse($status->created_at)->format('H:i:s d/m/Y')}} |
+                            <a href="">{{ $status->user_add->name }} {{ $status->user_add->surname }}</a></span>
                         @if($status->created_at != $status->updated_at)
-                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Koniec: {{ \Carbon\Carbon::parse($status->updated_at)->format('H:i:s d/m/Y')}}</span>
+                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Koniec: {{ \Carbon\Carbon::parse($status->updated_at)->format('H:i:s d/m/Y')}} |
+                             <a href="">{{ $status->user_update->name }} {{ $status->user_update->surname }}</a>
+                            </span>
                         @else
                             <span class="text-dark-75 font-weight-bolder d-block font-size-lg">W procesie</span>
                         @endif
