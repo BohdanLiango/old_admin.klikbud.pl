@@ -6,14 +6,17 @@
                 <div class="overlay">
                     <div class="overlay-wrapper rounded bg-light text-center">
                         @empty($tool->image_id)
-                            <img src="{{ asset('media/static/no-image.jpg') }}" alt="" class="w-100 rounded" />
+                            <img src="{{ asset('media/static/no-image.jpg') }}" alt="" class="w-100  h-100 rounded" />
                         @else
-                            <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($tool->image->path) }}" alt="" class="w-100 rounded" />
+                            <img src="{{ Storage::disk(config('klikbud.disk_store'))->url($tool->image->path) }}" alt="" class="w-100 h-100 rounded" />
                         @endempty
                     </div>
                     <div class="overlay-layer">
-                        <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="btn font-weight-bolder btn-sm btn-info mr-2"><i class="fa fa-eye"></i></a>
-                        <a href="#" class="btn font-weight-bolder btn-sm btn-light-primary"><i class="fa fa-cart-plus"></i></a>
+                        <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="btn font-weight-bolder btn-sm btn-info mr-1"><i class="fa fa-eye"></i></a>
+                        <a href="#" class="btn font-weight-bolder btn-sm btn-light-success mr-1"><i class="fa fa-cart-plus"></i></a>
+                        @if($tool->is_box === 1)
+                            <a href="#" wire:click="searchWhereBoxId({{ $tool->id }}, {{ json_encode($tool->title) }})" class="btn font-weight-bolder btn-sm btn-primary"><i class="fa fa-box-open"></i></a>
+                        @endif
                     </div>
                 </div>
                 <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
@@ -25,46 +28,42 @@
                                 @break
                             @endif
                         @endforeach
-{{--                        @if($tool->status_table)--}}
-
-
-
-
-
-
-{{--                        @forelse($status_tool as $item)--}}
-{{--                                @if($item->tool_id ==  $tool->id)--}}
-{{--                                    @if($item->table == config('klikbud.status_tools_table.warehouse'))--}}
-{{--                                        @foreach($warehouses as $ware)--}}
-{{--                                            @if($ware->id == $item->table_id)--}}
-{{--                                                <i class="flaticon2-box-1"></i> {{ $ware->title }}--}}
-{{--                                            @endif--}}
-{{--                                        @endforeach--}}
-{{--                                    @endif--}}
-{{--                                        @if($item->table == config('klikbud.status_tools_table.object'))--}}
-{{--                                            @foreach($objects as $object)--}}
-{{--                                                @if($object->id == $item->table_id)--}}
-{{--                                                    <i class="flaticon2-architecture-and-city"></i> {{ $object->title }}--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        @endif--}}
-{{--                                        @if($item->table == config('klikbud.status_tools_table.client'))--}}
-{{--                                            @foreach($clients as $client)--}}
-{{--                                                @if($client->id == $item->table_id)--}}
-{{--                                                    <i class="flaticon2-group"></i> {{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        @endif--}}
-{{--                                        @if($item->table == config('klikbud.status_tools_table.business'))--}}
-{{--                                            @foreach($business as $buss)--}}
-{{--                                                @if($buss->id == $item->table_id)--}}
-{{--                                                    <i class="flaticon-presentation"></i> {{ Str::limit($buss->title, 20) }}--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        @endif--}}
-{{--                                @endif--}}
-{{--                            @empty--}}
-{{--                        @endforelse--}}
+                        @php
+                            $collect_history = collect($tool->registerHistoryTool);
+                            $get_history_last_not_box = $collect_history->where('table', '!==', config('klikbud.status_tools_table.box'))->last();
+                            $count_collect_history = count($collect_history);
+                        @endphp
+                            @empty($tool->box_id) @else <i class="flaticon2-box"></i> {{ $tool->box->title }} @endempty
+                            @if($count_collect_history > 0 and !is_null($get_history_last_not_box))
+                                @if($get_history_last_not_box->table === config('klikbud.status_tools_table.warehouse'))
+                                    @foreach($warehouses as $ware)
+                                        @if((int)$ware->id === (int)$get_history_last_not_box->table_id)
+                                            <i class="flaticon2-box-1"></i> {{ $ware->title }}
+                                        @endif
+                                    @endforeach
+                                @endif
+                                @if($get_history_last_not_box->table === config('klikbud.status_tools_table.object'))
+                                    @foreach($objects as $object)
+                                        @if((int)$object->id === (int)$get_history_last_not_box->table_id)
+                                                <i class="flaticon2-architecture-and-city"></i> {{ $object->title }}
+                                        @endif
+                                    @endforeach
+                                @endif
+                                    @if($get_history_last_not_box->table === config('klikbud.status_tools_table.client'))
+                                        @foreach($clients as $client)
+                                            @if((int)$client->id === (int)$get_history_last_not_box->table_id)
+                                                <i class="flaticon2-group"></i> {{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                    @if($get_history_last_not_box->table === config('klikbud.status_tools_table.business'))
+                                        @foreach($business as $buss)
+                                            @if((int)$buss->id === (int)$get_history_last_not_box->table_id)
+                                                <i class="flaticon-presentation"></i> {{ Str::limit($buss->title, 20) }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                            @endif
                     </span>
                     <span class="font-size-lg">
                         @empty($tool->main_category) @else <i class="flaticon2-check-mark"></i> {{ $tool->main_category->title }} @endempty

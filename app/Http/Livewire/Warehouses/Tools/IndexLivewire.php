@@ -10,14 +10,21 @@ use App\Services\Objects\ObjectsService;
 use App\Services\Warehouses\ToolsCategoryService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class IndexLivewire extends Component
 {
+    // Search
     public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
-        $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '';
-    public $categories, $warehouses, $status_tool, $objects, $clients, $business;
+        $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '',
+        $searchBoxId = '', $searchBoxTitle = '';
+
+    //Data
+    public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register;
+
+    //Stats
     public $countAll, $countActive, $countDeleted, $percentActive, $percentDeleted, $status;
 
     use WithPagination;
@@ -27,31 +34,38 @@ class IndexLivewire extends Component
         $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
 
-        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
+        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchBoxId, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
             $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate);
 
-        return view('livewire.warehouses.tools.index-livewire', compact('tools'))
+        $count_tools_search = count($tools);
+
+        return view('livewire.warehouses.tools.index-livewire', compact('tools', 'count_tools_search'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
 
-    public function mount()
+    public function mount(ToolsService $toolsService, ToolsCategoryService $toolsCategoryService, WarehousesService $warehousesService,
+                            ObjectsService $objectsService, ClientService $clientService, BusinessService $businessService)
     {
-        $this->categories = app()->make(ToolsCategoryService::class)->getCategoriesToForms();
-        $this->warehouses = app()->make(WarehousesService::class)->selectToForms();
-        $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
-        $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
-        $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
-        if(app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount() > 0 || app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount() > 0)
+        //Start Data
+        $this->categories = $toolsCategoryService->getCategoriesToForms();
+        $this->warehouses = $warehousesService->selectToForms();
+        $this->objects = $objectsService->selectObjectsToForms();
+        $this->clients = $clientService->showClientSelectIdName();
+        $this->business = $businessService->selectBusinessToForm();
+        $this->register = $toolsService->getAllDataRegisterToTools();
+        //End data
+        //Start Stats
+        if($toolsService->getAllActiveToolsSelectIdCount() > 0 || $toolsService->getAllTrashedToolsSelectIdCount() > 0)
         {
-            $this->countActive = app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount();
-            $this->countDeleted = app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount();
+            $this->countActive = $toolsService->getAllActiveToolsSelectIdCount();
+            $this->countDeleted = $toolsService->getAllTrashedToolsSelectIdCount();
             $this->countAll = $this->countActive + $this->countDeleted;
             $this->percentActive = round($this->countActive / $this->countAll * 100, 2);
             $this->percentDeleted  = 100 - $this->percentActive;
         }
-
         $this->status = app()->make(DefaultData::class)->status_tools();
+        //End Stats
     }
 
     public function searchCategory($id, $categoryType)
@@ -97,6 +111,17 @@ class IndexLivewire extends Component
         }
     }
 
+    public function searchWhereBoxId($box_id, $box_title)
+    {
+        (int)$this->searchBoxId = $box_id;
+        $this->searchBoxTitle = Str::limit($box_title, 20);
+    }
+
+    public function searchBoxName($box_name)
+    {
+        $this->searchBoxTitle = $box_name;
+    }
+
     public function clearSearchOptions()
     {
         $this->searchQuery = '';
@@ -106,5 +131,6 @@ class IndexLivewire extends Component
         $this->searchCategory = '';
         $this->searchGlobalStatusTable = '';
         $this->searchGlobalStatusId = '';
+        $this->searchBoxId = '';
     }
 }

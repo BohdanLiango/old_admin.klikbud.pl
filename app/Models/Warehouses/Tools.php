@@ -129,4 +129,12 @@ class Tools extends Model
     {
         return $this->hasMany(__CLASS__, 'box_id', 'id');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function registerHistoryTool(): HasMany
+    {
+        return $this->hasMany(StatusToolRegister::class, 'tool_id', 'id');
+    }
 }

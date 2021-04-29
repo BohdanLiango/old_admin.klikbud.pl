@@ -33,7 +33,7 @@ class ToolsService extends Services
      * @param $paginate
      * @return mixed
      */
-    public function showToolsToIndexPage($searchMainCategory, $searchHalfCategory, $searchCategory,
+    public function showToolsToIndexPage($searchBox, $searchMainCategory, $searchHalfCategory, $searchCategory,
                                          $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate): mixed
     {
         return Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
@@ -50,6 +50,8 @@ class ToolsService extends Services
             $query->whereIn('status_table', $searchGlobalStatusTable);
         })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
             $query->whereIn('status_table_id', $searchGlobalStatusId);
+        })->when($searchBox != '', function ($query) use ($searchBox) {
+            $query->where('box_id', $searchBox);
         })->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
@@ -309,6 +311,42 @@ class ToolsService extends Services
     }
 
     /**
+     * @param $box_id
+     * @return mixed
+     */
+    public function selectToolsIdInBox($box_id): mixed
+    {
+        return Tools::where('box_id', $box_id)->select('id')->get();
+    }
+
+
+    /**
+     * @param $box_id
+     * @param $table
+     * @param $table_id
+     * @return bool
+     */
+    public function changeStatusGlobalBoxAndAllToolsInBox($box_id, $table, $table_id): bool
+    {
+        try {
+            $get_tools = $this->selectToolsIdInBox($box_id);
+            $this->storeOrUpdateGlobalData($box_id, $table, $table_id); //Status global Box
+
+            if(count($get_tools) > 0)
+            {
+                foreach ($get_tools as $tool)
+                {
+                    $this->storeOrUpdateGlobalData($tool->id, $table, $table_id); //Change status BOX->TOOLS
+                }
+            }
+
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
      * @param $id
      * @param $status_id
      * @param $status_description
@@ -434,7 +472,16 @@ class ToolsService extends Services
     }
 
     /**
-     * @param $box_id
+     * @param $paginate
+     * @return mixed
+     */
+    public function getAllDataRegisterToTools(): mixed
+    {
+        return StatusToolRegister::select('tool_id', 'table', 'table_id')->get();
+    }
+
+    /**
+     * @param $tool_id
      * @return mixed
      */
     public function getRegisterDataLast($tool_id): mixed

@@ -31,7 +31,8 @@
                                 <div class="mb-11">
                                     <div class="d-flex justify-content-between align-items-center mb-7">
                                         <h5 class="font-weight-bolder text-dark font-size-h3 mb-0">
-                                            @empty($searchQuery) @else <i class="flaticon2-search"></i> {{ $searchQuery }} @endempty
+                                            <i class="fa fa-tools"></i> {{ $count_tools_search }}
+                                            @empty($searchQuery) @else | <i class="flaticon2-search"></i> {{ $searchQuery }} @endempty
                                             @empty($searchStatus) @else
                                                 @foreach($status as $item)
                                                     @if($item['value'] == $searchStatus)
@@ -59,7 +60,10 @@
                                                         <i class="flaticon2-check-mark"></i> {{ $category->title }}
                                                     @endif
                                                 @endforeach
-                                                @endempty
+                                            @endempty
+                                            @empty($searchBoxId) @else |
+                                                <i class="flaticon2-open-box"></i> {{ $searchBoxTitle }}
+                                            @endempty
                                             @empty($searchGlobalStatusTable) @else |
                                                 @if($searchGlobalStatusTable == config('klikbud.status_tools_table.warehouse'))
                                                     @foreach($warehouses as $item)
@@ -91,7 +95,9 @@
                                                 @endif
                                             @endempty
                                         </h5>
-                                        <a href="#" wire:click.prevent="clearSearchOptions()" class="btn btn-light-primary btn-sm font-weight-bolder">{{ trans('admin_klikbud/warehouse/tools.index.buttons.view_all') }}</a>
+                                        <a href="#" wire:click.prevent="clearSearchOptions()" class="btn btn-light-primary btn-sm font-weight-bolder">
+                                            <i class="flaticon2-delete"></i>  {{ trans('admin_klikbud/warehouse/tools.index.buttons.view_all') }}
+                                        </a>
                                     </div>
                                     <div class="row">
                                       @include('livewire.warehouses.tools.block.index.tools')
