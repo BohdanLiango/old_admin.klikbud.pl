@@ -32,6 +32,7 @@ class Employee extends Model
     use RevisionableTrait;
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
+    protected $dontKeepRevisionOf = ['created_at'];
 
     /**
      * @return BelongsTo

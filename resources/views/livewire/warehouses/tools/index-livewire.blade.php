@@ -93,11 +93,22 @@
                                                         @endif
                                                     @endforeach
                                                 @endif
+                                                @if($is_new !== true)
+                                                <i class="flaticon-add"></i> Nowy
+                                                @endif
                                             @endempty
                                         </h5>
-                                        <a href="#" wire:click.prevent="clearSearchOptions()" class="btn btn-light-primary btn-sm font-weight-bolder">
-                                            <i class="flaticon2-delete"></i>  {{ trans('admin_klikbud/warehouse/tools.index.buttons.view_all') }}
-                                        </a>
+                                        <div>
+                                            @if($showCloseFiltersButton == 2)
+                                                <a href="#" wire:click.prevent="clearSearchOptions()" class="btn btn-light-primary btn-sm font-weight-bolder">
+                                                    <i class="flaticon2-delete"></i>  {{ trans('admin_klikbud/warehouse/tools.index.buttons.view_all') }}
+                                                </a>
+                                            @endif
+                                            <a href="#" wire:click.prevent="searchNew()" class="btn btn-light-success btn-sm font-weight-bolder">
+                                                <i class="flaticon2-add"></i>  Pokaż nowe
+                                            </a>
+                                        </div>
+
                                     </div>
                                     <div class="row">
                                       @include('livewire.warehouses.tools.block.index.tools')

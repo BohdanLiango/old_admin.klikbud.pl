@@ -21,6 +21,8 @@ class ToolsService extends Services
     }
 
     /**
+     * @param $searchBox
+     * @param $box_id
      * @param $searchMainCategory
      * @param $searchHalfCategory
      * @param $searchCategory
@@ -31,12 +33,13 @@ class ToolsService extends Services
      * @param $orderBy
      * @param $orderByType
      * @param $paginate
+     * @param $is_new
      * @return mixed
      */
-    public function showToolsToIndexPage($searchBox, $searchMainCategory, $searchHalfCategory, $searchCategory,
-                                         $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate): mixed
+    public function showToolsToIndexPage($searchBox, $box_id, $searchMainCategory, $searchHalfCategory, $searchCategory,
+                                         $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate, $is_new): mixed
     {
-        return Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
+        $query = Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
             $query->where('title', 'like', '%' . $searchQuery . '%');
         })->when($searchStatus != '', function ($query) use ($searchStatus) {
             $query->where('status_tool_id', 'like', '%' . $searchStatus . '%');
@@ -47,12 +50,19 @@ class ToolsService extends Services
         })->when($searchCategory != '', function ($query) use ($searchCategory) {
             $query->where('category_id', 'like', '%' . $searchCategory . '%');
         })->when($searchGlobalStatusTable != '', function ($query) use ($searchGlobalStatusTable) {
-            $query->whereIn('status_table', $searchGlobalStatusTable);
+            $query->where('status_table', $searchGlobalStatusTable);
         })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
-            $query->whereIn('status_table_id', $searchGlobalStatusId);
+            $query->where('status_table_id', $searchGlobalStatusId);
         })->when($searchBox != '', function ($query) use ($searchBox) {
             $query->where('box_id', $searchBox);
-        })->orderBy($orderBy, $orderByType)->paginate($paginate);
+        })->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->paginate($paginate);
+
+        if($is_new === true)
+        {
+            return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->paginate($paginate);
+        }
+
+        return $query;
     }
 
     /**

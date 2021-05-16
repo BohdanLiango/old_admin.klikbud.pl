@@ -90,7 +90,11 @@
                     </td>
                     <td>
                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Początek: {{ \Carbon\Carbon::parse($status->created_at)->format('H:i:s d/m/Y')}} |
-                            <a href="">{{ $status->user_add->name }} {{ $status->user_add->surname }}</a></span>
+                            <a href="">
+                                @empty($status->user_add->name) NULL @else {{ $status->user_add->name }} @endempty
+                                @empty($status->user_add->surname) NULL @else {{ $status->user_add->surname }} @endempty
+                            </a>
+                        </span>
                         @if($status->created_at != $status->updated_at)
                             <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Koniec: {{ \Carbon\Carbon::parse($status->updated_at)->format('H:i:s d/m/Y')}} |
                              <a href="">{{ $status->user_update->name }} {{ $status->user_update->surname }}</a>

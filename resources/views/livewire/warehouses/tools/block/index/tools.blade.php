@@ -20,7 +20,9 @@
                     </div>
                 </div>
                 <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
-                    <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">{{ $tool->title }}</a>
+                    <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">
+                        @if($tool->status_table === NULL) <span class="label label-success label-xl">NEW!</span> @endif{{ $tool->title }}
+                    </a>
                     <span class="font-size-lg">
                         @foreach($status as $item)
                             @if($item['value'] == $tool->status_tool_id)

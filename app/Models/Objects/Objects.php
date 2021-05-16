@@ -30,6 +30,7 @@ class Objects extends Model
     use RevisionableTrait;
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
+    protected $dontKeepRevisionOf = ['created_at'];
 
     public function country()
     {

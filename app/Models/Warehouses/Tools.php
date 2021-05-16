@@ -22,6 +22,7 @@ class Tools extends Model
     protected static $flushCacheOnUpdate = true;
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
+    protected $dontKeepRevisionOf = ['created_at', 'box_id', 'status_table', 'status_table_id'];
 
     use Sluggable, SoftDeletes, QueryCacheable, RevisionableTrait;
 

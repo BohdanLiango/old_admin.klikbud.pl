@@ -24,6 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $revisionCreationsEnabled = true;
     protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     protected $historyLimit = 10000; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
+    protected $dontKeepRevisionOf = ['created_at'];
 
     /**
      * The attributes that are mass assignable.

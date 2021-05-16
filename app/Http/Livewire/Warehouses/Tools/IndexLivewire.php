@@ -19,7 +19,7 @@ class IndexLivewire extends Component
     // Search
     public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
         $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '',
-        $searchBoxId = '', $searchBoxTitle = '';
+        $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = false;
 
     //Data
     public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register;
@@ -34,8 +34,15 @@ class IndexLivewire extends Component
         $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
 
-        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchBoxId, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
-            $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate);
+        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchBoxId, $this->box_id, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
+            $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate, $this->is_new);
+
+        if($this->searchQuery != '' || $this->searchStatus != '' || $this->searchMainCategory != '' || $this->searchHalfCategory != '' || $this->searchCategory != '' ||
+            $this->searchGlobalStatusTable != '' || $this->searchGlobalStatusId != '' || $this->searchBoxId != '' || $this->box_id != NULL || $this->is_new != false)
+        {
+            $this->showCloseFiltersButton = 2;
+        }
+
 
         $count_tools_search = count($tools);
 
@@ -93,7 +100,7 @@ class IndexLivewire extends Component
     {
         switch ($table){
             case ('warehouse'):
-                $this->searchGlobalStatusTable = config('klikbud.status_tools_table.warehouse');
+                $this->searchGlobalStatusTable = config('klikbud.status_too`ls_table.warehouse');
                 $this->searchGlobalStatusId = $table_id;
                 break;
             case ('object'):
@@ -115,11 +122,17 @@ class IndexLivewire extends Component
     {
         (int)$this->searchBoxId = $box_id;
         $this->searchBoxTitle = Str::limit($box_title, 20);
+        $this->box_id = $box_id;
     }
 
     public function searchBoxName($box_name)
     {
         $this->searchBoxTitle = $box_name;
+    }
+
+    public function searchNew()
+    {
+        $this->is_new = true;
     }
 
     public function clearSearchOptions()
@@ -132,5 +145,8 @@ class IndexLivewire extends Component
         $this->searchGlobalStatusTable = '';
         $this->searchGlobalStatusId = '';
         $this->searchBoxId = '';
+        $this->showCloseFiltersButton = 1;
+        $this->box_id = NULL;
+        $this->is_new = false;
     }
 }
