@@ -36,6 +36,11 @@ return [
         'finish' => 2
     ],
 
+    'status_tools_in_cart' => [
+        'active' => 1,
+        'disable' => 2
+    ],
+
     'type_categories' => [
         'main_category' => 1,
         'half_category' => 2,

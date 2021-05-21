@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Warehouses\Tools;
 
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
+use App\Http\Livewire\Warehouses\Warehouse;
 use App\Services\Business\BusinessService;
 use App\Services\Clients\ClientService;
 use App\Services\Objects\ObjectsService;
@@ -11,10 +12,9 @@ use App\Services\Warehouses\ToolsCategoryService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
 use Illuminate\Support\Str;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class IndexLivewire extends Component
+class IndexLivewire extends Warehouse
 {
     // Search
     public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
@@ -43,10 +43,20 @@ class IndexLivewire extends Component
             $this->showCloseFiltersButton = 2;
         }
 
-
         $count_tools_search = count($tools);
 
-        return view('livewire.warehouses.tools.index-livewire', compact('tools', 'count_tools_search'))
+        $cart = app()->make(ToolsService::class)->getLastActiveCart();
+        if(!is_null($cart))
+        {
+            $collect_items_cart = collect($cart->items);
+            $collect_cart_count = $collect_items_cart->count();
+        }else{
+            $collect_items_cart = NULL;
+            $collect_cart_count = 0;
+        }
+
+
+        return view('livewire.warehouses.tools.index-livewire', compact('tools', 'count_tools_search', 'collect_items_cart', 'collect_cart_count'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
@@ -149,4 +159,17 @@ class IndexLivewire extends Component
         $this->box_id = NULL;
         $this->is_new = false;
     }
+
+    public function addToolToCart($item)
+    {
+        $status = app()->make(ToolsService::class)->addToolsToCart($item);
+        if($status === true)
+        {
+            $message = 'OK';
+        }else{
+            $message = 'FUCK';
+        }
+        $this->checkStatus($status, $message, 'alert', true, 'top-end');
+    }
+
 }

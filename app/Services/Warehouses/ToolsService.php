@@ -5,6 +5,7 @@ namespace App\Services\Warehouses;
 use App\Helper\KlikbudFunctionsHelper;
 use App\Models\Warehouses\StatusToolRegister;
 use App\Models\Warehouses\Tools;
+use App\Models\Warehouses\ToolsCart;
 use App\Services\Services;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,9 @@ class ToolsService extends Services
 {
     public $helpers;
     public $globalStatus;
+
+    private const UPDATE = 'update';
+    private const REMOVE = 'remove';
 
     public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper)
     {
@@ -497,6 +501,58 @@ class ToolsService extends Services
     public function getRegisterDataLast($tool_id): mixed
     {
         return StatusToolRegister::where('tool_id', $tool_id)->where('table', '!=', config('klikbud.status_tools_table.box'))->orderBy('id', 'desc')->first();
+    }
+
+    /**
+     * @param $items
+     * @return bool
+     */
+    public function addToolsToCart($items): bool
+    {
+        $user_id = Auth::id();
+
+        $find_last_cart = ToolsCart::where('user_id', $user_id)->orderBy('id', 'desc')->first();
+
+        if ((int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.disable')) {
+            $cart = new ToolsCart();
+            $data = [
+                'items' => $items,
+                'user_id' => $user_id,
+                'created_at' => now(),
+                'status_id' => (int)config('klikbud.status_tools_in_cart.active')
+            ];
+            $cart->fill($data)->save();
+
+            return true;
+
+        }
+
+        if((int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.active')) {
+
+            $old_items = collect($find_last_cart->items);
+
+            $old_items->push($items);
+
+            $data = [
+                'items' => $old_items
+            ];
+
+            $find_last_cart->fill($data)->save();
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastActiveCart(): mixed
+    {
+        return ToolsCart::where('user_id', Auth::id())->where('status_id', config('klikbud.status_tools_in_cart.active'))->orderBy('id', 'desc')->first();
     }
 
 }

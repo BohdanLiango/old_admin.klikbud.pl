@@ -22,5 +22,9 @@ Route::prefix('/warehouses')->name('warehouses.')->group(static function() {
             Route::get('/add/{id}', \App\Http\Livewire\Warehouses\Tools\Category\AddLivewire::class)->name('add');
             Route::get('/edit/{id}', \App\Http\Livewire\Warehouses\Tools\Category\EditLivewire::class)->name('edit');
         });
+
+        Route::prefix('/cart')->name('cart.')->group(static function() {
+            Route::get('/', \App\Http\Livewire\Warehouses\Tools\Cart\IndexLivewire::class)->name('show');
+        });
     });
 });
