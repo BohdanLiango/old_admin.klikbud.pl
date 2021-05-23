@@ -82,7 +82,12 @@ class ToolsService extends Services
             ->paginate($paginate);
     }
 
-    public function getSlug($id)
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getSlug($id): mixed
     {
         return Tools::findOrFail($id)->slug;
     }
@@ -553,6 +558,14 @@ class ToolsService extends Services
     public function getLastActiveCart(): mixed
     {
         return ToolsCart::where('user_id', Auth::id())->where('status_id', config('klikbud.status_tools_in_cart.active'))->orderBy('id', 'desc')->first();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllToolsWhereIdToCart(): mixed
+    {
+        return Tools::whereIn('id', $this->getLastActiveCart()->items)->get();
     }
 
 }

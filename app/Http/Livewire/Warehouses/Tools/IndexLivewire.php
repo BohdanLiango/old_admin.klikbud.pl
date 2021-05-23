@@ -160,16 +160,21 @@ class IndexLivewire extends Warehouse
         $this->is_new = false;
     }
 
-    public function addToolToCart($item)
+    public function addToolToCart($item, $box_id)
     {
-        $status = app()->make(ToolsService::class)->addToolsToCart($item);
-        if($status === true)
+        if($box_id !== NULL)
         {
-            $message = 'OK';
+            $this->checkStatus(false, 'Można dodać tylko razem z skrzynią', 'alert', true, 'top-end');
         }else{
-            $message = 'FUCK';
+            $status = app()->make(ToolsService::class)->addToolsToCart($item);
+            if($status === true)
+            {
+                $message = 'Dodano do koszyka!';
+            }else{
+                $message = 'FUCK';
+            }
+            $this->checkStatus($status, $message, 'alert', true, 'top-end');
         }
-        $this->checkStatus($status, $message, 'alert', true, 'top-end');
     }
 
 }

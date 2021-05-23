@@ -29,4 +29,12 @@ class ToolsCart extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function tool(): BelongsTo
+    {
+        return $this->belongsTo(Tools::class);
+    }
 }

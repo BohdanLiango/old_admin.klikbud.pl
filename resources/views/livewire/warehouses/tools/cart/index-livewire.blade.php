@@ -9,7 +9,7 @@
                 </h3>
                 <div class="card-toolbar">
                     <div class="dropdown dropdown-inline">
-                        <a href="#" class="btn btn-primary font-weight-bolder font-size-sm">Continue Shopping</a>
+                        <a href="{{ route('warehouses.tools.show') }}" class="btn btn-primary font-weight-bolder font-size-sm">Powrót</a>
                     </div>
                 </div>
             </div>
@@ -30,75 +30,29 @@
                         <!--end::Cart Header-->
                         <tbody>
                         <!--begin::Cart Content-->
-                        <tr>
-                            <td class="d-flex align-items-center font-weight-bolder">
-                                <!--begin::Symbol-->
-                                <div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
-                                    <div class="symbol-label" style="background-image: url('assets/media/products/11.png')"></div>
-                                </div>
-                                <!--end::Symbol-->
-                                <a href="#" class="text-dark text-hover-primary">Street Sneakers</a>
-                            </td>
-                            <td class="text-center align-middle">
-                                <a href="javascript:;" class="btn btn-xs btn-light-success btn-icon mr-2">
-                                    <i class="ki ki-minus icon-xs"></i>
-                                </a>
-                                <span class="mr-2 font-weight-bolder">1</span>
-                                <a href="javascript:;" class="btn btn-xs btn-light-success btn-icon">
-                                    <i class="ki ki-plus icon-xs"></i>
-                                </a>
-                            </td>
-                            <td class="text-right align-middle font-weight-bolder font-size-h5">$90.00</td>
-                            <td class="text-right align-middle">
-                                <a href="#" class="btn btn-danger font-weight-bolder font-size-sm">Remove</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="d-flex align-items-center font-weight-bolder">
-                                <!--begin::Symbol-->
-                                <div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
-                                    <div class="symbol-label" style="background-image: url('assets/media/products/2.png')"></div>
-                                </div>
-                                <!--end::Symbol-->
-                                <a href="#" class="text-dark text-hover-primary">Headphones</a>
-                            </td>
-                            <td class="text-center align-middle">
-                                <a href="javascript:;" class="btn btn-xs btn-light-success btn-icon mr-2">
-                                    <i class="ki ki-minus icon-xs"></i>
-                                </a>
-                                <span class="mr-2 font-weight-bolder">1</span>
-                                <a href="javascript:;" class="btn btn-xs btn-light-success btn-icon">
-                                    <i class="ki ki-plus icon-xs"></i>
-                                </a>
-                            </td>
-                            <td class="text-right align-middle font-weight-bolder font-size-h5">$449.00</td>
-                            <td class="text-right align-middle">
-                                <a href="#" class="btn btn-danger font-weight-bolder font-size-sm">Remove</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="d-flex align-items-center font-weight-bolder">
-                                <!--begin::Symbol-->
-                                <div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
-                                    <div class="symbol-label" style="background-image: url('assets/media/products/1.png')"></div>
-                                </div>
-                                <!--end::Symbol-->
-                                <a href="#" class="text-dark text-hover-primary">Smartwatch</a>
-                            </td>
-                            <td class="text-center align-middle">
-                                <a href="javascript:;" class="btn btn-xs btn-light-success btn-icon mr-2">
-                                    <i class="ki ki-minus icon-xs"></i>
-                                </a>
-                                <span class="mr-2 font-weight-bolder">1</span>
-                                <a href="javascript:;" class="btn btn-xs btn-light-success btn-icon">
-                                    <i class="ki ki-plus icon-xs"></i>
-                                </a>
-                            </td>
-                            <td class="text-right align-middle font-weight-bolder font-size-h5">$999.00</td>
-                            <td class="text-right align-middle">
-                                <a href="#" class="btn btn-danger font-weight-bolder font-size-sm">Remove</a>
-                            </td>
-                        </tr>
+                        @forelse($tools as $tool)
+                            <tr>
+                                <td class="d-flex align-items-center font-weight-bolder">
+                                    <!--begin::Symbol-->
+                                    <div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
+                                        @empty($tool->image_id)
+                                            <div class="symbol-label" style="background-image: url({{ asset('media/static/no-image.jpg') }})"></div>
+                                                @else
+                                            <div class="symbol-label" style="background-image: url({{ Storage::disk(config('klikbud.disk_store'))->url($tool->image->path) }})"></div>
+                                        @endempty
+                                    </div>
+                                    <!--end::Symbol-->
+                                    <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="text-dark text-hover-primary" target="_blank">{{ $tool->title }}</a>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <span class="mr-2 font-weight-bolder">1</span>
+                                </td>
+                                <td class="text-right align-middle">
+                                    <a href="#" class="btn btn-danger font-weight-bolder font-size-sm">Remove</a>
+                                </td>
+                            </tr>
+                            @empty
+                        @endforelse
                         <!--end::Cart Content-->
                         <!--begin::Cart Footer-->
                         <tr>
