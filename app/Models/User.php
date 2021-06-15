@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Warehouses\ToolsCart;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $revisionCreationsEnabled = true;
     protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     protected $historyLimit = 10000; //Maintain a maximum of 500 changes at any point of time, while cleaning up old revisions.
+    protected $dontKeepRevisionOf = ['created_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -63,5 +66,13 @@ class User extends Authenticatable implements MustVerifyEmail
                 'source' => 'surname'
             ]
         ];
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function tools_cart()
+    {
+        return $this->hasMany(ToolsCart::class, 'user_id');
     }
 }

@@ -13,13 +13,14 @@
                 <div class="form-group row">
                     <label for="Business" class="col-form-label text-right col-lg-3 col-sm-12">{{ trans('admin_klikbud/warehouse/tools.one.modals.business') }}</label>
                     <div wire:ignore class="col-lg-9 col-md-9 col-sm-12">
-                        <select id="Business" class="form-control selectpicker @error('new_global_status_id') is-invalid @enderror" data-size="5" data-live-search="true" wire:model="new_global_status_id">
+                        <select id="Business" class="form-control selectpicker @error('new_global_status_table_id') is-invalid @enderror" data-size="5" data-live-search="true" wire:model="new_global_status_table_id">
+                            <option value="{{ NULL }}">-----------</option>
                             @forelse($business as $item)
                             <option value="{{ $item->id }}">{{ $item->title }}</option>
                             @empty
                             @endforelse
                         </select>
-                        @error('new_global_status_id')<div class="invalid-feedback">{{ $message }}</div> @enderror
+                        @error('new_global_status_table_id')<div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>

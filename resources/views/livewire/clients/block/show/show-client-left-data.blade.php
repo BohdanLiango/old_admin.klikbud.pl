@@ -35,7 +35,7 @@
             <div class="col-8">
                 <span class="form-control-plaintext font-weight-bolder">
                    @forelse($mobile as $item)
-                       {{ $item }} <br>
+                        {{ $item }}<br>
                    @empty
                    @endforelse
                 </span>

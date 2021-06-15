@@ -4,21 +4,27 @@ namespace App\Http\Livewire\Warehouses\Tools;
 
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
+use App\Http\Livewire\Warehouses\Warehouse;
 use App\Services\Business\BusinessService;
 use App\Services\Clients\ClientService;
 use App\Services\Objects\ObjectsService;
-use App\Services\Warehouses\StatusToolService;
 use App\Services\Warehouses\ToolsCategoryService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
-use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 
-class IndexLivewire extends Component
+class IndexLivewire extends Warehouse
 {
+    // Search
     public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
-        $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '';
-    public $categories, $warehouses, $status_tool, $objects, $clients, $business;
+        $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '',
+        $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = 'dont_open_box';
+
+    //Data
+    public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register;
+
+    //Stats
     public $countAll, $countActive, $countDeleted, $percentActive, $percentDeleted, $status;
 
     use WithPagination;
@@ -28,47 +34,55 @@ class IndexLivewire extends Component
         $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
 
-        $status_global_search = collect($this->status_tool)->where('table', $this->searchGlobalStatusTable)->where('table_id', $this->searchGlobalStatusId);
+        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchBoxId, $this->box_id, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
+            $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate, $this->is_new);
 
-        $id_status = array();
-        foreach ($status_global_search->values() as $status)
+        if($this->searchQuery != '' || $this->searchStatus != '' || $this->searchMainCategory != '' || $this->searchHalfCategory != '' || $this->searchCategory != '' ||
+            $this->searchGlobalStatusTable != '' || $this->searchGlobalStatusId != '' || $this->searchBoxId != '' || $this->box_id != NULL || $this->is_new !== 'dont_open_box')
         {
-            $id_status[] = $status->tool_id;
+            $this->showCloseFiltersButton = 2;
         }
 
-        if(empty($id_status))
+        $count_tools_search = count($tools);
+
+        $cart = app()->make(ToolsService::class)->getLastActiveCart();
+        if(!is_null($cart))
         {
-            $search_id = '';
+            $collect_items_cart = collect($cart->items);
+            $collect_cart_count = $collect_items_cart->count();
         }else{
-            $search_id = $id_status;
+            $collect_items_cart = NULL;
+            $collect_cart_count = 0;
         }
 
-        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($search_id, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
-            $this->searchQuery, $this->searchStatus, $this->orderBy, $this->orderByType, $this->paginate);
 
-        return view('livewire.warehouses.tools.index-livewire', compact('tools'))
+        return view('livewire.warehouses.tools.index-livewire', compact('tools', 'count_tools_search', 'collect_items_cart', 'collect_cart_count'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
 
-    public function mount()
+    public function mount(ToolsService $toolsService, ToolsCategoryService $toolsCategoryService, WarehousesService $warehousesService,
+                            ObjectsService $objectsService, ClientService $clientService, BusinessService $businessService)
     {
-        $this->categories = app()->make(ToolsCategoryService::class)->getCategoriesToForms();
-        $this->warehouses = app()->make(WarehousesService::class)->selectToForms();
-        $this->status_tool = app()->make(StatusToolService::class)->get_all();
-        $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
-        $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
-        $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
-        if(app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount() > 0 || app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount() > 0)
+        //Start Data
+        $this->categories = $toolsCategoryService->getCategoriesToForms();
+        $this->warehouses = $warehousesService->selectToForms();
+        $this->objects = $objectsService->selectObjectsToForms();
+        $this->clients = $clientService->showClientSelectIdName();
+        $this->business = $businessService->selectBusinessToForm();
+        $this->register = $toolsService->getAllDataRegisterToTools();
+        //End data
+        //Start Stats
+        if($toolsService->getAllActiveToolsSelectIdCount() > 0 || $toolsService->getAllTrashedToolsSelectIdCount() > 0)
         {
-            $this->countActive = app()->make(ToolsService::class)->getAllActiveToolsSelectIdCount();
-            $this->countDeleted = app()->make(ToolsService::class)->getAllTrashedToolsSelectIdCount();
+            $this->countActive = $toolsService->getAllActiveToolsSelectIdCount();
+            $this->countDeleted = $toolsService->getAllTrashedToolsSelectIdCount();
             $this->countAll = $this->countActive + $this->countDeleted;
             $this->percentActive = round($this->countActive / $this->countAll * 100, 2);
             $this->percentDeleted  = 100 - $this->percentActive;
         }
-
         $this->status = app()->make(DefaultData::class)->status_tools();
+        //End Stats
     }
 
     public function searchCategory($id, $categoryType)
@@ -96,7 +110,7 @@ class IndexLivewire extends Component
     {
         switch ($table){
             case ('warehouse'):
-                $this->searchGlobalStatusTable = config('klikbud.status_tools_table.warehouse');
+                $this->searchGlobalStatusTable = config('klikbud.status_too`ls_table.warehouse');
                 $this->searchGlobalStatusId = $table_id;
                 break;
             case ('object'):
@@ -114,6 +128,28 @@ class IndexLivewire extends Component
         }
     }
 
+    public function searchWhereBoxId($box_id, $box_title)
+    {
+        (int)$this->searchBoxId = $box_id;
+        $this->searchBoxTitle = Str::limit($box_title, 20);
+        $this->box_id = $box_id;
+    }
+
+    public function searchBoxName($box_name)
+    {
+        $this->searchBoxTitle = $box_name;
+    }
+
+    public function searchNew()
+    {
+        $this->is_new = true;
+    }
+
+    public function searchAll()
+    {
+        $this->is_new = false;
+    }
+
     public function clearSearchOptions()
     {
         $this->searchQuery = '';
@@ -123,5 +159,27 @@ class IndexLivewire extends Component
         $this->searchCategory = '';
         $this->searchGlobalStatusTable = '';
         $this->searchGlobalStatusId = '';
+        $this->searchBoxId = '';
+        $this->showCloseFiltersButton = 1;
+        $this->box_id = NULL;
+        $this->is_new = false;
     }
+
+    public function addToolToCart($item, $box_id)
+    {
+        if($box_id !== NULL)
+        {
+            $this->checkStatus(false, 'Można dodać tylko razem z skrzynią', 'alert', true, 'top-end');
+        }else{
+            $status = app()->make(ToolsService::class)->addToolsToCart($item);
+            if($status === true)
+            {
+                $message = 'Dodano do koszyka!';
+            }else{
+                $message = 'FUCK';
+            }
+            $this->checkStatus($status, $message, 'alert', true, 'top-end');
+        }
+    }
+
 }

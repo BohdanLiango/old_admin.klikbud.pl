@@ -19,6 +19,7 @@ class ToolsCategory extends Model
     protected static $flushCacheOnUpdate = true;
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
+    protected $dontKeepRevisionOf = ['created_at'];
 
     use Sluggable, SoftDeletes, QueryCacheable, RevisionableTrait;
 

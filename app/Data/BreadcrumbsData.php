@@ -18,6 +18,7 @@ class BreadcrumbsData extends Data
     private string $categories = 'Kategorie';
     private string $tools = 'Narzędzia';
     private string $business = 'Firmy';
+    private string $tools_cart = 'Koszyk';
 
     /**
      * Main functions
@@ -268,7 +269,8 @@ class BreadcrumbsData extends Data
     {
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'name' => $this->dashboard],
-            ['key' => 1, 'link' => route('warehouses.tools.show'), 'name' => $this->tools]
+            ['key' => 1, 'link' => route('warehouses.tools.show'), 'name' => $this->tools],
+            ['key' => 2, 'link' => route('warehouses.tools.cart.show'), 'name' => $this->tools_cart]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);

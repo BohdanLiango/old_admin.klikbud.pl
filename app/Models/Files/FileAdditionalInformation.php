@@ -21,6 +21,7 @@ class FileAdditionalInformation extends Model
     protected bool $revisionCreationsEnabled = true;
     protected bool $revisionCleanup = true ; // Удалить старые ревизии (работает только при использовании с $ historyLimit)
     protected int $historyLimit = 50 ; // Сохранение максимум 5000 изменений в любой момент времени при очистке старых версий.
+    protected $dontKeepRevisionOf = ['created_at'];
 
     use QueryCacheable;
     protected int $cacheFor = 3600;

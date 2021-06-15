@@ -14,7 +14,7 @@ class ClientService extends Services
      */
     public function showClientSelectIdName(): mixed
     {
-        return Clients::select('id', 'first_name', 'last_name')->get();
+        return Clients::select('id', 'first_name', 'last_name', 'slug')->get();
     }
 
 

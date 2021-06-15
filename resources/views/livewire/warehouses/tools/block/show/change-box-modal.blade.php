@@ -14,12 +14,12 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12" for="checkBox">{{ trans('admin_klikbud/warehouse/tools.one.modals.boxes') }}</label>
                     <div wire:ignore class="col-lg-9 col-md-9 col-sm-12">
                         <select  id="checkBox" class="form-control selectpicker @error('new_box') is-invalid @enderror" data-size="5" data-live-search="true" wire:model="new_box">
+                            <option value="{{ NULL }}">-----------</option>
                             @forelse($get_box as $item)
                                 <option value="{{ $item->id }}">{{ $item->title }}</option>
                             @empty
                             @endforelse
                         </select>
-                        @error('new_box')<div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>

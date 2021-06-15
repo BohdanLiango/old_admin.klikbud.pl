@@ -27,11 +27,23 @@ return [
         'object' => 'object_id',
         'warehouse' => 'warehouse_id',
         'client' => 'client_id',
-        'business' => 'business_id'
+        'business' => 'business_id',
+        'box' => 'box_id'
     ],
 
     'status_tools_status' => [
         'start' => 1,
         'finish' => 2
+    ],
+
+    'status_tools_in_cart' => [
+        'active' => 1,
+        'disable' => 2
+    ],
+
+    'type_categories' => [
+        'main_category' => 1,
+        'half_category' => 2,
+        'category' => 3
     ],
 ];

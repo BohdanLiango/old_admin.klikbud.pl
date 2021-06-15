@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusToolTable extends Migration
+class CreateWarehouseToolCartTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateStatusToolTable extends Migration
      */
     public function up()
     {
-        Schema::create('status_tool', function (Blueprint $table) {
+        Schema::create('warehouse_tool_cart', function (Blueprint $table) {
             $table->id();
-            $table->integer('tool_id')->nullable();
-            $table->string('table')->nullable();
-            $table->string('table_id')->nullable();
+            $table->json('items')->nullable();
+            $table->integer('user_id')->nullable();
             $table->integer('status_id')->nullable();
-            $table->string('unique_number')->nullable();
-            $table->timestamps();
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('end_at')->nullable();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +31,6 @@ class CreateStatusToolTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_tool');
+        Schema::dropIfExists('warehouse_tool_cart');
     }
 }

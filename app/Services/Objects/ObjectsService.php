@@ -44,7 +44,7 @@ class ObjectsService extends Services
     public function selectObjectsToForms()
     {
         try {
-            return Objects::select('id', 'title')->get();
+            return Objects::select('id', 'title', 'slug')->get();
         }catch (\Exception $e){
             return NULL;
         }

@@ -5,7 +5,11 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0 mr-4 symbol symbol-65 symbol-circle">
-                            <img src="{{ asset('media/project-logos/3.png') }}" alt="image"/>
+                            @if($object->image_id === null)
+                                <img src="{{ asset('media/static/no-image.jpg') }}" alt="image"/>
+                                    @else
+                                <img src="{{ asset('media/project-logos/3.png') }}" alt="image"/>
+                            @endif
                         </div>
                         <div class="d-flex flex-column mr-auto">
                             <a href="#"

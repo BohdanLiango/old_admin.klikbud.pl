@@ -8,7 +8,7 @@
     <div class="card-body pt-4">
             <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="accordionExample7">
                 @forelse($categories as $main_category)
-                    @if($main_category->type_id === 1)
+                    @if($main_category->type_id === config('klikbud.type_categories.main_category'))
                     <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="accordionExample7">
                         <div class="card">
                             <div class="card-header" id="heading{{ $main_category->id }}7">
@@ -36,7 +36,7 @@
                                     </a>
                                     <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="accordionExample8">
                                     @forelse($categories as $half_category)
-                                        @if($half_category->main_category_id === $main_category->id)
+                                        @if($half_category->main_category_id === $main_category->id && $half_category->type_id === config('klikbud.type_categories.half_category'))
                                             <div class="card">
                                                 <div class="card-header" id="heading{{ $half_category->id }}8">
                                                     <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse{{ $half_category->id }}8">
@@ -62,7 +62,7 @@
                                                         </span>
                                                         </a>
                                                         @forelse($categories as $category)
-                                                            @if($category->half_category_id === $half_category->id)
+                                                            @if($category->half_category_id === $half_category->id && $category->type_id === config('klikbud.type_categories.category'))
                                                             <ul class="navi">
                                                                 <li class="navi-item">
                                                                     <a class="navi-link" href="#" wire:click.prevent="searchCategory({{ $category->id }}, 'category')">
@@ -94,31 +94,33 @@
     </div>
 </div>
 @endif
-    <div class="card card-custom gutter-b">
-        <div class="card-header border-0 pt-5">
-            <h3 class="card-title align-items-start flex-column mb-3">
-                <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.warehouse') }}</span>
-            </h3>
-        </div>
-        <div class="card-body pt-4">
-            <ul class="navi">
-                @forelse($warehouses as $warehouse)
-                    <li class="navi-item">
-                        <a class="navi-link" href="#" wire:click.prevent="searchStatus('warehouse', {{ $warehouse->id }})">
-                            <span class="navi-icon"><i class="flaticon2-box-1"></i></span>
-                            <span class="navi-text">{{ $warehouse->title }} @if(!is_null($warehouse->square)) - ({{ $warehouse->square }}) @endif</span>
-                            <span class="navi-label">
-                              <span class="label label-info label-rounded">
-                                  {{ count($status_tool->where('table', config('klikbud.status_tools_table.warehouse'))->where('table_id', $warehouse->id)) }}
-                              </span>
-                          </span>
-                        </a>
-                    </li>
-                    @empty
-                @endforelse
-            </ul>
-        </div>
+
+<div class="card card-custom gutter-b">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column mb-3">
+            <span class="card-label font-size-h3 font-weight-bolder text-dark">{{ trans('admin_klikbud/warehouse/tools.index.aside_widget.warehouse') }}</span>
+        </h3>
     </div>
+    <div class="card-body pt-4">
+        <ul class="navi">
+            @forelse($warehouses as $warehouse)
+                <li class="navi-item">
+                    <a class="navi-link" href="#" wire:click.prevent="searchStatus('warehouse', {{ $warehouse->id }})">
+                        <span class="navi-icon"><i class="flaticon2-box-1"></i></span>
+                        <span class="navi-text">{{ $warehouse->title }} @if(!is_null($warehouse->square)) - ({{ $warehouse->square }}) @endif</span>
+                        <span class="navi-label">
+                            <span class="label label-info label-rounded">
+                                {{ count($tools->where('status_table', config('klikbud.status_tools_table.warehouse'))->where('status_table_id', $warehouse->id)) }}
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            @empty
+            @endforelse
+        </ul>
+    </div>
+</div>
+
 <div class="card card-custom gutter-b">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column mb-3">
@@ -128,7 +130,7 @@
     <div class="card-body pt-4">
         <ul class="navi">
             @forelse($objects as $object)
-                @if(count($status_tool->where('table', config('klikbud.status_tools_table.object'))->where('table_id', $object->id)) === 0)
+                @if(count($tools->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) === 0)
                     @else
                 <li class="navi-item">
                     <a class="navi-link" href="#" wire:click.prevent="searchStatus('object', {{ $object->id }})">
@@ -136,7 +138,7 @@
                         <span class="navi-text">{{ Str::limit($object->title, 20) }}</span>
                         <span class="navi-label">
                               <span class="label label-info label-rounded">
-                                  {{ count($status_tool->where('table', config('klikbud.status_tools_table.object'))->where('table_id', $object->id)) }}
+                                  {{ count($tools->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) }}
                               </span>
                           </span>
                     </a>
@@ -147,6 +149,7 @@
         </ul>
     </div>
 </div>
+
 <div class="card card-custom gutter-b">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column mb-3">
@@ -156,7 +159,7 @@
     <div class="card-body pt-4">
         <ul class="navi">
             @forelse($clients as $client)
-                @if(count($status_tool->where('table', config('klikbud.status_tools_table.client'))->where('table_id', $client->id)) === 0)
+                @if(count($tools->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) === 0)
                 @else
                     <li class="navi-item">
                         <a class="navi-link" href="#" wire:click.prevent="searchStatus('client', {{ $client->id }})">
@@ -164,7 +167,7 @@
                             <span class="navi-text">{{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}</span>
                             <span class="navi-label">
                               <span class="label label-info label-rounded">
-                                  {{ count($status_tool->where('table', config('klikbud.status_tools_table.client'))->where('table_id', $client->id)) }}
+                                  {{ count($tools->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) }}
                               </span>
                           </span>
                         </a>
@@ -185,7 +188,7 @@
     <div class="card-body pt-4">
         <ul class="navi">
             @forelse($business as $item)
-                @if(count($status_tool->where('table', config('klikbud.status_tools_table.business'))->where('table_id', $item->id)) === 0)
+                @if(count($tools->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) === 0)
                 @else
                     <li class="navi-item">
                         <a class="navi-link" href="#" wire:click="searchStatus('business', {{ $item->id }})">
@@ -193,7 +196,7 @@
                             <span class="navi-text">{{ Str::limit($item->title, 20) }}</span>
                             <span class="navi-label">
                               <span class="label label-info label-rounded">
-                                  {{ count($status_tool->where('table', config('klikbud.status_tools_table.business'))->where('table_id', $item->id)) }}
+                                  {{ count($tools->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) }}
                               </span>
                           </span>
                         </a>

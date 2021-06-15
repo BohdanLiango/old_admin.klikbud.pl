@@ -22,6 +22,7 @@ class Tools extends Model
     protected static $flushCacheOnUpdate = true;
     protected $revisionEnabled = true;
     protected $revisionCreationsEnabled = true;
+    protected $dontKeepRevisionOf = ['created_at', 'box_id', 'status_table', 'status_table_id'];
 
     use Sluggable, SoftDeletes, QueryCacheable, RevisionableTrait;
 
@@ -106,14 +107,6 @@ class Tools extends Model
     }
 
     /**
-     * @return BelongsTo
-     */
-    public function global_status(): BelongsTo
-    {
-        return $this->belongsTo(StatusTool::class, 'id', 'tool_id');
-    }
-
-    /**
      * @return HasMany
      */
     public function global_status_register(): HasMany
@@ -128,5 +121,21 @@ class Tools extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function tools(): HasMany
+    {
+        return $this->hasMany(__CLASS__, 'box_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function registerHistoryTool(): HasMany
+    {
+        return $this->hasMany(StatusToolRegister::class, 'tool_id', 'id');
     }
 }

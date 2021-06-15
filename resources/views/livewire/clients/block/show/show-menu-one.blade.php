@@ -52,7 +52,6 @@
                 </div>
                     @empty
                 @endforelse
-
                     {{ $notes->links('vendor.livewire.bootstrap') }}
             </div>
         </div>

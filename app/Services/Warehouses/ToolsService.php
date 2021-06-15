@@ -3,9 +3,12 @@
 namespace App\Services\Warehouses;
 
 use App\Helper\KlikbudFunctionsHelper;
+use App\Models\Warehouses\StatusToolRegister;
 use App\Models\Warehouses\Tools;
+use App\Models\Warehouses\ToolsCart;
 use App\Services\Services;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ToolsService extends Services
@@ -13,27 +16,34 @@ class ToolsService extends Services
     public $helpers;
     public $globalStatus;
 
-    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper, StatusToolService $statusToolService)
+    private const UPDATE = 'update';
+    private const REMOVE = 'remove';
+
+    public function __construct(KlikbudFunctionsHelper $klikbudFunctionsHelper)
     {
         $this->helpers = $klikbudFunctionsHelper;
-        $this->globalStatus = $statusToolService;
     }
 
     /**
+     * @param $searchBox
+     * @param $box_id
      * @param $searchMainCategory
      * @param $searchHalfCategory
      * @param $searchCategory
      * @param $searchQuery
      * @param $searchStatus
+     * @param $searchGlobalStatusTable
+     * @param $searchGlobalStatusId
      * @param $orderBy
      * @param $orderByType
      * @param $paginate
+     * @param $is_new
      * @return mixed
      */
-    public function showToolsToIndexPage($searchId, $searchMainCategory, $searchHalfCategory, $searchCategory,
-                                         $searchQuery, $searchStatus, $orderBy, $orderByType, $paginate): mixed
+    public function showToolsToIndexPage($searchBox, $box_id, $searchMainCategory, $searchHalfCategory, $searchCategory,
+                                         $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate, $is_new): mixed
     {
-        return Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
+        $query = Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
             $query->where('title', 'like', '%' . $searchQuery . '%');
         })->when($searchStatus != '', function ($query) use ($searchStatus) {
             $query->where('status_tool_id', 'like', '%' . $searchStatus . '%');
@@ -43,13 +53,46 @@ class ToolsService extends Services
             $query->where('half_category_id', 'like', '%' . $searchHalfCategory . '%');
         })->when($searchCategory != '', function ($query) use ($searchCategory) {
             $query->where('category_id', 'like', '%' . $searchCategory . '%');
-        })->when($searchId != '', function ($query) use ($searchId) {
-            $query->whereIn('id', $searchId);
-        })->orderBy($orderBy, $orderByType)->paginate($paginate);
+        })->when($searchGlobalStatusTable != '', function ($query) use ($searchGlobalStatusTable) {
+            $query->where('status_table', $searchGlobalStatusTable);
+        })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
+            $query->where('status_table_id', $searchGlobalStatusId);
+        })->when($searchBox != '', function ($query) use ($searchBox) {
+            $query->where('box_id', $searchBox);
+        });
+
+        if($is_new === true)
+        {
+            return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->paginate($paginate);
+        }
+
+        if($is_new === 'dont_open_box')
+        {
+            return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->paginate($paginate);
+        }
+
+        return $query->orderBy($orderBy, $orderByType)->paginate($paginate);
+    }
+
+    /**
+     * @param $box_id
+     * @param $paginate
+     * @return mixed
+     */
+    public function getAllWhereBoxId($box_id, $paginate): mixed
+    {
+        return Tools::where('box_id', $box_id)
+            ->select('id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'slug')
+            ->orderBy('id', 'desc')
+            ->paginate($paginate);
     }
 
 
-    public function getSlug($id)
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getSlug($id): mixed
     {
         return Tools::findOrFail($id)->slug;
     }
@@ -59,7 +102,7 @@ class ToolsService extends Services
      */
     public function getBoxToForm()
     {
-        return Tools::where('is_box', 1)->select('id', 'title')->get();
+        return Tools::where('is_box', 1)->select('id', 'title', 'slug')->get();
     }
 
     /**
@@ -124,7 +167,9 @@ class ToolsService extends Services
                 'manufacturer_id' =>  $collect->get('manufacturer_id'),
                 'guarantee_date_end' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('guarantee_date_end')),
                 'is_box' =>  $collect->get('is_box'),
-                'user_id' => \Auth::id()
+                'user_id' => Auth::id(),
+                'status_table' => NULL,
+                'status_table_id' => NULL
             ];
         }catch (Exception $e){
             abort(403);
@@ -231,6 +276,100 @@ class ToolsService extends Services
         }
     }
 
+
+    /**
+     * @param $tool_id
+     * @param $box_id
+     * @param $old_box_id
+     * @return bool
+     */
+    public function changeBox($tool_id, $box_id, $old_box_id): bool
+    {
+        try {
+            if(!is_null($old_box_id))
+            {
+                $this->updateRegisterToStatusDisable($tool_id, config('klikbud.status_tools_table.box'), $old_box_id);
+            }
+
+            $this->changeOneRecord($tool_id, config('klikbud.status_tools_table.box'), $box_id); //To tool add box_id
+            $this->storeRegister($tool_id, config('klikbud.status_tools_table.box'), $box_id, 1); // History save
+
+            /**
+             * Get last global status tool, and end it
+             */
+            $status_tool_last = $this->getRegisterDataLast($tool_id);
+            if(!is_null($status_tool_last))
+            {
+                $this->updateRegisterToStatusDisable($tool_id, $status_tool_last->table, $status_tool_last->table_id);
+            }
+
+            /**
+             * Get last global status BOX and change global status BOX->TOOL
+             */
+            $status_box_last = $this->getRegisterDataLast($box_id);
+            if(!is_null($status_box_last))
+            {
+                $this->storeOrUpdateGlobalData($tool_id, $status_box_last->table, $status_box_last->table_id);
+            }
+            return true;
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $tool_id
+     * @param $box_id
+     * @return bool
+     */
+    public function deleteBoxIdInTool($tool_id, $box_id): bool
+    {
+        try {
+            $this->changeOneRecord($tool_id, config('klikbud.status_tools_table.box'), NULL);
+            $this->updateRegisterToStatusDisable($tool_id, config('klikbud.status_tools_table.box'), $box_id);
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $box_id
+     * @return mixed
+     */
+    public function selectToolsIdInBox($box_id): mixed
+    {
+        return Tools::where('box_id', $box_id)->select('id')->get();
+    }
+
+
+    /**
+     * @param $box_id
+     * @param $table
+     * @param $table_id
+     * @return bool
+     */
+    public function changeStatusGlobalBoxAndAllToolsInBox($box_id, $table, $table_id): bool
+    {
+        try {
+            $get_tools = $this->selectToolsIdInBox($box_id);
+            $this->storeOrUpdateGlobalData($box_id, $table, $table_id); //Status global Box
+
+            if(count($get_tools) > 0)
+            {
+                foreach ($get_tools as $tool)
+                {
+                    $this->storeOrUpdateGlobalData($tool->id, $table, $table_id); //Change status BOX->TOOLS
+                }
+            }
+
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
     /**
      * @param $id
      * @param $status_id
@@ -266,4 +405,195 @@ class ToolsService extends Services
             return false;
         }
     }
+
+    /**
+     * Global Status
+     * @param $tool_id
+     * @param $table
+     * @param $table_id
+     * @return bool
+     */
+    public function storeOrUpdateGlobalData($tool_id, $table, $table_id): bool
+    {
+        try {
+            $find = Tools::findOrFail($tool_id);
+            if(is_null($find->status_table) && is_null($find->status_table_id))
+            {
+                $data = [
+                    'status_table' => $table,
+                    'status_table_id' => $table_id
+                ];
+                $find->fill($data)->save();
+                $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.start'));
+            }else{
+                $this->updateRegisterToStatusDisable($tool_id, $find->status_table, $find->status_table_id);
+                $data = [
+                    'status_table' => $table,
+                    'status_table_id' => $table_id
+                ];
+                $find->fill($data)->save();
+                $this->storeRegister($tool_id, $table, $table_id, config('klikbud.status_tools_status.start'));
+            }
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * Store data to accountant service
+     * @param $tool_id
+     * @param $table
+     * @param $table_id
+     * @param $status_id
+     */
+    public function storeRegister($tool_id, $table, $table_id, $status_id): void
+    {
+        try {
+            $store = new StatusToolRegister();
+            $data = [
+                'tool_id' => $tool_id,
+                'table' => $table,
+                'table_id' => $table_id,
+                'status_id' => $status_id,
+                'user_id' => Auth::id()
+            ];
+            $store->fill($data)->save();
+        }catch (\Exception $e){
+            abort(403);
+        }
+    }
+
+    /**
+     * @param $tool_id
+     * @param $table
+     * @param $table_id
+     * @return bool
+     */
+    public function updateRegisterToStatusDisable($tool_id, $table, $table_id): bool
+    {
+        try {
+            $update = StatusToolRegister::where('tool_id', $tool_id)->where('table', $table)->where('table_id', $table_id)->orderBy('id', 'desc')->first();
+            $data = [
+                'status_id' => config('klikbud.status_tools_status.finish'),
+                'user_last_update_id' => Auth::id()
+            ];
+            $update->fill($data)->save();
+            return true;
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * @param $tool_id
+     * @param $paginate
+     * @return mixed
+     */
+    public function getRegisterData($tool_id, $paginate): mixed
+    {
+        return StatusToolRegister::where('tool_id', $tool_id)->orderBy('id', 'desc')->paginate($paginate);
+    }
+
+    /**
+     * @param $paginate
+     * @return mixed
+     */
+    public function getAllDataRegisterToTools(): mixed
+    {
+        return StatusToolRegister::select('tool_id', 'table', 'table_id')->get();
+    }
+
+    /**
+     * @param $tool_id
+     * @return mixed
+     */
+    public function getRegisterDataLast($tool_id): mixed
+    {
+        return StatusToolRegister::where('tool_id', $tool_id)->where('table', '!=', config('klikbud.status_tools_table.box'))->orderBy('id', 'desc')->first();
+    }
+
+    /**
+     * @param $items
+     * @return bool
+     */
+    public function addToolsToCart($items): bool
+    {
+        $user_id = Auth::id();
+
+        $find_last_cart = ToolsCart::where('user_id', $user_id)->orderBy('id', 'desc')->first();
+
+        if ((int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.disable')) {
+            $cart = new ToolsCart();
+            $data = [
+                'items' => $items,
+                'user_id' => $user_id,
+                'created_at' => now(),
+                'status_id' => (int)config('klikbud.status_tools_in_cart.active')
+            ];
+            $cart->fill($data)->save();
+
+            return true;
+
+        }
+
+        if((int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.active')) {
+
+            $old_items = collect($find_last_cart->items);
+
+            $old_items->push($items);
+
+            $data = [
+                'items' => $old_items
+            ];
+
+            $find_last_cart->fill($data)->save();
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastActiveCart(): mixed
+    {
+        return ToolsCart::where('user_id', Auth::id())->where('status_id', config('klikbud.status_tools_in_cart.active'))->orderBy('id', 'desc')->first();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllToolsWhereIdToCart(): mixed
+    {
+        return  Tools::whereIn('id', collect($this->getLastActiveCart()->items))->get();
+    }
+
+
+    public function deleteItemsCart($idCart, $newCart)
+    {
+        $findCart = ToolsCart::findOrFail($idCart);
+        $data = [
+            'items' => $newCart
+        ];
+        $findCart->fill($data)->save();
+    }
+
+    public function changePlaceCartItems($items, $place_table, $place_id)
+    {
+        foreach ($items as $item)
+        {
+            if($item->is_box === 1)
+            {
+                $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
+            }else{
+                $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
+            }
+        }
+    }
+
 }
