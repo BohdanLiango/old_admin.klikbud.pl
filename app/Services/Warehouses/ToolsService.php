@@ -585,14 +585,24 @@ class ToolsService extends Services
 
     public function changePlaceCartItems($items, $place_table, $place_id)
     {
-        foreach ($items as $item)
-        {
-            if($item->is_box === 1)
+        try {
+            foreach ($items as $item)
             {
-                $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
-            }else{
-                $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
+                if($item->is_box === 1)
+                {
+                    $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
+                }else{
+                    $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
+                }
             }
+
+            $update_cart_status = $this->getLastActiveCart();
+            $update_cart_status->status_id = config('klikbud.status_tools_in_cart.disable');
+            $update_cart_status->save();
+
+            return true;
+        }catch (Exception $e){
+            return false;
         }
     }
 

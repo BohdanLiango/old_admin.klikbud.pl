@@ -4,14 +4,14 @@ namespace App\Http\Livewire\Warehouses\Tools\Cart;
 
 use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
+use App\Http\Livewire\Warehouses\Warehouse;
 use App\Services\Business\BusinessService;
 use App\Services\Clients\ClientService;
 use App\Services\Objects\ObjectsService;
 use App\Services\Warehouses\ToolsService;
 use App\Services\Warehouses\WarehousesService;
-use Livewire\Component;
 
-class IndexLivewire extends Component
+class IndexLivewire extends Warehouse
 {
     public $tools, $warehouses, $objects, $clients, $business, $register, $status, $cart;
     public $modal_info, $modal_value;
@@ -95,9 +95,11 @@ class IndexLivewire extends Component
 //        $items = $this->cart->items;
         $items2 = $this->tools;
 
-        app()->make(ToolsService::class)->changePlaceCartItems($items2, $type_place, $this->modal_value);
+        $status = app()->make(ToolsService::class)->changePlaceCartItems($items2, $type_place, $this->modal_value);
 
+        $this->checkStatus($status, 'YUPPI', 'flash', false, 'center');
 
+        return redirect()->route('warehouses.tools.show');
 
     }
 
