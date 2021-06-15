@@ -46,6 +46,7 @@ class IndexLivewire extends Warehouse
         $count_tools_search = count($tools);
 
         $cart = app()->make(ToolsService::class)->getLastActiveCart();
+        dd($cart);
         if(!is_null($cart))
         {
             $collect_items_cart = collect($cart->items);
