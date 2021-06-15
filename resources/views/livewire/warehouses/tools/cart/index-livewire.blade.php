@@ -1,8 +1,6 @@
 <div>
     <div class="flex-row-fluid ml-lg-8">
-        <!--begin::Section-->
         <div class="card card-custom gutter-b">
-            <!--begin::Header-->
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label font-weight-bolder font-size-h3 text-dark">My Shopping Cart</span>
@@ -13,27 +11,21 @@
                     </div>
                 </div>
             </div>
-            <!--end::Header-->
             <div class="card-body">
-                <!--begin::Shopping Cart-->
                 <div class="table-responsive">
                     <table class="table">
-                        <!--begin::Cart Header-->
                         <thead>
                         <tr>
-                            <th>Product</th>
-                            <th class="text-center">Qty</th>
-                            <th class="text-right">Price</th>
+                            <th></th>
+                            <th class="text-center"></th>
+                            <th class="text-right"></th>
                             <th></th>
                         </tr>
                         </thead>
-                        <!--end::Cart Header-->
                         <tbody>
-                        <!--begin::Cart Content-->
                         @forelse($tools as $tool)
                             <tr>
                                 <td class="d-flex align-items-center font-weight-bolder">
-                                    <!--begin::Symbol-->
                                     <div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
                                         @empty($tool->image_id)
                                             <div class="symbol-label" style="background-image: url({{ asset('media/static/no-image.jpg') }})"></div>
@@ -41,154 +33,116 @@
                                             <div class="symbol-label" style="background-image: url({{ Storage::disk(config('klikbud.disk_store'))->url($tool->image->path) }})"></div>
                                         @endempty
                                     </div>
-                                    <!--end::Symbol-->
-                                    <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="text-dark text-hover-primary" target="_blank">{{ $tool->title }}</a>
+                                    <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="text-dark text-hover-primary" target="_blank">
+                                        @if($tool->is_box === 1)
+                                            <i class="flaticon2-open-box"></i>
+                                        @else
+                                            <i class="fas fa-wrench"></i>
+                                        @endif
+                                            {{ $tool->title }}
+                                    </a>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <span class="mr-2 font-weight-bolder">1</span>
+                                    <span class="mr-2 font-weight-bolder">
+                                        <span class="font-size-lg">
+                                        @foreach($status as $item)
+                                            @if($item['value'] == $tool->status_tool_id)
+                                                <span class="{{ $item['class'] }} label-xl">{{ $item['title'] }}</span>
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @php
+                                            $collect_history = collect($tool->registerHistoryTool);
+                                            $get_history_last_not_box = $collect_history->where('table', '!==', config('klikbud.status_tools_table.box'))->last();
+                                            $count_collect_history = count($collect_history);
+                                        @endphp
+                                        @empty($tool->box_id) @else <i class="flaticon2-box"></i> {{ $tool->box->title }} @endempty
+                                             @if($count_collect_history > 0 and !is_null($get_history_last_not_box))
+                                            @if($get_history_last_not_box->table === config('klikbud.status_tools_table.warehouse'))
+                                                @foreach($warehouses as $ware)
+                                                    @if((int)$ware->id === (int)$get_history_last_not_box->table_id)
+                                                        <i class="flaticon2-box-1"></i> {{ $ware->title }}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @if($get_history_last_not_box->table === config('klikbud.status_tools_table.object'))
+                                                @foreach($objects as $object)
+                                                    @if((int)$object->id === (int)$get_history_last_not_box->table_id)
+                                                        <i class="flaticon2-architecture-and-city"></i> {{ $object->title }}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @if($get_history_last_not_box->table === config('klikbud.status_tools_table.client'))
+                                                @foreach($clients as $client)
+                                                    @if((int)$client->id === (int)$get_history_last_not_box->table_id)
+                                                        <i class="flaticon2-group"></i> {{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @if($get_history_last_not_box->table === config('klikbud.status_tools_table.business'))
+                                                @foreach($business as $buss)
+                                                    @if((int)$buss->id === (int)$get_history_last_not_box->table_id)
+                                                        <i class="flaticon-presentation"></i> {{ Str::limit($buss->title, 20) }}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                            </span>
+                                    </span>
                                 </td>
                                 <td class="text-right align-middle">
-                                    <a href="#" class="btn btn-danger font-weight-bolder font-size-sm">Remove</a>
+                                    <a href="#" class="btn btn-danger font-weight-bolder font-size-sm" wire:click.prevent="deleteItem({{ $tool->id }})">Remove</a>
                                 </td>
                             </tr>
                             @empty
                         @endforelse
-                        <!--end::Cart Content-->
-                        <!--begin::Cart Footer-->
                         <tr>
                             <td colspan="2"></td>
                             <td class="font-weight-bolder font-size-h4 text-right">Subtotal</td>
-                            <td class="font-weight-bolder font-size-h4 text-right">$1538.00</td>
+                            <td class="font-weight-bolder font-size-h4 text-right">{{ count($tools) }} szt</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="border-0 text-muted text-right pt-0">Excludes Delivery. GST Included</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="border-0 pt-10">
-                                <form>
-                                    <div class="form-group row">
-                                        <div class="col-md-3 d-flex align-items-center">
-                                            <label class="font-weight-bolder">Apply Voucher</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="input-group w-100">
-                                                <input type="text" class="form-control" placeholder="Voucher Code" />
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-secondary" type="button">Apply</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
                             <td colspan="2" class="border-0 text-right pt-10">
-                                <a href="#" class="btn btn-success font-weight-bolder px-8">Proceed to Checkout</a>
+                                <a href="#" class="btn btn-success font-weight-bolder px-8" wire:click.prevent="selectModal('openWarehouseModal')"><i class="flaticon2-box-1"></i>Move to Warehouse</a>
+                                @include('livewire.warehouses.tools.cart.warehouses-modal')
+                                <a href="#" class="btn btn-success font-weight-bolder px-8"><i class="flaticon2-architecture-and-city"></i>Move to Objects</a>
+                                <a href="#" class="btn btn-success font-weight-bolder px-8"> <i class="flaticon2-group"></i>Move to Clients</a>
+                                <a href="#" class="btn btn-success font-weight-bolder px-8"> <i class="flaticon-presentation"></i>Move to Business</a>
                             </td>
                         </tr>
-                        <!--end::Cart Footer-->
                         </tbody>
                     </table>
                 </div>
-                <!--end::Shopping Cart-->
             </div>
         </div>
-        <!--end::Section-->
-        <!--begin::Section-->
-        <div class="card card-custom">
-            <div class="card-body">
-                <!--begin::Heading-->
-                <div class="d-flex justify-content-between align-items-center mb-7">
-                    <h2 class="font-weight-bolder text-dark font-size-h3 mb-0">Related Products</h2>
-                    <a href="#" class="btn btn-light-primary btn-sm font-weight-bolder">View All</a>
-                </div>
-                <!--end::Heading-->
-                <!--begin::Products-->
-                <div class="row">
-                    <!--begin::Product-->
-                    <div class="col-md-4 col-xxl-4 col-lg-12">
-                        <!--begin::Card-->
-                        <div class="card card-custom card-shadowless">
-                            <div class="card-body p-0">
-                                <!--begin::Image-->
-                                <div class="overlay">
-                                    <div class="overlay-wrapper rounded bg-light text-center">
-                                        <img src="assets/media/products/1.png" alt="" class="mw-100 w-200px" />
-                                    </div>
-                                    <div class="overlay-layer">
-                                        <a href="#" class="btn font-weight-bolder btn-sm btn-primary mr-2">Quick View</a>
-                                        <a href="#" class="btn font-weight-bolder btn-sm btn-light-primary">Purchase</a>
-                                    </div>
-                                </div>
-                                <!--end::Image-->
-                                <!--begin::Details-->
-                                <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
-                                    <a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">Smart Watches</a>
-                                    <span class="font-size-lg">Outlines keep poorly thought</span>
-                                </div>
-                                <!--end::Details-->
-                            </div>
-                        </div>
-                        <!--end::Card-->
-                    </div>
-                    <!--end::Product-->
-                    <!--begin::Product-->
-                    <div class="col-md-4 col-lg-12 col-xxl-4">
-                        <!--begin::Card-->
-                        <div class="card card-custom card-shadowless">
-                            <div class="card-body p-0">
-                                <!--begin::Image-->
-                                <div class="overlay">
-                                    <div class="overlay-wrapper rounded bg-light text-center">
-                                        <img src="assets/media/products/2.png" alt="" class="mw-100 w-200px" />
-                                    </div>
-                                    <div class="overlay-layer">
-                                        <a href="#" class="btn font-weight-bolder btn-sm btn-primary mr-2">Quick View</a>
-                                        <a href="#" class="btn font-weight-bolder btn-sm btn-light-primary">Purchase</a>
-                                    </div>
-                                </div>
-                                <!--end::Image-->
-                                <!--begin::Details-->
-                                <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
-                                    <a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">Headphones</a>
-                                    <span class="font-size-lg">Outlines keep poorly thought</span>
-                                </div>
-                                <!--end::Details-->
-                            </div>
-                        </div>
-                        <!--end::Card-->
-                    </div>
-                    <!--end::Product-->
-                    <!--begin::Product-->
-                    <div class="col-md-4 col-lg-12 col-xxl-4">
-                        <!--begin::Card-->
-                        <div class="card card-custom card-shadowless">
-                            <div class="card-body p-0">
-                                <!--begin::Image-->
-                                <div class="overlay">
-                                    <div class="overlay-wrapper rounded bg-light text-center">
-                                        <img src="assets/media/products/3.png" alt="" class="mw-100 w-200px" />
-                                    </div>
-                                    <div class="overlay-layer">
-                                        <a href="#" class="btn font-weight-bolder btn-sm btn-primary mr-2">Quick View</a>
-                                        <a href="#" class="btn font-weight-bolder btn-sm btn-light-primary">Purchase</a>
-                                    </div>
-                                </div>
-                                <!--end::Image-->
-                                <!--begin::Details-->
-                                <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
-                                    <a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1">Smart Drones</a>
-                                    <span class="font-size-lg">Outlines keep poorly thought</span>
-                                </div>
-                                <!--end::Details-->
-                            </div>
-                        </div>
-                        <!--end::Card-->
-                    </div>
-                    <!--end::Product-->
-                </div>
-                <!--end::Products-->
-            </div>
-        </div>
-        <!--end::Section-->
     </div>
+    <script type="text/javascript">
+        window.addEventListener('openWarehouseModal', event => {
+            $("#openWarehouseModal").modal('show')
+        })
+        window.addEventListener('closeWarehouseModal', event => {
+            $("#closeWarehouseModal").modal('hide')
+        })
+
+        window.addEventListener('openObjectModal', event => {
+            $("#openObjectModal").modal('show')
+        })
+        window.addEventListener('closeObjectModal', event => {
+            $("#closeObjectModal").modal('hide')
+        })
+
+        window.addEventListener('openClientsModal', event => {
+            $("#openClientsModal").modal('show')
+        })
+        window.addEventListener('closeClientsModal', event => {
+            $("#closeClientsModal").modal('hide')
+        })
+
+        window.addEventListener('openBusinessModal', event => {
+            $("#openBusinessModal").modal('show')
+        })
+        window.addEventListener('closeBusinessModal', event => {
+            $("#closeBusinessModal").modal('hide')
+        })
+    </script>
 </div>

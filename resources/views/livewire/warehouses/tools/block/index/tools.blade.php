@@ -13,7 +13,7 @@
                     </div>
                     <div class="overlay-layer">
                         <a href="{{ route('warehouses.tools.one', $tool->slug) }}" class="btn font-weight-bolder btn-sm btn-info mr-1"><i class="fa fa-eye"></i></a>
-                        @if(!is_null($collect_items_cart) and $collect_items_cart->contains($tool->id) and !empty($tool->box_id))
+                        @if($collect_items_cart->contains($tool->id) or $tool->box_id !== NULL)
                             @else
                         <a href="#" class="btn font-weight-bolder btn-sm btn-light-success mr-1" wire:click.prevent="addToolToCart({{ $tool->id }}, {{ json_encode($tool->box_id) }})"><i class="fa fa-cart-plus"></i></a>
                         @endif

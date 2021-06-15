@@ -19,7 +19,7 @@ class IndexLivewire extends Warehouse
     // Search
     public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
         $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '',
-        $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = false;
+        $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = 'dont_open_box';
 
     //Data
     public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register;
@@ -38,7 +38,7 @@ class IndexLivewire extends Warehouse
             $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate, $this->is_new);
 
         if($this->searchQuery != '' || $this->searchStatus != '' || $this->searchMainCategory != '' || $this->searchHalfCategory != '' || $this->searchCategory != '' ||
-            $this->searchGlobalStatusTable != '' || $this->searchGlobalStatusId != '' || $this->searchBoxId != '' || $this->box_id != NULL || $this->is_new != false)
+            $this->searchGlobalStatusTable != '' || $this->searchGlobalStatusId != '' || $this->searchBoxId != '' || $this->box_id != NULL || $this->is_new !== 'dont_open_box')
         {
             $this->showCloseFiltersButton = 2;
         }
@@ -143,6 +143,11 @@ class IndexLivewire extends Warehouse
     public function searchNew()
     {
         $this->is_new = true;
+    }
+
+    public function searchAll()
+    {
+        $this->is_new = false;
     }
 
     public function clearSearchOptions()

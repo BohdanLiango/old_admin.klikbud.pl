@@ -2,7 +2,7 @@
     <div class="card-body p-15 pb-20">
         <div class="row mb-17">
             <div class="col-xxl-5 mb-11 mb-xxl-0">
-                {{--<!--begin::Image-->--}}
+{{--               <!--begin::Image-->--}}
                 <div class="card card-custom card-stretch">
                     <div class="card-body p-0 rounded d-flex align-items-center justify-content-center">
                         @if(is_null($tool['image']))

@@ -59,14 +59,19 @@ class ToolsService extends Services
             $query->where('status_table_id', $searchGlobalStatusId);
         })->when($searchBox != '', function ($query) use ($searchBox) {
             $query->where('box_id', $searchBox);
-        })->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->paginate($paginate);
+        });
 
         if($is_new === true)
         {
             return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->paginate($paginate);
         }
 
-        return $query;
+        if($is_new === 'dont_open_box')
+        {
+            return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->paginate($paginate);
+        }
+
+        return $query->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
     /**
@@ -565,7 +570,30 @@ class ToolsService extends Services
      */
     public function getAllToolsWhereIdToCart(): mixed
     {
-        return Tools::whereIn('id', $this->getLastActiveCart()->items)->get();
+        return  Tools::whereIn('id', collect($this->getLastActiveCart()->items))->get();
+    }
+
+
+    public function deleteItemsCart($idCart, $newCart)
+    {
+        $findCart = ToolsCart::findOrFail($idCart);
+        $data = [
+            'items' => $newCart
+        ];
+        $findCart->fill($data)->save();
+    }
+
+    public function changePlaceCartItems($items, $place_table, $place_id)
+    {
+        foreach ($items as $item)
+        {
+            if($item->is_box === 1)
+            {
+                $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
+            }else{
+                $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
+            }
+        }
     }
 
 }

@@ -107,6 +107,9 @@
                                             <a href="#" wire:click.prevent="searchNew()" class="btn btn-light-success btn-sm font-weight-bolder">
                                                 <i class="flaticon2-add"></i>  Pokaż nowe
                                             </a>
+                                                <a href="#" wire:click.prevent="searchAll()" class="btn btn-light-success btn-sm font-weight-bolder">
+                                                    <i class="flaticon2-add"></i>  Pokaż wszystkie
+                                                </a>
                                         </div>
 
                                     </div>
