@@ -523,7 +523,7 @@ class ToolsService extends Services
 
         $find_last_cart = ToolsCart::where('user_id', $user_id)->orderBy('id', 'desc')->first();
 
-        if ((int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.disable') || $find_last_cart === NULL) {
+        if ($find_last_cart === NULL || (int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.disable')) {
             $cart = new ToolsCart();
             $data = [
                 'items' => $items,
