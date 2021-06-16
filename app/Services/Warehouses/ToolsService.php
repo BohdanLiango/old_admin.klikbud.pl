@@ -588,12 +588,16 @@ class ToolsService extends Services
         try {
             foreach ($items as $item)
             {
-                if($item->is_box === 1)
+                if((string)$item->status_table !== (string)$place_table && (int)$item->status_table_id !== (int)$place_id)
                 {
-                    $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
-                }else{
-                    $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
+                    if($item->is_box === 1)
+                    {
+                        $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
+                    }else{
+                        $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
+                    }
                 }
+
             }
 
             $update_cart_status = $this->getLastActiveCart();
