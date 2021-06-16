@@ -570,7 +570,13 @@ class ToolsService extends Services
      */
     public function getAllToolsWhereIdToCart(): mixed
     {
-        return  Tools::whereIn('id', collect($this->getLastActiveCart()->items))->get();
+
+        if($this->getLastActiveCart() !== null)
+        {
+            return  Tools::whereIn('id', collect($this->getLastActiveCart()->items))->get();
+        }
+
+        return array();
     }
 
 
@@ -597,7 +603,6 @@ class ToolsService extends Services
                         $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
                     }
                 }
-
             }
 
             $update_cart_status = $this->getLastActiveCart();
@@ -605,8 +610,11 @@ class ToolsService extends Services
             $update_cart_status->save();
 
             return true;
+
         }catch (Exception $e){
+
             return false;
+
         }
     }
 
