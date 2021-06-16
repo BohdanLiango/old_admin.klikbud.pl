@@ -101,15 +101,20 @@
                             <td class="font-weight-bolder font-size-h4 text-right">Subtotal</td>
                             <td class="font-weight-bolder font-size-h4 text-right">{{ count($tools) }} szt</td>
                         </tr>
+                        @if(count($tools) !== 0)
                         <tr>
                             <td colspan="2" class="border-0 text-right pt-10">
                                 <a href="#" class="btn btn-success font-weight-bolder px-8" wire:click.prevent="selectModal('openWarehouseModal')"><i class="flaticon2-box-1"></i>Move to Warehouse</a>
                                 @include('livewire.warehouses.tools.cart.warehouses-modal')
-                                <a href="#" class="btn btn-success font-weight-bolder px-8"><i class="flaticon2-architecture-and-city"></i>Move to Objects</a>
-                                <a href="#" class="btn btn-success font-weight-bolder px-8"> <i class="flaticon2-group"></i>Move to Clients</a>
-                                <a href="#" class="btn btn-success font-weight-bolder px-8"> <i class="flaticon-presentation"></i>Move to Business</a>
+                                <a href="#" class="btn btn-success font-weight-bolder px-8" wire:click.prevent="selectModal('openObjectModal')"><i class="flaticon2-architecture-and-city"></i>Move to Objects</a>
+                                @include('livewire.warehouses.tools.cart.objects-modal')
+                                <a href="#" class="btn btn-success font-weight-bolder px-8" wire:click.prevent="selectModal('openClientsModal')"> <i class="flaticon2-group"></i>Move to Clients</a>
+                                @include('livewire.warehouses.tools.cart.clients-modal')
+                                <a href="#" class="btn btn-success font-weight-bolder px-8" wire:click.prevent="selectModal('openBusinessModal')"> <i class="flaticon-presentation"></i>Move to Business</a>
+                                @include('livewire.warehouses.tools.cart.business-modal')
                             </td>
                         </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>
