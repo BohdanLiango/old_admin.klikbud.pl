@@ -2,7 +2,7 @@
 return [
     'default_data' => [
         'active' => 'Roboczy',
-        'dont_work' => 'Nie pracuje',
+        'dont_work' => 'Uszkodzony',
         'in_repair' => 'W naprawie',
         'sell' => 'Sprzedany',
         'destroy' => 'Zniszczony',

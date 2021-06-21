@@ -112,7 +112,7 @@ class ToolsService extends Services
     public function getAllActiveToolsSelectIdGet(): mixed
     {
         try {
-            return Tools::select('id', 'status_table', 'status_table_id')->get();
+            return Tools::select('id', 'price', 'status_table', 'status_table_id')->get();
         }catch (Exception $e){
             return  false;
         }

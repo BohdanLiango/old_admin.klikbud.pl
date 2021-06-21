@@ -25,7 +25,7 @@ class IndexLivewire extends Warehouse
     public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register, $toolsCountStatus;
 
     //Stats
-    public $countAll, $countActive, $countDeleted, $percentActive, $percentDeleted, $status;
+    public $countAll, $countActive, $countDeleted, $status, $priceAll;
 
     use WithPagination;
 
@@ -74,6 +74,12 @@ class IndexLivewire extends Warehouse
         $this->business = $businessService->selectBusinessToForm();
         $this->register = $toolsService->getAllDataRegisterToTools();
         $this->toolsCountStatus = $toolsService->getAllActiveToolsSelectIdGet();
+
+        foreach ($this->toolsCountStatus as $item)
+        {
+            $this->priceAll += (float)$item->price;
+        }
+
         //End data
         //Start Stats
         if(count($this->toolsCountStatus) > 0 || $toolsService->getAllTrashedToolsSelectIdCount() > 0)
@@ -81,8 +87,6 @@ class IndexLivewire extends Warehouse
             $this->countActive = count($this->toolsCountStatus);
             $this->countDeleted = $toolsService->getAllTrashedToolsSelectIdCount();
             $this->countAll = $this->countActive + $this->countDeleted;
-            $this->percentActive = round($this->countActive / $this->countAll * 100, 2);
-            $this->percentDeleted  = 100 - $this->percentActive;
         }
         $this->status = app()->make(DefaultData::class)->status_tools();
         //End Stats
