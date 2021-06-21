@@ -27,7 +27,7 @@
                             </div>
                             <div id="collapse{{ $main_category->id }}7" class="collapse" data-parent="#accordionExample7">
                                 <div class="card-body pl-12">
-                                    <a class="navi-link" href="#" wire:click.prevent="searchCategory({{ $main_category->id }}, 'mainCategory')">
+                                    <a class="navi-link" href="#" wire:click.prevent="searchCategory({{ $main_category->id }}, 'mainCategory', {{ json_encode($main_category->title) }})">
                                         <span class="navi-icon"><i class="flaticon2-check-mark"></i></span>
                                         <span class="navi-text">{{ $main_category->title }}</span>
                                         <span class="navi-label">
@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div id="collapse{{ $half_category->id }}8" class="collapse" data-parent="#accordionExample8">
                                                     <div class="card-body pl-12">
-                                                        <a class="navi-link" href="#"  wire:click.prevent="searchCategory({{ $half_category->id }}, 'halfCategory')">
+                                                        <a class="navi-link" href="#"  wire:click.prevent="searchCategory({{ $half_category->id }}, 'halfCategory', {{ json_encode($half_category->title) }})">
                                                             <span class="navi-icon"><i class="flaticon2-check-mark"></i></span>
                                                             <span class="navi-text">{{ $half_category->title }}</span>
                                                             <span class="navi-label">
@@ -65,7 +65,7 @@
                                                             @if($category->half_category_id === $half_category->id && $category->type_id === config('klikbud.type_categories.category'))
                                                             <ul class="navi">
                                                                 <li class="navi-item">
-                                                                    <a class="navi-link" href="#" wire:click.prevent="searchCategory({{ $category->id }}, 'category')">
+                                                                    <a class="navi-link" href="#" wire:click.prevent="searchCategory({{ $category->id }}, 'category', {{ json_encode($category->title) }})">
                                                                         <span class="navi-text">{{ $category->title }}</span>
                                                                         <span class="navi-label">
                                                                       <span class="label label-success label-rounded">@if(!is_null($category->tools_category)) {{ count($category->tools_category) }} @else 0 @endif</span>
@@ -105,7 +105,7 @@
         <ul class="navi">
             @forelse($warehouses as $warehouse)
                 <li class="navi-item">
-                    <a class="navi-link" href="#" wire:click.prevent="searchStatus('warehouse', {{ $warehouse->id }})">
+                    <a class="navi-link" href="#" wire:click.prevent="searchStatus('warehouse', {{ json_encode($warehouse->id) }}, {{ json_encode($warehouse->title) }} )">
                         <span class="navi-icon"><i class="flaticon2-box-1"></i></span>
                         <span class="navi-text">{{ $warehouse->title }} @if(!is_null($warehouse->square)) - ({{ $warehouse->square }}) @endif</span>
                         <span class="navi-label">
@@ -133,7 +133,7 @@
                 @if(count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) === 0)
                     @else
                 <li class="navi-item">
-                    <a class="navi-link" href="#" wire:click.prevent="searchStatus('object', {{ $object->id }})">
+                    <a class="navi-link" href="#" wire:click.prevent="searchStatus('object', {{ json_encode($object->id) }}, {{ json_encode($object->title) }})">
                         <span class="navi-icon"><i class="flaticon2-architecture-and-city"></i></span>
                         <span class="navi-text">{{ Str::limit($object->title, 20) }}</span>
                         <span class="navi-label">
@@ -162,7 +162,7 @@
                 @if(count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) === 0)
                 @else
                     <li class="navi-item">
-                        <a class="navi-link" href="#" wire:click.prevent="searchStatus('client', {{ $client->id }})">
+                        <a class="navi-link" href="#" wire:click.prevent="searchStatus('client', {{ json_encode($client->id) }}, {{ json_encode(Str::limit($client->first_name, 10) . ' ' . Str::limit($client->last_name, 10)) }})">
                             <span class="navi-icon"><i class="flaticon2-group"></i></span>
                             <span class="navi-text">{{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}</span>
                             <span class="navi-label">
@@ -191,7 +191,7 @@
                 @if(count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) === 0)
                 @else
                     <li class="navi-item">
-                        <a class="navi-link" href="#" wire:click="searchStatus('business', {{ $item->id }})">
+                        <a class="navi-link" href="#" wire:click="searchStatus('business', {{ json_encode($item->id) }}, {{ json_encode($item->title) }})">
                             <span class="navi-icon"><i class="flaticon-presentation"></i></span>
                             <span class="navi-text">{{ Str::limit($item->title, 20) }}</span>
                             <span class="navi-label">

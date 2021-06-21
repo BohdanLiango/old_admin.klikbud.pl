@@ -17,9 +17,12 @@ use Livewire\WithPagination;
 class IndexLivewire extends Warehouse
 {
     // Search
-    public $orderBy = 'id', $orderByType = 'desc', $paginate = 9, $searchQuery = '', $searchStatus = '',
+    public $orderBy = 'id', $orderByType = 'desc', $paginate = 12, $searchQuery = '', $searchStatus = '',
         $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '',
         $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = 'dont_open_box';
+
+    //Toolbar
+    public $searchCategoryName = '', $searchGlobalStatusName = '';
 
     //Data
     public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register, $toolsCountStatus;
@@ -37,8 +40,16 @@ class IndexLivewire extends Warehouse
         $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchBoxId, $this->box_id, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
             $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate, $this->is_new);
 
-        if($this->searchQuery != '' || $this->searchStatus != '' || $this->searchMainCategory != '' || $this->searchHalfCategory != '' || $this->searchCategory != '' ||
-            $this->searchGlobalStatusTable != '' || $this->searchGlobalStatusId != '' || $this->searchBoxId != '' || $this->box_id != NULL || $this->is_new !== 'dont_open_box')
+        if($this->searchQuery != '' ||
+            $this->searchStatus != '' ||
+            $this->searchMainCategory != '' ||
+            $this->searchHalfCategory != '' ||
+            $this->searchCategory != '' ||
+            $this->searchGlobalStatusTable != '' ||
+            $this->searchGlobalStatusId != '' ||
+            $this->searchBoxId != '' ||
+            $this->box_id != NULL ||
+            $this->is_new !== 'dont_open_box')
         {
             $this->showCloseFiltersButton = 2;
         }
@@ -55,13 +66,11 @@ class IndexLivewire extends Warehouse
             $collect_cart_count = 0;
         }
 
-
-
-
         return view('livewire.warehouses.tools.index-livewire', compact('tools', 'count_tools_search', 'collect_items_cart', 'collect_cart_count'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
     }
+
 
     public function mount(ToolsService $toolsService, ToolsCategoryService $toolsCategoryService, WarehousesService $warehousesService,
                             ObjectsService $objectsService, ClientService $clientService, BusinessService $businessService)
@@ -93,8 +102,10 @@ class IndexLivewire extends Warehouse
 
     }
 
-    public function searchCategory($id, $categoryType)
+    public function searchCategory($id, $categoryType, $categoryName)
     {
+        $this->searchCategoryName = $categoryName;
+
         switch ($categoryType){
             case('mainCategory'):
                 $this->searchHalfCategory = '';
@@ -114,8 +125,28 @@ class IndexLivewire extends Warehouse
         }
     }
 
-    public function searchStatus($table, $table_id)
+    public function clearSearchOptions()
     {
+        $this->searchQuery = '';
+        $this->searchStatus = '';
+        $this->searchMainCategory = '';
+        $this->searchHalfCategory = '';
+        $this->searchCategory = '';
+        $this->searchGlobalStatusTable = '';
+        $this->searchGlobalStatusId = '';
+        $this->searchBoxId = '';
+        $this->showCloseFiltersButton = 1;
+        $this->box_id = NULL;
+        $this->is_new = 'dont_open_box';
+
+        $this->searchCategoryName = '';
+        $this->searchGlobalStatusName = '';
+    }
+
+    public function searchStatus($table, $table_id, $item_name)
+    {
+        $this->searchGlobalStatusName = $item_name;
+
         switch ($table){
             case ('warehouse'):
                 $this->searchGlobalStatusTable = config('klikbud.status_too`ls_table.warehouse');
@@ -158,21 +189,6 @@ class IndexLivewire extends Warehouse
         $this->is_new = false;
     }
 
-    public function clearSearchOptions()
-    {
-        $this->searchQuery = '';
-        $this->searchStatus = '';
-        $this->searchMainCategory = '';
-        $this->searchHalfCategory = '';
-        $this->searchCategory = '';
-        $this->searchGlobalStatusTable = '';
-        $this->searchGlobalStatusId = '';
-        $this->searchBoxId = '';
-        $this->showCloseFiltersButton = 1;
-        $this->box_id = NULL;
-        $this->is_new = false;
-    }
-
     public function addToolToCart($item, $box_id)
     {
         if($box_id !== NULL)
@@ -189,5 +205,4 @@ class IndexLivewire extends Warehouse
             $this->checkStatus($status, $message, 'alert', true, 'top-end');
         }
     }
-
 }
