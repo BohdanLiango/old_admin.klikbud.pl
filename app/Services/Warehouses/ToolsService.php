@@ -79,7 +79,7 @@ class ToolsService extends Services
             return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
         }
 
-        return $query->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
+        return $query->orderBy($orderBy, $orderByType)->simplePaginate();
 
         /**
          * OLDEND
