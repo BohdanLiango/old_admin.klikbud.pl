@@ -2,9 +2,35 @@
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <div class="d-flex align-items-center flex-wrap mr-1">
             <div class="d-flex align-items-baseline flex-wrap mr-5">
-                <h5 class="text-dark font-weight-bold my-1 mr-5">{{ trans('admin_klikbud/warehouse/tools.index.subheader.title') }}</h5>
+                <h5 class="text-dark font-weight-bold my-1 mr-5">{{ trans('admin_klikbud/warehouse/tools.index.subheader.title') }}
+                    @empty($searchStatus) @else
+                        @foreach($status as $item)
+                            @if($item['value'] == $searchStatus)
+                                <span class="{{ $item['class'] }} label-xl">{{ $item['title'] }}</span>
+                            @endif
+                        @endforeach
+                    @endempty
+
+                    @empty($searchMainCategory) @else | <i class="flaticon2-check-mark"></i> {{ $searchCategoryName }} @endempty
+                    @empty($searchHalfCategory) @else | <i class="flaticon2-check-mark"></i> {{ $searchCategoryName }} @endempty
+                    @empty($searchCategory) @else | <i class="flaticon2-check-mark"></i> {{ $searchCategoryName }} @endempty
+                    @empty($searchBoxId) @else | <i class="flaticon2-open-box"></i> {{ $searchBoxTitle }} @endempty
+                    @empty($searchGlobalStatusName) @else | <i class="flaticon2-check-mark"></i> {{ $searchGlobalStatusName }} @endempty
+                    @if($is_new !== 'dont_open_box')
+                        <i class="flaticon-add"></i> Nowy
+                    @endif
+
+                    @if((int)$showCloseFiltersButton === 2)
+                       | <a href="#" wire:click.prevent="clearSearchOptions()" class="btn btn-light-primary btn-sm font-weight-bolder">
+                           <i class="flaticon2-delete"></i>
+                        </a>
+                    @endif
+
+                </h5>
             </div>
         </div>
+
+
         <div class="d-flex align-items-center">
             <div class="dropdown dropdown-inline" data-toggle="tooltip" title="" data-placement="left">
                 <a href="#" class="btn btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
