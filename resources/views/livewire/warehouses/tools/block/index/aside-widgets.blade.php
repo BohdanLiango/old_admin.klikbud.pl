@@ -110,12 +110,12 @@
                         <span class="navi-text">{{ $warehouse->title }} @if(!is_null($warehouse->square)) - ({{ $warehouse->square }}) @endif</span>
                         <span class="navi-label">
                             <span class="label label-info label-rounded">
-                                {{ count($tools->where('status_table', config('klikbud.status_tools_table.warehouse'))->where('status_table_id', $warehouse->id)) }}
+                                {{ count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.warehouse'))->where('status_table_id', $warehouse->id)) }}
                             </span>
                         </span>
                     </a>
                 </li>
-            @empty
+                @empty
             @endforelse
         </ul>
     </div>
@@ -130,7 +130,7 @@
     <div class="card-body pt-4">
         <ul class="navi">
             @forelse($objects as $object)
-                @if(count($tools->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) === 0)
+                @if(count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) === 0)
                     @else
                 <li class="navi-item">
                     <a class="navi-link" href="#" wire:click.prevent="searchStatus('object', {{ $object->id }})">
@@ -138,7 +138,7 @@
                         <span class="navi-text">{{ Str::limit($object->title, 20) }}</span>
                         <span class="navi-label">
                               <span class="label label-info label-rounded">
-                                  {{ count($tools->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) }}
+                                  {{ count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.object'))->where('status_table_id', $object->id)) }}
                               </span>
                           </span>
                     </a>
@@ -159,7 +159,7 @@
     <div class="card-body pt-4">
         <ul class="navi">
             @forelse($clients as $client)
-                @if(count($tools->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) === 0)
+                @if(count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) === 0)
                 @else
                     <li class="navi-item">
                         <a class="navi-link" href="#" wire:click.prevent="searchStatus('client', {{ $client->id }})">
@@ -167,7 +167,7 @@
                             <span class="navi-text">{{ Str::limit($client->first_name, 10) }} {{ Str::limit($client->last_name, 10) }}</span>
                             <span class="navi-label">
                               <span class="label label-info label-rounded">
-                                  {{ count($tools->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) }}
+                                  {{ count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.client'))->where('status_table_id', $client->id)) }}
                               </span>
                           </span>
                         </a>
@@ -188,7 +188,7 @@
     <div class="card-body pt-4">
         <ul class="navi">
             @forelse($business as $item)
-                @if(count($tools->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) === 0)
+                @if(count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) === 0)
                 @else
                     <li class="navi-item">
                         <a class="navi-link" href="#" wire:click="searchStatus('business', {{ $item->id }})">
@@ -196,7 +196,7 @@
                             <span class="navi-text">{{ Str::limit($item->title, 20) }}</span>
                             <span class="navi-label">
                               <span class="label label-info label-rounded">
-                                  {{ count($tools->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) }}
+                                  {{ count($toolsCountStatus->where('status_table', config('klikbud.status_tools_table.business'))->where('status_table_id', $item->id)) }}
                               </span>
                           </span>
                         </a>
