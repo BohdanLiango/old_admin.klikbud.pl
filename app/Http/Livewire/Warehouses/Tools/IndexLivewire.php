@@ -28,7 +28,7 @@ class IndexLivewire extends Warehouse
     public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register, $toolsCountStatus;
 
     //Stats
-    public $countAll, $countActive, $countDeleted, $status, $priceAll;
+    public $countAll, $countActive, $countDeleted, $status, $priceAll = 0;
 
     use WithPagination;
 
@@ -84,10 +84,10 @@ class IndexLivewire extends Warehouse
         $this->register = $toolsService->getAllDataRegisterToTools();
         $this->toolsCountStatus = $toolsService->getAllActiveToolsSelectIdGet();
 
-        foreach ($this->toolsCountStatus as $item)
-        {
-            $this->priceAll += (float)$item->price;
-        }
+//        foreach ($this->toolsCountStatus as $item)
+//        {
+//            $this->priceAll += (float)$item->price;
+//        }
 
         //End data
         //Start Stats
