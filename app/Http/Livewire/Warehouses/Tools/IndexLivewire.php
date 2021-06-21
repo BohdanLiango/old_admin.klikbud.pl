@@ -17,7 +17,7 @@ use Livewire\WithPagination;
 class IndexLivewire extends Warehouse
 {
     // Search
-    public $orderBy = 'id', $orderByType = 'desc', $paginate = 12, $searchQuery = '', $searchStatus = '',
+    public $orderBy = 'id', $orderByType = 'desc', $paginate = 2, $searchQuery = '', $searchStatus = '',
         $searchMainCategory = '', $searchHalfCategory = '', $searchCategory = '', $searchGlobalStatusTable = '', $searchGlobalStatusId = '',
         $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = 'dont_open_box';
 
