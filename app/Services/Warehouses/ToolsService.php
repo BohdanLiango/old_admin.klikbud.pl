@@ -168,8 +168,6 @@ class ToolsService extends Services
                 'guarantee_date_end' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('guarantee_date_end')),
                 'is_box' =>  $collect->get('is_box'),
                 'user_id' => Auth::id(),
-                'status_table' => NULL,
-                'status_table_id' => NULL
             ];
         }catch (Exception $e){
             abort(403);
@@ -617,5 +615,4 @@ class ToolsService extends Services
 
         }
     }
-
 }
