@@ -22,7 +22,7 @@ class IndexLivewire extends Warehouse
         $searchBoxId = '', $searchBoxTitle = '', $showCloseFiltersButton = 1, $box_id = NULL, $is_new = 'dont_open_box';
 
     //Data
-    public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register;
+    public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register, $toolsCountStatus;
 
     //Stats
     public $countAll, $countActive, $countDeleted, $percentActive, $percentDeleted, $status;
@@ -56,6 +56,8 @@ class IndexLivewire extends Warehouse
         }
 
 
+
+
         return view('livewire.warehouses.tools.index-livewire', compact('tools', 'count_tools_search', 'collect_items_cart', 'collect_cart_count'))
             ->extends('layout.default', ['breadcrumbs' => $breadcrumbs, 'page_title' => $page_title])
             ->section('content');
@@ -71,11 +73,12 @@ class IndexLivewire extends Warehouse
         $this->clients = $clientService->showClientSelectIdName();
         $this->business = $businessService->selectBusinessToForm();
         $this->register = $toolsService->getAllDataRegisterToTools();
+        $this->toolsCountStatus = $toolsService->getAllActiveToolsSelectIdGet();
         //End data
         //Start Stats
-        if($toolsService->getAllActiveToolsSelectIdCount() > 0 || $toolsService->getAllTrashedToolsSelectIdCount() > 0)
+        if(count($this->toolsCountStatus) > 0 || $toolsService->getAllTrashedToolsSelectIdCount() > 0)
         {
-            $this->countActive = $toolsService->getAllActiveToolsSelectIdCount();
+            $this->countActive = count($this->toolsCountStatus);
             $this->countDeleted = $toolsService->getAllTrashedToolsSelectIdCount();
             $this->countAll = $this->countActive + $this->countDeleted;
             $this->percentActive = round($this->countActive / $this->countAll * 100, 2);
@@ -83,6 +86,7 @@ class IndexLivewire extends Warehouse
         }
         $this->status = app()->make(DefaultData::class)->status_tools();
         //End Stats
+
     }
 
     public function searchCategory($id, $categoryType)

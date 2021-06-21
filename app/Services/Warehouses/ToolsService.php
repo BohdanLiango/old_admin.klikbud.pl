@@ -74,6 +74,7 @@ class ToolsService extends Services
         return $query->orderBy($orderBy, $orderByType)->paginate($paginate);
     }
 
+
     /**
      * @param $box_id
      * @param $paginate
@@ -106,12 +107,12 @@ class ToolsService extends Services
     }
 
     /**
-     * @return bool|int
+     * @return mixed
      */
-    public function getAllActiveToolsSelectIdCount(): bool|int
+    public function getAllActiveToolsSelectIdGet(): mixed
     {
         try {
-            return Tools::select('id')->count();
+            return Tools::select('id', 'status_table', 'status_table_id')->get();
         }catch (Exception $e){
             return  false;
         }
@@ -168,8 +169,6 @@ class ToolsService extends Services
                 'guarantee_date_end' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('guarantee_date_end')),
                 'is_box' =>  $collect->get('is_box'),
                 'user_id' => Auth::id(),
-                'status_table' => NULL,
-                'status_table_id' => NULL
             ];
         }catch (Exception $e){
             abort(403);
@@ -496,7 +495,6 @@ class ToolsService extends Services
     }
 
     /**
-     * @param $paginate
      * @return mixed
      */
     public function getAllDataRegisterToTools(): mixed
@@ -579,8 +577,11 @@ class ToolsService extends Services
         return array();
     }
 
-
-    public function deleteItemsCart($idCart, $newCart)
+    /**
+     * @param $idCart
+     * @param $newCart
+     */
+    public function deleteItemsCart($idCart, $newCart): void
     {
         $findCart = ToolsCart::findOrFail($idCart);
         $data = [
@@ -589,7 +590,13 @@ class ToolsService extends Services
         $findCart->fill($data)->save();
     }
 
-    public function changePlaceCartItems($items, $place_table, $place_id)
+    /**
+     * @param $items
+     * @param $place_table
+     * @param $place_id
+     * @return bool
+     */
+    public function changePlaceCartItems($items, $place_table, $place_id): bool
     {
         try {
             foreach ($items as $item)
@@ -617,5 +624,4 @@ class ToolsService extends Services
 
         }
     }
-
 }
