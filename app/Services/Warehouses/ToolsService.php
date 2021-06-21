@@ -43,6 +43,14 @@ class ToolsService extends Services
     public function showToolsToIndexPage($searchBox, $box_id, $searchMainCategory, $searchHalfCategory, $searchCategory,
                                          $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate, $is_new): mixed
     {
+
+
+
+
+
+        /**
+         * OLD START
+         */
         $query = Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
             $query->where('title', 'like', '%' . $searchQuery . '%');
         })->when($searchStatus != '', function ($query) use ($searchStatus) {
@@ -63,16 +71,21 @@ class ToolsService extends Services
 
         if($is_new === true)
         {
-            return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->paginate($paginate);
+            return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
         }
 
         if($is_new === 'dont_open_box')
         {
-            return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->paginate($paginate);
+            return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
         }
 
-        return $query->orderBy($orderBy, $orderByType)->paginate($paginate);
+        return $query->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
+
+        /**
+         * OLDEND
+         */
     }
+
 
 
     /**
