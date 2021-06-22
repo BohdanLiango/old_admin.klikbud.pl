@@ -142,6 +142,16 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
       <path value="$PROJECT_DIR$/vendor/appstract/laravel-opcache" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/vendor/laravel/octane" />
+      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-worker" />
+      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-http" />
+      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-cli" />
+      <path value="$PROJECT_DIR$/vendor/spiral/goridge" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
