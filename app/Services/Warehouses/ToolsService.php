@@ -8,7 +8,9 @@ use App\Models\Warehouses\Tools;
 use App\Models\Warehouses\ToolsCart;
 use App\Services\Services;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ToolsService extends Services
@@ -43,10 +45,13 @@ class ToolsService extends Services
     public function showToolsToIndexPage($searchBox, $box_id, $searchMainCategory, $searchHalfCategory, $searchCategory,
                                          $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate, $is_new): mixed
     {
+//        $tools = Tools::select(['id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'box_id', 'price', 'status_tool_id', 'slug', 'is_box', 'status_table', 'status_table_id'])
+//            ->get();
+//        dd($tools);
 
-
-
-
+//        $toolsDB = DB::table('warehouse_tools')
+//            ->select(['id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'box_id', 'price', 'status_tool_id', 'slug', 'is_box', 'status_table', 'status_table_id'])
+//            ->get();
 
         /**
          * OLD START
@@ -194,13 +199,17 @@ class ToolsService extends Services
      */
     public function store($tools): mixed
     {
-        try {
-            $store = new Tools();
-            $store->fill($this->creatorData($tools))->save();
-            return $store->id;
-        }catch (Exception $e){
-            return false;
-        }
+//        for ($i = 1; $i <= 200; $i++)
+//        {
+            try {
+                $store = new Tools();
+                $store->fill($this->creatorData($tools))->save();
+                return $store->id;
+            }catch (Exception $e){
+                return false;
+            }
+//        }
+
     }
 
     /**
