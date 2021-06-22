@@ -147,6 +147,16 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/event-manager" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/appstract/laravel-opcache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-zendframework-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-diactoros" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/octane" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-worker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-http" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-cli" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/goridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
