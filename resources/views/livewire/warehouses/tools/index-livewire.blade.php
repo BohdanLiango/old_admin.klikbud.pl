@@ -47,7 +47,7 @@
                                     <div class="row">
                                       @include('livewire.warehouses.tools.block.index.tools')
                                     </div>
-                                    {{ $tools->links('vendor.livewire.simple-bootstrap') }}
+                                    {{ $tools->links('vendor.livewire.bootstrap') }}
                                 </div>
                             </div>
                         </div>
