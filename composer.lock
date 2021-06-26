@@ -126,18 +126,6 @@
         },
         {
             "name": "aws/aws-sdk-php",
-<<<<<<< HEAD
-            "version": "3.178.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5a268a20272c0c9171570ed57f68b629e966deab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5a268a20272c0c9171570ed57f68b629e966deab",
-                "reference": "5a268a20272c0c9171570ed57f68b629e966deab",
-=======
             "version": "3.184.7",
             "source": {
                 "type": "git",
@@ -148,7 +136,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d5d5fe5fdfca6c7a56f2f8364d09c3100d5c2149",
                 "reference": "d5d5fe5fdfca6c7a56f2f8364d09c3100d5c2149",
->>>>>>> 35f407667d76b03ca13680629204c6d6b7907475
                 "shasum": ""
             },
             "require": {
@@ -223,15 +210,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.178.5"
-            },
-            "time": "2021-04-15T18:12:46+00:00"
-=======
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.184.7"
             },
             "time": "2021-06-21T18:37:16+00:00"
->>>>>>> 35f407667d76b03ca13680629204c6d6b7907475
         },
         {
             "name": "brick/math",
@@ -1676,18 +1657,6 @@
         },
         {
             "name": "enlightn/enlightn",
-<<<<<<< HEAD
-            "version": "v1.22.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/enlightn/enlightn.git",
-                "reference": "0958011684210838bb50646bedd6a33f73994e7c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/enlightn/enlightn/zipball/0958011684210838bb50646bedd6a33f73994e7c",
-                "reference": "0958011684210838bb50646bedd6a33f73994e7c",
-=======
             "version": "v1.22.1",
             "source": {
                 "type": "git",
@@ -1698,7 +1667,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/enlightn/enlightn/zipball/b4743d1abbcaf8340729a9cada2cceced33ff2c6",
                 "reference": "b4743d1abbcaf8340729a9cada2cceced33ff2c6",
->>>>>>> 35f407667d76b03ca13680629204c6d6b7907475
                 "shasum": ""
             },
             "require": {
@@ -1770,15 +1738,9 @@
             "support": {
                 "docs": "https://www.laravel-enlightn.com/docs/",
                 "issues": "https://github.com/enlightn/enlightn/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/enlightn/enlightn/tree/v1.22.0"
-            },
-            "time": "2021-04-15T15:05:41+00:00"
-=======
                 "source": "https://github.com/enlightn/enlightn/tree/v1.22.1"
             },
             "time": "2021-05-03T07:32:51+00:00"
->>>>>>> 35f407667d76b03ca13680629204c6d6b7907475
         },
         {
             "name": "enlightn/security-checker",
@@ -2678,18 +2640,6 @@
         },
         {
             "name": "laravel/framework",
-<<<<<<< HEAD
-            "version": "v8.37.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "cf4082973abc796ec285190f0603380021f6d26f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/cf4082973abc796ec285190f0603380021f6d26f",
-                "reference": "cf4082973abc796ec285190f0603380021f6d26f",
-=======
             "version": "v8.47.0",
             "source": {
                 "type": "git",
@@ -2700,7 +2650,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/93db226946453f4285558b7c3166ddb6e7ea5400",
                 "reference": "93db226946453f4285558b7c3166ddb6e7ea5400",
->>>>>>> 35f407667d76b03ca13680629204c6d6b7907475
                 "shasum": ""
             },
             "require": {
@@ -2855,9 +2804,6 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-<<<<<<< HEAD
-            "time": "2021-04-13T13:49:49+00:00"
-=======
             "time": "2021-06-15T14:00:32+00:00"
         },
         {
@@ -2935,7 +2881,6 @@
                 "source": "https://github.com/laravel/octane"
             },
             "time": "2021-06-15T15:52:47+00:00"
->>>>>>> 35f407667d76b03ca13680629204c6d6b7907475
         },
         {
             "name": "laravel/tinker",
