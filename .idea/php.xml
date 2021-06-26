@@ -152,9 +152,13 @@
       <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-cli" />
       <path value="$PROJECT_DIR$/vendor/spiral/goridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/vendor/chocofamilyme/laravel-smart-http" />
+      <path value="$PROJECT_DIR$/vendor/chocofamilyme/smart-http" />
+      <path value="$PROJECT_DIR$/vendor/ejsmont-artur/php-circuit-breaker" />
+      <path value="$PROJECT_DIR$/vendor/laravel/sail" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
   <component name="PhpUnit">

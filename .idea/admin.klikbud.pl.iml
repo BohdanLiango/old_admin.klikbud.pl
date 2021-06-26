@@ -157,6 +157,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-cli" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/goridge" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/chocofamilyme/laravel-smart-http" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/chocofamilyme/smart-http" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ejsmont-artur/php-circuit-breaker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/sail" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
