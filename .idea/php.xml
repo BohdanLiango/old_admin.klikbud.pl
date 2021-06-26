@@ -114,7 +114,6 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/vendor/jantinnerezo/livewire-alert" />
-      <path value="$PROJECT_DIR$/vendor/kdion4891/laravel-livewire-forms" />
       <path value="$PROJECT_DIR$/vendor/cocur/slugify" />
       <path value="$PROJECT_DIR$/vendor/cviebrock/eloquent-sluggable" />
       <path value="$PROJECT_DIR$/vendor/justinrainbow/json-schema" />
@@ -132,7 +131,6 @@
       <path value="$PROJECT_DIR$/vendor/andrey-helldar/pretty-array" />
       <path value="$PROJECT_DIR$/vendor/andrey-helldar/support" />
       <path value="$PROJECT_DIR$/vendor/uxweb/sweet-alert" />
-      <path value="$PROJECT_DIR$/vendor/rezaamini-ir/laravel-easyblade" />
       <path value="$PROJECT_DIR$/vendor/mtdowling/jmespath.php" />
       <path value="$PROJECT_DIR$/vendor/aws/aws-sdk-php" />
       <path value="$PROJECT_DIR$/vendor/coraxster/flysystem-aws-s3-v3-minio" />
@@ -142,16 +140,6 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
       <path value="$PROJECT_DIR$/vendor/appstract/laravel-opcache" />
-      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
-      <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-diactoros" />
-      <path value="$PROJECT_DIR$/vendor/laravel/octane" />
-      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-worker" />
-      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-http" />
-      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-cli" />
-      <path value="$PROJECT_DIR$/vendor/spiral/goridge" />
-      <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

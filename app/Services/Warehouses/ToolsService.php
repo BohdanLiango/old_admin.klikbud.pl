@@ -42,53 +42,46 @@ class ToolsService extends Services
      * @param $is_new
      * @return mixed
      */
-    public function showToolsToIndexPage($searchBox, $box_id, $searchMainCategory, $searchHalfCategory, $searchCategory,
-                                         $searchQuery, $searchStatus, $searchGlobalStatusTable, $searchGlobalStatusId, $orderBy, $orderByType, $paginate, $is_new): mixed
+    public function showToolsToIndexPage(): mixed
     {
-//        $tools = Tools::select(['id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'box_id', 'price', 'status_tool_id', 'slug', 'is_box', 'status_table', 'status_table_id'])
-//            ->get();
-//        dd($tools);
+        return Tools::select(['id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'box_id', 'price', 'status_tool_id', 'slug', 'is_box', 'status_table', 'status_table_id']);
 
 //        $toolsDB = DB::table('warehouse_tools')
 //            ->select(['id', 'category_id', 'half_category_id', 'main_category_id', 'title', 'image_id', 'box_id', 'price', 'status_tool_id', 'slug', 'is_box', 'status_table', 'status_table_id'])
 //            ->get();
 
-        /**
-         * OLD START
-         */
-        $query = Tools::when($searchQuery != '', function ($query) use ($searchQuery) {
-            $query->where('title', 'like', '%' . $searchQuery . '%');
-        })->when($searchStatus != '', function ($query) use ($searchStatus) {
-            $query->where('status_tool_id', 'like', '%' . $searchStatus . '%');
-        })->when($searchMainCategory != '', function ($query) use ($searchMainCategory) {
-            $query->where('main_category_id', 'like', '%' . $searchMainCategory . '%');
-        })->when($searchHalfCategory != '', function ($query) use ($searchHalfCategory) {
-            $query->where('half_category_id', 'like', '%' . $searchHalfCategory . '%');
-        })->when($searchCategory != '', function ($query) use ($searchCategory) {
-            $query->where('category_id', 'like', '%' . $searchCategory . '%');
-        })->when($searchGlobalStatusTable != '', function ($query) use ($searchGlobalStatusTable) {
-            $query->where('status_table', $searchGlobalStatusTable);
-        })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
-            $query->where('status_table_id', $searchGlobalStatusId);
-        })->when($searchBox != '', function ($query) use ($searchBox) {
-            $query->where('box_id', $searchBox);
-        });
-
-        if($is_new === true)
-        {
-            return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
-        }
-
-        if($is_new === 'dont_open_box')
-        {
-            return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->simplePaginate($paginate);
-        }
-
-        return $query->orderBy($orderBy, $orderByType)->simplePaginate();
-
-        /**
-         * OLDEND
-         */
+//        /**
+//         * OLD START
+//         */
+//        $query = $tools->when($searchQuery != '', function ($query) use ($searchQuery) {
+//            $query->where('title', 'like', '%' . $searchQuery . '%');
+//        })->when($searchStatus != '', function ($query) use ($searchStatus) {
+//            $query->where('status_tool_id', 'like', '%' . $searchStatus . '%');
+//        })->when($searchMainCategory != '', function ($query) use ($searchMainCategory) {
+//            $query->where('main_category_id', 'like', '%' . $searchMainCategory . '%');
+//        })->when($searchHalfCategory != '', function ($query) use ($searchHalfCategory) {
+//            $query->where('half_category_id', 'like', '%' . $searchHalfCategory . '%');
+//        })->when($searchCategory != '', function ($query) use ($searchCategory) {
+//            $query->where('category_id', 'like', '%' . $searchCategory . '%');
+//        })->when($searchGlobalStatusTable != '', function ($query) use ($searchGlobalStatusTable) {
+//            $query->where('status_table', $searchGlobalStatusTable);
+//        })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
+//            $query->where('status_table_id', $searchGlobalStatusId);
+//        })->when($searchBox != '', function ($query) use ($searchBox) {
+//            $query->where('box_id', $searchBox);
+//        });
+//
+//        if($is_new === true)
+//        {
+//            return Tools::where('status_table', NULL)->orderBy($orderBy, $orderByType)->paginate($paginate);
+//        }
+//
+//        if($is_new === 'dont_open_box')
+//        {
+//            return $query->where('box_id', $box_id)->orderBy($orderBy, $orderByType)->paginate($paginate);
+//        }
+//
+//        return $query->orderBy($orderBy, $orderByType)->paginate();
     }
 
 
@@ -177,7 +170,8 @@ class ToolsService extends Services
                 'category_id' => $collect->get('category_id'),
                 'half_category_id' =>  $collect->get('half_category_id'),
                 'main_category_id' =>  $collect->get('main_category_id'),
-                'title' =>  Str::title($collect->get('title')),
+//                'title' =>  Str::title($collect->get('title')),
+                'title' => random_int(1,10000000),
                 'description' =>  Str::title($collect->get('description')),
                 'purchase_date' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('purchase_date')),
                 'price' =>  $collect->get('price'),
@@ -199,16 +193,16 @@ class ToolsService extends Services
      */
     public function store($tools): mixed
     {
-//        for ($i = 1; $i <= 200; $i++)
-//        {
+        for ($i = 1; $i <= 2000; $i++)
+        {
             try {
                 $store = new Tools();
                 $store->fill($this->creatorData($tools))->save();
-                return $store->id;
+//                return $store->id;
             }catch (Exception $e){
-                return false;
+//                return false;
             }
-//        }
+        }
 
     }
 
@@ -535,13 +529,14 @@ class ToolsService extends Services
 
     /**
      * @param $items
+     * @param $cart
      * @return bool
      */
-    public function addToolsToCart($items): bool
+    public function addToolsToCart($items, $cart): bool
     {
         $user_id = Auth::id();
 
-        $find_last_cart = ToolsCart::where('user_id', $user_id)->orderBy('id', 'desc')->first();
+        $find_last_cart = $cart;
 
         if ($find_last_cart === NULL || (int)$find_last_cart->status_id === (int)config('klikbud.status_tools_in_cart.disable')) {
             $cart = new ToolsCart();

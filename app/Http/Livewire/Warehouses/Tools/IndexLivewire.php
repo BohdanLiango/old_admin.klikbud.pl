@@ -25,7 +25,7 @@ class IndexLivewire extends Warehouse
     public $searchCategoryName = '', $searchGlobalStatusName = '';
 
     //Data
-    public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register, $toolsCountStatus;
+    public $categories, $warehouses, $status_tool, $objects, $clients, $business, $register, $toolsCountStatus, $cart;
 
     //Stats
     public $countAll, $countActive, $countDeleted, $status, $priceAll = 0;
@@ -36,9 +36,19 @@ class IndexLivewire extends Warehouse
     {
         $breadcrumbs = app()->make(BreadcrumbsData::class)->tools(1, NULL);
         $page_title = $breadcrumbs[1]['name'];
+        $this->categories = app()->make(ToolsCategoryService::class)->getCategoriesToForms();
 
-        $tools = app()->make(ToolsService::class)->showToolsToIndexPage($this->searchBoxId, $this->box_id, $this->searchMainCategory, $this->searchHalfCategory, $this->searchCategory,
-            $this->searchQuery, $this->searchStatus, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->orderBy, $this->orderByType, $this->paginate, $this->is_new);
+        $this->warehouses = app()->make(WarehousesService::class)->selectToForms();
+        $this->objects = app()->make(ObjectsService::class)->selectObjectsToForms();
+        $this->clients = app()->make(ClientService::class)->showClientSelectIdName();
+        $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
+        $this->register = app()->make(ToolsService::class)->getAllDataRegisterToTools(); //?
+        $this->status = app()->make(DefaultData::class)->status_tools();
+        $get_tools = app()->make(ToolsService::class)->showToolsToIndexPage();
+        $this->toolsCountStatus = $get_tools->get();
+        $this->countActive = count($get_tools->get());
+        $tools = $this->searchableTools($get_tools, $this->searchQuery, $this->searchStatus, $this->searchMainCategory,
+        $this->searchHalfCategory, $this->searchCategory, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->box_id);
 
         if($this->searchQuery != '' ||
             $this->searchStatus != '' ||
@@ -57,6 +67,8 @@ class IndexLivewire extends Warehouse
         $count_tools_search = count($tools);
 
         $cart = app()->make(ToolsService::class)->getLastActiveCart();
+        $this->cart = $cart;
+
         if(!is_null($cart))
         {
             $collect_items_cart = collect($cart->items);
@@ -71,35 +83,32 @@ class IndexLivewire extends Warehouse
             ->section('content');
     }
 
-
-    public function mount(ToolsService $toolsService, ToolsCategoryService $toolsCategoryService, WarehousesService $warehousesService,
-                            ObjectsService $objectsService, ClientService $clientService, BusinessService $businessService)
+    private function searchableTools($tools, $searchQuery, $searchStatus, $searchMainCategory, $searchHalfCategory, $searchCategory, $searchGlobalStatusTable, $searchGlobalStatusId, $searchBox)
     {
-        //Start Data
-        $this->categories = $toolsCategoryService->getCategoriesToForms();
-        $this->warehouses = $warehousesService->selectToForms();
-        $this->objects = $objectsService->selectObjectsToForms();
-        $this->clients = $clientService->showClientSelectIdName();
-        $this->business = $businessService->selectBusinessToForm();
-        $this->register = $toolsService->getAllDataRegisterToTools();
-        $this->toolsCountStatus = $toolsService->getAllActiveToolsSelectIdGet();
+        $query = $tools->when($searchQuery != '', function ($query) use ($searchQuery) {
+            $query->where('title', 'like', '%' . $searchQuery . '%');
+        })->when($searchStatus != '', function ($query) use ($searchStatus) {
+            $query->where('status_tool_id', 'like', '%' . $searchStatus . '%');
+        })->when($searchMainCategory != '', function ($query) use ($searchMainCategory) {
+            $query->where('main_category_id', 'like', '%' . $searchMainCategory . '%');
+        })->when($searchHalfCategory != '', function ($query) use ($searchHalfCategory) {
+            $query->where('half_category_id', 'like', '%' . $searchHalfCategory . '%');
+        })->when($searchCategory != '', function ($query) use ($searchCategory) {
+            $query->where('category_id', 'like', '%' . $searchCategory . '%');
+        })->when($searchGlobalStatusTable != '', function ($query) use ($searchGlobalStatusTable) {
+            $query->where('status_table', $searchGlobalStatusTable);
+        })->when($searchGlobalStatusId != '', function ($query) use ($searchGlobalStatusId) {
+            $query->where('status_table_id', $searchGlobalStatusId);
+        })->when($searchBox != '', function ($query) use ($searchBox) {
+            $query->where('box_id', $searchBox);
+        });
 
-//        foreach ($this->toolsCountStatus as $item)
-//        {
-//            $this->priceAll += (float)$item->price;
-//        }
+         if($this->is_new === 'dont_open_box')
+         {
+             return $query->where('box_id', $this->box_id)->orderBy($this->orderBy, $this->orderByType)->paginate($this->paginate);
+         }
 
-        //End data
-        //Start Stats
-        if(count($this->toolsCountStatus) > 0 || $toolsService->getAllTrashedToolsSelectIdCount() > 0)
-        {
-            $this->countActive = count($this->toolsCountStatus);
-            $this->countDeleted = $toolsService->getAllTrashedToolsSelectIdCount();
-            $this->countAll = $this->countActive + $this->countDeleted;
-        }
-        $this->status = app()->make(DefaultData::class)->status_tools();
-        //End Stats
-
+        return $query->orderBy($this->orderBy, $this->orderByType)->paginate($this->paginate);
     }
 
     public function searchCategory($id, $categoryType, $categoryName)
@@ -195,7 +204,7 @@ class IndexLivewire extends Warehouse
         {
             $this->checkStatus(false, 'Można dodać tylko razem z skrzynią', 'alert', true, 'top-end');
         }else{
-            $status = app()->make(ToolsService::class)->addToolsToCart($item);
+            $status = app()->make(ToolsService::class)->addToolsToCart($item, $this->cart);
             if($status === true)
             {
                 $message = 'Dodano do koszyka!';
