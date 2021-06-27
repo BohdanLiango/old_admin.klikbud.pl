@@ -32,7 +32,6 @@
                                     <div class="d-flex justify-content-between align-items-center mb-7">
                                         <h5 class="font-weight-bolder text-dark font-size-h3 mb-0">
                                             <i class="fa fa-tools"></i> {{ $count_tools_search }}
-                                            @empty($searchQuery) @else | <i class="flaticon2-search"></i> {{ $searchQuery }} @endempty
                                         </h5>
                                         <div>
                                             <a href="#" wire:click.prevent="searchNew()" class="btn btn-light-success btn-sm font-weight-bolder">
