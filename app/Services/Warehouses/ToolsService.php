@@ -82,6 +82,7 @@ class ToolsService extends Services
 //        }
 //
 //        return $query->orderBy($orderBy, $orderByType)->paginate();
+
     }
 
 
@@ -170,8 +171,7 @@ class ToolsService extends Services
                 'category_id' => $collect->get('category_id'),
                 'half_category_id' =>  $collect->get('half_category_id'),
                 'main_category_id' =>  $collect->get('main_category_id'),
-//                'title' =>  Str::title($collect->get('title')),
-                'title' => random_int(1,10000000),
+                'title' =>  Str::title($collect->get('title')),
                 'description' =>  Str::title($collect->get('description')),
                 'purchase_date' =>  $this->helpers->changeFormatDateToInsertDataBase($collect->get('purchase_date')),
                 'price' =>  $collect->get('price'),
@@ -193,16 +193,16 @@ class ToolsService extends Services
      */
     public function store($tools): mixed
     {
-        for ($i = 1; $i <= 2000; $i++)
-        {
+//        for ($i = 1; $i <= 2000; $i++)
+//        {
             try {
                 $store = new Tools();
                 $store->fill($this->creatorData($tools))->save();
-//                return $store->id;
+                return $store->id;
             }catch (Exception $e){
-//                return false;
+                return false;
             }
-        }
+//        }
 
     }
 
@@ -529,7 +529,6 @@ class ToolsService extends Services
 
     /**
      * @param $items
-     * @param $cart
      * @return bool
      */
     public function addToolsToCart($items, $cart): bool
@@ -618,15 +617,12 @@ class ToolsService extends Services
         try {
             foreach ($items as $item)
             {
-                if((string)$item->status_table !== (string)$place_table && (int)$item->status_table_id !== (int)$place_id)
-                {
                     if($item->is_box === 1)
                     {
                         $this->changeStatusGlobalBoxAndAllToolsInBox($item->id, $place_table, $place_id);
                     }else{
                         $this->storeOrUpdateGlobalData($item->id, $place_table, $place_id);
                     }
-                }
             }
 
             $update_cart_status = $this->getLastActiveCart();

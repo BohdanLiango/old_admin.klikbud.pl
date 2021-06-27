@@ -30,6 +30,8 @@ class IndexLivewire extends Warehouse
     //Stats
     public $countAll, $countActive, $countDeleted, $status, $priceAll = 0;
 
+    private $get_tools;
+
     use WithPagination;
 
     public function render()
@@ -44,10 +46,12 @@ class IndexLivewire extends Warehouse
         $this->business = app()->make(BusinessService::class)->selectBusinessToForm();
         $this->register = app()->make(ToolsService::class)->getAllDataRegisterToTools(); //?
         $this->status = app()->make(DefaultData::class)->status_tools();
-        $get_tools = app()->make(ToolsService::class)->showToolsToIndexPage();
-        $this->toolsCountStatus = $get_tools->get();
-        $this->countActive = count($get_tools->get());
-        $tools = $this->searchableTools($get_tools, $this->searchQuery, $this->searchStatus, $this->searchMainCategory,
+        $this->get_tools = app()->make(ToolsService::class)->showToolsToIndexPage();
+        $this->toolsCountStatus = $this->get_tools->get();
+
+
+        $this->countActive = count($this->get_tools->get());
+        $tools = $this->searchableTools($this->get_tools, $this->searchQuery, $this->searchStatus, $this->searchMainCategory,
         $this->searchHalfCategory, $this->searchCategory, $this->searchGlobalStatusTable, $this->searchGlobalStatusId, $this->box_id);
 
         if($this->searchQuery != '' ||
