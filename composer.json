@@ -6,16 +6,20 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "chocofamilyme/laravel-smart-http": "^2.0",
+        "andrey-helldar/laravel-lang-publisher": "^10.0",
+        "barryvdh/laravel-debugbar": "^3.6",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "jantinnerezo/livewire-alert": "^2.1",
         "laravel/framework": "^8.40",
         "laravel/octane": "^1.0",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "*",
+        "league/flysystem-aws-s3-v3": "v1.0",
         "livewire/livewire": "^2.5",
-        "spiral/roadrunner": "^2.3"
+        "rennokki/laravel-eloquent-query-cache": "^3.0",
+        "spiral/roadrunner": "^2.3",
+        "venturecraft/revisionable": "^1.38"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
