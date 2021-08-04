@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\KLIKBUD;
+namespace App\Models\Klikbud\Services;
 
 use App\Models\Files\FileAdditionalInformation;
 use App\Models\Files\Files;

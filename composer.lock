@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41a6638f1d6bc6bfde305ed0291423ed",
+    "content-hash": "19dc83b3423444ddb775606986a25cab",
     "packages": [
         {
             "name": "andrey-helldar/laravel-lang-publisher",

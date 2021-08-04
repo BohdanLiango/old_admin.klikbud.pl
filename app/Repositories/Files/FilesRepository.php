@@ -18,4 +18,11 @@ class FilesRepository
         return $store->id;
     }
 
+    /**
+     * @param $id
+     */
+    public function delete($id): void
+    {
+        Files::findOrFail($id)->delete();
+    }
 }

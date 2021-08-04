@@ -50,4 +50,12 @@ class FilesAdditionalInformationRepository
     {
         return FileAdditionalInformation::where('file_id', '=', $id)->first()->full_path;
     }
+
+    /**
+     * @param $image_id
+     */
+    public function delete($image_id): void
+    {
+        FileAdditionalInformation::where('file_id', '=', $image_id)->delete();
+    }
 }
