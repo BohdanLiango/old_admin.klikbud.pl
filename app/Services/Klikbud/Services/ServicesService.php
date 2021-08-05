@@ -69,14 +69,12 @@ class ServicesService
      * @param $id
      * @param $image_id
      * @param ServicesRepository $servicesRepository
-     * @param KlikBudGuzzleHttpRequestService $klikBudGuzzleHttpRequestService
      * @return bool
      */
-    public function storeImage($id, $image_id, ServicesRepository $servicesRepository, KlikBudGuzzleHttpRequestService $klikBudGuzzleHttpRequestService): bool
+    public function storeImage($id, $image_id, ServicesRepository $servicesRepository): bool
     {
         try{
             $servicesRepository->storeImage($id, $image_id);
-            $klikBudGuzzleHttpRequestService->clearCacheRequest();
             return true;
         }catch (Exception $e){
             Log::info($e->getMessage());
@@ -113,9 +111,10 @@ class ServicesService
     public function delete($id, ServicesRepository $servicesRepository, KlikBudGuzzleHttpRequestService $klikBudGuzzleHttpRequestService, KlikBudHelper $klikBudHelper): bool
     {
         try {
-            if(isset($servicesRepository->findOne($id)->image_id))
+            $image_id = $servicesRepository->findOne($id)->image_id;
+            if(isset($image_id))
             {
-                $klikBudHelper->deleteImage($id);
+                $klikBudHelper->deleteImage($image_id);
             }
 
             $servicesRepository->delete($id);
