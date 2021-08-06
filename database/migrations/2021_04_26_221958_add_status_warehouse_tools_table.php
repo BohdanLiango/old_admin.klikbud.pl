@@ -26,9 +26,5 @@ class AddStatusWarehouseToolsTable extends Migration
      */
     public function down()
     {
-        Schema::table('warehouse_tools', function (Blueprint $table) {
-            $table->string('status_table')->nullable()->after('is_box');
-            $table->string('status_table_id')->nullable()->after('status_table');
-        });
     }
 }

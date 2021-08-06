@@ -25,8 +25,6 @@ class AddSlugToClientsTable extends Migration
      */
     public function down()
     {
-        Schema::table('clients', function (Blueprint $table) {
-            $table->string('slug')->nullable();
-        });
+
     }
 }

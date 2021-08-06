@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\KLIKBUD;
+namespace App\Models\Klikbud\Opinion;
 
 use App\Models\Files\Files;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

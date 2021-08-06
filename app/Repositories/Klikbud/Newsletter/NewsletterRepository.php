@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Klikbud\Newsletter;
 
-use App\Models\KLIKBUD\Newsletter;
+use App\Models\Klikbud\Newsletter\Newsletter;
 
 class NewsletterRepository
 {

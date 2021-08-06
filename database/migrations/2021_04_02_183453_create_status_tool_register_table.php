@@ -15,12 +15,12 @@ class CreateStatusToolRegisterTable extends Migration
     {
         Schema::create('status_tool_register', function (Blueprint $table) {
             $table->id();
-            $table->integer('register_id')->nullable();
             $table->integer('tool_id')->nullable();
             $table->string('table')->nullable();
-            $table->string('table_id')->nullable();
+            $table->integer('table_id')->nullable();
             $table->integer('status_id')->nullable();
-            $table->string('unique_number')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->integer('user_last_update_id')->nullable();
             $table->timestamps();
         });
     }

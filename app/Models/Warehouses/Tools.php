@@ -114,15 +114,6 @@ class Tools extends Model
         return $this->hasMany(StatusToolRegister::class, 'id', 'tool_id');
     }
 
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
-
     /**
      * @return HasMany
      */
@@ -138,4 +129,14 @@ class Tools extends Model
     {
         return $this->hasMany(StatusToolRegister::class, 'tool_id', 'id');
     }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
 }

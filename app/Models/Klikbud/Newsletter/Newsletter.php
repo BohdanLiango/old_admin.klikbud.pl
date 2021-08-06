@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\KLIKBUD;
+namespace App\Models\Klikbud\Newsletter;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

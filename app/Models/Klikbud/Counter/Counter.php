@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\KLIKBUD;
+namespace App\Models\Klikbud\Counter;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

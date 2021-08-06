@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\KLIKBUD;
+namespace App\Models\Klikbud\Opinion;
 
+use App\Models\Klikbud\Services\Service;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

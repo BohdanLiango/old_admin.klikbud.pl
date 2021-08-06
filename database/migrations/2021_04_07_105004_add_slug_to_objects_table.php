@@ -25,8 +25,6 @@ class AddSlugToObjectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('objects', function (Blueprint $table) {
-            $table->string('slug')->nullable();
-        });
+
     }
 }
