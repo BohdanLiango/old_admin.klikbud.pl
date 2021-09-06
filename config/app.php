@@ -165,6 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Venturecraft\Revisionable\RevisionableServiceProvider::class,
+        OwenIt\Auditing\AuditingServiceProvider::class,
 
         /*
          * Application Service Providers...
