@@ -6,18 +6,24 @@ use App\Data\BreadcrumbsData;
 use App\Data\DefaultData;
 use App\Http\Controllers\Controller;
 use App\Services\Data\AddressService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class AddressController extends Controller
 {
-    public AddressService $addressService;
-    public BreadcrumbsData $breadcrumbsData;
-    public DefaultData $defaultData;
-
-    public function index()
+    /**
+     * @param AddressService $addressService
+     * @param BreadcrumbsData $breadcrumbsData
+     * @param DefaultData $defaultData
+     * @return Factory|View|Application
+     */
+    public function index(AddressService $addressService,  BreadcrumbsData $breadcrumbsData, DefaultData $defaultData): Factory|View|Application
     {
-        $breadcrumb = $this->breadcrumbsData->address(1, NULL);
-        $page_title = $breadcrumb[1]['title'];
-        $dataType = $this->defaultData->address();
+        $breadcrumbs = $breadcrumbsData->address(1, NULL);
+        $page_title = $breadcrumbs[1]['title'];
+        $types = $defaultData->address();
 
+        return view('app.data.address.index', compact('breadcrumbs', 'page_title', 'types'));
     }
 }

@@ -55,7 +55,7 @@ class BreadcrumbsData extends Data
     {
         $array = [
             ['key' => 0, 'link' => route('dashboard'), 'title' => $this->dashboard],
-            ['key' => 1, 'link' => route('settings.address.show'), 'title' => $this->address]
+            ['key' => 1, 'link' => route('global_settings.address.index'), 'title' => $this->address]
         ];
 
         return $this->breadcrumbs($key, $array, $array_merge);
