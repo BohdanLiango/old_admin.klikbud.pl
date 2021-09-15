@@ -6,6 +6,7 @@ use App\Models\Data\Address;
 
 class AddressRepository
 {
+
     /**
      * @param $id
      * @return mixed
@@ -18,9 +19,28 @@ class AddressRepository
     /**
      * @return mixed
      */
-    public function getAllSelectData(): mixed
+    public function countAddress(): mixed
     {
-        return Address::where('type_id', 4)->select('id', 'title', 'town_id', 'state_id', 'country_id')->get();
+        return Address::count();
+    }
+
+    /**
+     * @param $searchQuery
+     * @param $searchType
+     * @param $orderBy
+     * @param $orderArgument
+     * @param $paginate
+     * @return mixed
+     */
+    public function getAllByParameters($searchQuery, $searchType, $orderBy, $orderArgument, $paginate): mixed
+    {
+        return Address::when($searchQuery != '', function ($query) use ($searchQuery) {
+            $query->where('title', 'like', '%' . $searchQuery . '%');
+        })->when($searchType != '', function ($query) use ($searchType) {
+            $query->where('type_id', $searchType);
+        })->select('id', 'title', 'type_id','town_id', 'state_id', 'country_id', 'created_at')
+            ->orderBy($orderBy, $orderArgument)
+            ->paginate($paginate);
     }
 
     /**

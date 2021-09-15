@@ -9,15 +9,21 @@ use Illuminate\Support\Facades\Log;
 
 class AddressService
 {
+    private AddressRepository $repository;
+
+    public function __construct(AddressRepository $addressRepository)
+    {
+        $this->repository = $addressRepository;
+    }
+
     /**
      * @param $id
-     * @param AddressRepository $addressRepository
      * @return mixed
      */
-    public function getOne($id, AddressRepository $addressRepository): mixed
+    public function getOne($id): mixed
     {
         try {
-            return $addressRepository->getOne($id);
+            return $this->repository->getOne($id);
         }catch (Exception $e){
             Log::info($e->getMessage());
             return false;
@@ -25,17 +31,34 @@ class AddressService
     }
 
     /**
-     * @param AddressRepository $addressRepository
      * @return mixed
      */
-    public function selectAddressToGetData(AddressRepository $addressRepository): mixed
+    public function countAddress(): mixed
     {
-        try {
-            return $addressRepository->getAllSelectData();
+        try{
+            return $this->repository->countAddress();
         }catch (Exception $e){
             Log::info($e->getMessage());
             return false;
         }
+    }
+
+    /**
+     * @param $searchQuery
+     * @param $searchType
+     * @param $orderBy
+     * @param $orderArgument
+     * @param $paginate
+     * @return mixed
+     */
+    public function getAllByParameters($searchQuery, $searchType, $orderBy, $orderArgument, $paginate): mixed
+    {
+//        try {
+            return $this->repository->getAllByParameters($searchQuery, $searchType, $orderBy, $orderArgument, $paginate);
+//        }catch (Exception $e){
+//            Log::info($e->getMessage());
+//            return false;
+//        }
     }
 
     /**

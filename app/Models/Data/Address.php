@@ -14,7 +14,6 @@ class Address extends Model
 {
     protected $table = 'address';
     protected $guarded = [];
-    protected $dateFormat = 'H:i:s d-m-Y';
 
     use Sluggable;
     use HasFactory;
