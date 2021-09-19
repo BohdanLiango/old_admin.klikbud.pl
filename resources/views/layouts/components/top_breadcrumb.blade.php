@@ -28,7 +28,9 @@
 {{--        <!--begin::Actions-->--}}
         @if(isset($filter_button) || isset($add_button))
         <div class="d-flex align-items-center py-1">
+            @if(isset($filter_button))
                 @includeWhen($filter_button, $filter_button_view)
+            @endif
             @if($add_button === true)
 {{--            <!--begin::Button-->--}}
             <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app" id="kt_toolbar_primary_button">Create</a>

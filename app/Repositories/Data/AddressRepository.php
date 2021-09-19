@@ -38,8 +38,7 @@ class AddressRepository
             $query->where('title', 'like', '%' . $searchQuery . '%');
         })->when($searchType != '', function ($query) use ($searchType) {
             $query->where('type_id', $searchType);
-        })->select('id', 'title', 'type_id','town_id', 'state_id', 'country_id', 'created_at')
-            ->orderBy($orderBy, $orderArgument)
+        })->with('user')->orderBy($orderBy, $orderArgument)
             ->paginate($paginate);
     }
 
