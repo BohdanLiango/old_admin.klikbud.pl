@@ -53,12 +53,12 @@ class AddressService
      */
     public function getAllByParameters($searchQuery, $searchType, $orderBy, $orderArgument, $paginate): mixed
     {
-//        try {
+        try {
             return $this->repository->getAllByParameters($searchQuery, $searchType, $orderBy, $orderArgument, $paginate);
-//        }catch (Exception $e){
-//            Log::info($e->getMessage());
-//            return false;
-//        }
+        }catch (Exception $e){
+            Log::info($e->getMessage());
+            return false;
+        }
     }
 
     /**
