@@ -1,4 +1,6 @@
 <x-guest-layout>
+    @section('title', 'Forgot password')
+
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />

@@ -20,7 +20,8 @@
         "rennokki/laravel-eloquent-query-cache": "^3.0",
         "spatie/laravel-activitylog": "^4.1",
         "spiral/roadrunner": "^2.3",
-        "venturecraft/revisionable": "^1.38"
+        "venturecraft/revisionable": "^1.38",
+        "wulfheart/pretty_routes": "^0.3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
