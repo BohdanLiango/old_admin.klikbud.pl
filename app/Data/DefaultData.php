@@ -10,10 +10,10 @@ class DefaultData extends Data
     public function address(): array
     {
         return [
-            ["value" => 1, "title" => trans('data/address/types.country'), "class" => 'success'],
-            ["value" => 2, "title" => trans('data/address/types.state'), "class" => 'info'],
-            ["value" => 3, "title" => trans('data/address/types.town'), "class" => 'primary'],
-            ["value" => 4, "title" => trans('data/address/types.street'), "class" => 'warning'],
+            ["value" => config('app.address.country'), "title" => trans('data/address/types.country'), "class" => 'success', "route_value" => 'country'],
+            ["value" => config('app.address.state'), "title" => trans('data/address/types.state'), "class" => 'info', "route_value" => 'state'],
+            ["value" => config('app.address.town'), "title" => trans('data/address/types.town'), "class" => 'primary', "route_value" => 'town'],
+            ["value" => config('app.address.street'), "title" => trans('data/address/types.street'), "class" => 'warning', "route_value" => 'street'],
         ];
     }
 }

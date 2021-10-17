@@ -14,4 +14,5 @@ return [
         'actions' => 'Działania',
         'type' => 'Rodzaj',
     ],
+    'title_menu' => 'Dodaj'
 ];

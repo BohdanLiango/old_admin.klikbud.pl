@@ -43,6 +43,26 @@ class AddressRepository
     }
 
     /**
+     * @param $typeId
+     * @return mixed
+     */
+    public function getAllByTypeIdSelectParameter($typeId): mixed
+    {
+        return Address::where('type_id', $typeId)->select('id', 'title')->get();
+    }
+
+    /**
+     * @param $addressId
+     * @param $addressParameter
+     * @param $typeId
+     * @return mixed
+     */
+    public function getAllByColumnTypeSelectParameter($addressId, $addressParameter, $typeId): mixed
+    {
+        return Address::where($addressId, $addressParameter)->where('type_id', $typeId)->select('id', 'title')->get();
+    }
+
+    /**
      * @param $data
      */
     public function store($data)

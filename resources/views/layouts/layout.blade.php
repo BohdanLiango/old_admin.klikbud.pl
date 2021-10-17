@@ -14,6 +14,7 @@
 {{--    <!--end::Fonts-->--}}
 {{--    <!--begin::Page Vendor Stylesheets(used by this page)-->--}}
     <link href="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
+    @yield('styles')
 {{--    <!--end::Page Vendor Stylesheets-->--}}
 {{--    <!--begin::Global Stylesheets Bundle(used by all pages)-->--}}
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
@@ -190,6 +191,7 @@
 @yield('scripts')
 {{--<!--end::Javascript-->--}}
 @livewireScripts
+@stack('scripts')
 </body>
 {{--<!--end::Body-->--}}
 </html>

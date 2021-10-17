@@ -3,16 +3,16 @@
 </button>
 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px" data-kt-menu="true">
     <div class="menu-item px-3">
-        <div class="menu-content fs-6 text-dark fw-bolder px-3 py-4">Dodaj</div>
+        <div class="menu-content fs-6 text-dark fw-bolder px-3 py-4">{{ trans('data/address/index.title_menu') }}</div>
     </div>
     <div class="separator mb-3 opacity-75"></div>
-    <div class="menu-item px-3">
-        <a href="{{ route('global_settings.address.add', 'street') }}" class="menu-link px-3">+ Street</a>
-    </div>
-    <div class="menu-item px-3">
-        <a href="{{ route('global_settings.address.add', 'osada') }}" class="menu-link px-3">+ Osada</a>
-    </div>
-    <div class="menu-item px-3">
-        <a href="{{ route('global_settings.address.add', 'woj') }}" class="menu-link px-3">+ Wojewodzstwo</a>
-    </div>
+    @foreach($types as $type)
+        @if($type['value'] === 1)
+        @else
+            <div class="menu-item px-3">
+                <a href="{{ route('global_settings.address.add', $type['route_value']) }}" class="menu-link px-3">+ {{ $type['title'] }}</a>
+            </div>
+        @endif
+    @endforeach
 </div>
+

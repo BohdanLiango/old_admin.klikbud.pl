@@ -44,6 +44,36 @@ class AddressService
     }
 
     /**
+     * @param $typeId
+     * @return mixed
+     */
+    public function getAllByType($typeId): mixed
+    {
+        try{
+            return $this->repository->getAllByTypeIdSelectParameter($typeId);
+        }catch (Exception $e){
+            Log::info($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @param $addressId
+     * @param $addressParameter
+     * @param $typeId
+     * @return mixed
+     */
+    public function getAllByAddressType($addressId, $addressParameter, $typeId): mixed
+    {
+        try{
+            return $this->repository->getAllByColumnTypeSelectParameter($addressId, $addressParameter, $typeId);
+        }catch (Exception $e){
+            Log::info($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * @param $searchQuery
      * @param $searchType
      * @param $orderBy
