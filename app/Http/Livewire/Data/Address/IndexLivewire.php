@@ -9,7 +9,8 @@ use Livewire\WithPagination;
 class IndexLivewire extends Component
 {
     public $searchQuery, $searchType, $orderBy = 'ID', $orderArgument = 'DESC', $paginate = 10, $types, $countAddress,
-        $addTitle = NULL, $modalInfo = NULL, $parentId = NULL, $addTypeId = NULL, $addModalTitle = NULL;
+        $addTitle = NULL, $modalInfo = NULL, $parentId = NULL, $parentTypeId = NULL, $addModalTitle = NULL, $editId = NULL,
+        $editTitle = NULL, $editNewTitle = NULL;
 
     protected $listeners = ['searchType'];
 
@@ -44,7 +45,7 @@ class IndexLivewire extends Component
     {
         $this->modalInfo = $modal;
         $this->parentId = $parentId;
-        $this->addTypeId = $addressTypeId;
+        $this->parentTypeId = $addressTypeId;
 
         switch ($modal){
             case 'openAddNewAddress':
@@ -53,7 +54,24 @@ class IndexLivewire extends Component
                 break;
             case 'closeAddNewAddress':
                 $this->dispatchBrowserEvent('closeAddNewAddressModal');
-                $this->clearVarsAdd();
+                $this->clearVars();
+                break;
+        }
+    }
+
+    public function selectEditModal($modal, $id, $oldTitle)
+    {
+        dd($modal);
+        $this->editId = $id;
+        $this->editTitle = $oldTitle;
+
+        switch ($modal){
+            case 'openEditAddress':
+                $this->dispatchBrowserEvent('openEditAddressModel');
+                break;
+            case 'closeEditAddress':
+                $this->dispatchBrowserEvent('closeEditAddressModel');
+                $this->clearVars();
                 break;
         }
     }
@@ -61,13 +79,16 @@ class IndexLivewire extends Component
     /**
      * Clear vars to modal add
      */
-    private function clearVarsAdd()
+    private function clearVars()
     {
         $this->addTitle = NULL;
         $this->parentId = NULL;
         $this->modalInfo = NULL;
-        $this->addTypeId = NULL;
+        $this->parentTypeId = NULL;
         $this->addModalTitle = NULL;
+        $this->editId = NULL;
+        $this->editTitle = NULL;
+        $this->editNewTitle = NULL;
     }
 
     /**
@@ -75,17 +96,24 @@ class IndexLivewire extends Component
      */
     private function getTitleToModalAdd($addressTypeId)
     {
+        ++$addressTypeId;
         foreach ($this->types as $type)
         {
-            if((int)$type['value'] === (int)$type)
+            if((int)$type['value'] === (int)$addressTypeId)
             {
                 $this->addModalTitle = $type['title'];
+                break;
             }
         }
     }
 
     public function save()
     {
-        dd($this->parentId);
+        app()->make(AddressService::class)->save($this->addTitle, $this->parentTypeId, $this->parentId);
+    }
+
+    public function edit()
+    {
+        app()->make(AddressService::class)->update($this->editId, $this->editTitle);
     }
 }

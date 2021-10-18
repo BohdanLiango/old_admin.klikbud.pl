@@ -92,74 +92,75 @@ class AddressService
     }
 
     /**
-     * @param $title
-     * @param $type_id
-     * @param $country_id
-     * @param $state_id
-     * @param $town_id
-     * @return array
+     * @param $parentType
+     * @return mixed
      */
-    public function dataCreator($title, $type_id, $country_id, $state_id, $town_id): array
+    private function addTypeId($parentType): mixed
     {
-        if ($type_id === 0 or $type_id === NULL or $type_id >= 5) {
-            abort(404);
+        return match ($parentType) {
+            config('app.address.country') => config('app.address.state'),
+            config('app.address.state') => config('app.address.town'),
+            config('app.address.town') => config('app.address.street'),
+        };
+    }
+
+    /**
+     * @param $type_id
+     * @param $parent_id
+     * @return array|false
+     */
+    private function addGetData($type_id, $parent_id): bool|array
+    {
+        try {
+            $getParent = $this->repository->getOne($parent_id);
+        }catch (Exception $e){
+            Log::info($e->getMessage());
+            return false;
         }
 
-        $user_id = Auth::id();
+        $town_id = NULL;
+        $state_id = NULL;
+        $country_id = NULL;
 
-        $dataStart = [
-            'title' => $title,
-            'user_id' => $user_id,
-            'type_id' => $type_id,
+        switch ($type_id){
+            case (config('app.address.state')):
+                $country_id = $parent_id;
+                break;
+            case (config('app.address.town')):
+                $state_id = $parent_id;
+                $country_id = $getParent->country_id;
+                break;
+            case (config('app.address.street')):
+                $town_id = $parent_id;
+                $state_id = $getParent->state_id;
+                $country_id = $getParent->country_id;
+                break;
+        }
+
+        return [
+            'town_id' => $town_id,
+            'state_id' => $state_id,
+            'country_id' => $country_id
         ];
-
-        if((int)$type_id === 2)
-        {
-            $state = [
-                'country_id' => $country_id
-            ];
-
-            $data = array_merge($dataStart, $state);
-        }
-
-        if((int)$type_id === 3)
-        {
-            $town = [
-                'country_id' => $country_id,
-                'state_id' => $state_id
-            ];
-
-            $data = array_merge($dataStart, $town);
-        }
-
-        if((int)$type_id === 4)
-        {
-            $street = [
-                'country_id' => $country_id,
-                'state_id' => $state_id,
-                'town_id' => $town_id
-            ];
-
-            $data = array_merge($dataStart, $street);
-        }
-
-        return $data;
     }
 
     /**
      * @param $title
-     * @param $type_id
-     * @param $country_id
-     * @param $state_id
-     * @param $town_id
-     * @param AddressRepository $addressRepository
-     * @return bool
+     * @param $parentTypeId
+     * @param $parent_id
+     * @return mixed
      */
-    public function store($title, $type_id, $country_id, $state_id, $town_id, AddressRepository $addressRepository): bool
+    public function save($title, $parentTypeId, $parent_id): mixed
     {
         try {
-            $addressRepository->store($this->dataCreator($title, $type_id, $country_id, $state_id, $town_id));
-            return true;
+            $user_id = Auth::id();
+            $type_id = $this->addTypeId($parentTypeId);
+            $getData = $this->addGetData($type_id, $parent_id);
+            $town_id = $getData['town_id'];
+            $state_id = $getData['state_id'];
+            $country_id = $getData['country_id'];
+            $moderated_id = config('app.moderated.to_moderate');
+            return $this->repository->store($title, $user_id, $type_id, $town_id, $state_id, $country_id, $moderated_id);
         }catch (Exception $e){
             Log::info($e->getMessage());
             return false;
@@ -169,60 +170,12 @@ class AddressService
     /**
      * @param $id
      * @param $title
-     * @param $type_id
-     * @param $country_id
-     * @param $state_id
-     * @param $town_id
-     * @param AddressRepository $addressRepository
-     * @return bool
+     * @return false
      */
-    public function update($id,  $title, $type_id, $country_id, $state_id, $town_id, AddressRepository $addressRepository): bool
+    public function update($id, $title): bool
     {
         try {
-            $addressRepository->update($id, $this->dataCreator($title, $type_id, $country_id, $state_id, $town_id));
-            return true;
-        }catch (Exception $e){
-            Log::info($e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * @param $id
-     * @param $type_id
-     * @param AddressRepository $addressRepository
-     * @return bool
-     */
-    public function delete($id, $type_id, AddressRepository $addressRepository): bool
-    {
-        try {
-            if($type_id === 4)
-            {
-                $addressRepository->delete($id);
-                return true;
-            }
-
-            if($type_id === 3)
-            {
-                if($addressRepository->selectTypeIdCount($id, 4, 'town_id') === 0)
-                {
-                    $addressRepository->delete($id);
-                    return true;
-                }
-                return false;
-            }
-
-            if($type_id === 2)
-            {
-                if($addressRepository->selectTypeIdCount($id, 4, 'town_id') === 0 && $addressRepository->selectTypeIdCount($id, 3, 'state_id' === 3))
-                {
-                    $addressRepository->delete($id);
-                    return true;
-                }
-                return false;
-            }
-
-            return false;
+            return $this->update($id, $title);
         }catch (Exception $e){
             Log::info($e->getMessage());
             return false;

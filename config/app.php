@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://admin.klikbud.pl/'),
+    'url' => env('APP_URL', 'https://admin.klikbud.pl/'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -255,6 +255,11 @@ return [
         'country' => 'country_id',
         'state' => 'state_id',
         'town' => 'town_id',
+    ],
+
+    'moderated' => [
+        'active' => 1,
+        'to_moderate' => 2
     ],
 
 ];

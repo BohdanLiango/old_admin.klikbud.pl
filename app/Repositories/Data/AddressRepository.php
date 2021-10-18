@@ -63,36 +63,6 @@ class AddressRepository
     }
 
     /**
-     * @param $data
-     */
-    public function store($data)
-    {
-        $store = new Address();
-        $store->fill($data);
-        $store->save();
-    }
-
-    /**
-     * @param $id
-     * @param $data
-     */
-    public function update($id, $data)
-    {
-        $update = Address::findOrFail($id);
-        $update->fill($data);
-        $update->save();
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function delete($id): mixed
-    {
-        return Address::findOrFail($id)->delete();
-    }
-
-    /**
      * @param $id
      * @param $type_id
      * @param $type
@@ -103,5 +73,45 @@ class AddressRepository
         return Address::select('type_id')->where('type_id', '=', $type_id)->where($type, '=', $id)->count();
     }
 
+    /**
+     * @param $title
+     * @param $user_id
+     * @param $type_id
+     * @param $town_id
+     * @param $state_id
+     * @param $country_id
+     * @param $moderated_id
+     * @return mixed
+     */
+    public function store($title, $user_id, $type_id, $town_id, $state_id, $country_id, $moderated_id): mixed
+    {
+        $store = new Address();
+        $data = [
+            'title' => $title,
+            'user_id' => $user_id,
+            'type_id' => $type_id,
+            'town_id' => $town_id,
+            'state_id' => $state_id,
+            'country_id' => $country_id,
+            'moderated_id' => $moderated_id
+        ];
+        $store->fill($data)->save();
+        return $store->id;
+    }
+
+    /**
+     * @param $id
+     * @param $title
+     * @return bool
+     */
+    public function update($id, $title): bool
+    {
+        $update = $this->getOne($id);
+        $data = [
+            'title' => $title
+        ];
+        $update->fill($data)->save();
+        return true;
+    }
 
 }

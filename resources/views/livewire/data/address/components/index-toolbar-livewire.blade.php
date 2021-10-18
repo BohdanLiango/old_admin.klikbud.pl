@@ -20,5 +20,5 @@
             <option value="1000">1000</option>
         </select>
     </div>
-    @include('app.data.address.menu-button')
+
 </div>
