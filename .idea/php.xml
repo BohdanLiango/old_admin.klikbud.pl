@@ -144,7 +144,6 @@
       <path value="$PROJECT_DIR$/vendor/appstract/laravel-opcache" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-diactoros" />
       <path value="$PROJECT_DIR$/vendor/laravel/octane" />
       <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-worker" />
@@ -177,6 +176,9 @@
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-package-tools" />
       <path value="$PROJECT_DIR$/vendor/owen-it/laravel-auditing" />
       <path value="$PROJECT_DIR$/vendor/wulfheart/pretty_routes" />
+      <path value="$PROJECT_DIR$/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/vendor/cagilo/cagilo" />
+      <path value="$PROJECT_DIR$/vendor/orchid/blade-icons" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

@@ -104,13 +104,11 @@ class AddressRepository
      * @param $title
      * @return bool
      */
-    public function update($id, $title): bool
+    public function updateTitle($id, $title): bool
     {
         $update = $this->getOne($id);
-        $data = [
-            'title' => $title
-        ];
-        $update->fill($data)->save();
+        $update->title = $title;
+        $update->save();
         return true;
     }
 

@@ -1,13 +1,14 @@
 <?php
 return [
-    'button-back' => 'Powrót',
     'add' => 'Dodaj',
     'country' => 'Kraj',
     'state' => 'Wojewódzstwo',
     'town' => 'Osadę',
     'street' => 'Ulicę',
     'save' => 'Zapisz',
-    'select_option' => 'Wybierz opcje',
+    'close' => 'Zamknij',
     'error' => 'Masz błąd!',
-    'title' => 'Nazwa'
+    'success_add_one' => 'Adresa',
+    'success_add_two' => 'dodana!',
+    'error_add' => 'Coś poszło nie tak :('
 ];

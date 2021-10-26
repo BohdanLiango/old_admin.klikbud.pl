@@ -149,7 +149,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/appstract/laravel-opcache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/psr-http-message-bridge" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-zendframework-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-diactoros" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/octane" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-worker" />
@@ -182,6 +181,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-package-tools" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/owen-it/laravel-auditing" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/wulfheart/pretty_routes" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/serializable-closure" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cagilo/cagilo" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/orchid/blade-icons" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

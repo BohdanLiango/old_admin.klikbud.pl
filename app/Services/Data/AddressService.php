@@ -160,25 +160,37 @@ class AddressService
             $state_id = $getData['state_id'];
             $country_id = $getData['country_id'];
             $moderated_id = config('app.moderated.to_moderate');
-            return $this->repository->store($title, $user_id, $type_id, $town_id, $state_id, $country_id, $moderated_id);
+            $this->repository->store($title, $user_id, $type_id, $town_id, $state_id, $country_id, $moderated_id);
+            return [true, trans('data/address/add.success_add_one') . ' ' . $title . ' ' . trans('data/address/add.success_add_two')];
         }catch (Exception $e){
             Log::info($e->getMessage());
-            return false;
+            return [false, trans('data/address/add.error_add')];
         }
     }
 
     /**
      * @param $id
      * @param $title
-     * @return false
+     * @param $oldTitle
+     * @return array[]
      */
-    public function update($id, $title): bool
+    public function update($id, $title, $oldTitle): array
     {
         try {
-            return $this->update($id, $title);
+            if($oldTitle === $title)
+            {
+                $this->repository->updateTitle($id, $title);
+                $message = trans('data/address/edit.edit_success_one') . ' ' . $title . ' ' .
+                    trans('data/address/edit.edit_success_two') . ' ' . $oldTitle . ' ' .
+                    trans('data/address/edit.edit_success_four');
+                return [true, $message];
+            }
+
+            return [true, trans('data/address/edit.edit_warning')];
+
         }catch (Exception $e){
             Log::info($e->getMessage());
-            return false;
+            return [false, trans('data/address/edit.edit_error')];
         }
     }
 }

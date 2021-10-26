@@ -41,6 +41,9 @@ class IndexLivewire extends Component
             $this->searchType, $this->orderBy, $this->orderArgument, $this->paginate);
     }
 
+    /**
+     *  Select and Open/Close Add Modal by parameters
+     */
     public function selectModal($modal, $parentId, $addressTypeId)
     {
         $this->modalInfo = $modal;
@@ -59,9 +62,11 @@ class IndexLivewire extends Component
         }
     }
 
+    /**
+     *  Select and Open/Close Edit Modal by parameters
+     */
     public function selectEditModal($modal, $id, $oldTitle)
     {
-        dd($modal);
         $this->editId = $id;
         $this->editTitle = $oldTitle;
 
@@ -77,7 +82,7 @@ class IndexLivewire extends Component
     }
 
     /**
-     * Clear vars to modal add
+     * Clear vars to modal add/edit
      */
     private function clearVars()
     {
@@ -107,13 +112,60 @@ class IndexLivewire extends Component
         }
     }
 
-    public function save()
+    /**
+     * Validation Title to Add/Edit modal
+     */
+    private function validateTitle($typeTitle)
     {
-        app()->make(AddressService::class)->save($this->addTitle, $this->parentTypeId, $this->parentId);
+        return $this->validate([
+            $typeTitle => 'required|max:255'
+        ]);
     }
 
+    /**
+     * Transform data
+     */
+    private function transformReturnData($data)
+    {
+        return match ($data) {
+            true => 'success',
+            default => 'error',
+        };
+    }
+
+    private function showAlert($status, $text)
+    {
+        $this->alert($status, $text, [
+            'position' =>  'top-end',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
+    }
+
+    /**
+     * Save
+     */
+    public function save()
+    {
+        $this->validateTitle('addTitle');
+        $data = app()->make(AddressService::class)->save($this->addTitle, $this->parentTypeId, $this->parentId);
+        $this->selectModal('closeAddNewAddress', NULL, NULL);
+        $this->showAlert($this->transformReturnData($data[0]), $data[1]);
+    }
+
+    /**
+     * Edit
+     */
     public function edit()
     {
-        app()->make(AddressService::class)->update($this->editId, $this->editTitle);
+       $this->validateTitle('editNewTitle');
+       $data = app()->make(AddressService::class)->update($this->editId, $this->editNewTitle, $this->editTitle);
+       $this->selectEditModal('closeEditAddress', NULL, NULL);
+       $this->showAlert($this->transformReturnData($data[0]), $data[1]);
     }
 }

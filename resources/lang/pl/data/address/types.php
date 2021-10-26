@@ -3,5 +3,6 @@ return [
     'country' => 'Kraj',
     'state' => 'Wojewódzstwo',
     'town' => 'Osada',
-    'street' => 'Ulica'
+    'street' => 'Ulica',
+    'earth' => '3 planeta od słońca'
 ];
