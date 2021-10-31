@@ -137,7 +137,7 @@ class IndexLivewire extends Component
     {
         $this->alert($status, $text, [
             'position' =>  'top-end',
-            'timer' =>  3000,
+            'timer' =>  3500,
             'toast' =>  true,
             'text' =>  '',
             'confirmButtonText' =>  'Ok',

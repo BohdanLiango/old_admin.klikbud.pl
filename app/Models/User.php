@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,11 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use QueryCacheable;
+    protected $cacheFor = 3600000000;
+    protected static $flushCacheOnUpdate = true;
+    public $cacheTags = ['user'];
+    public $cachePrefix = 'user_';
 
     /**
      * The attributes that are mass assignable.

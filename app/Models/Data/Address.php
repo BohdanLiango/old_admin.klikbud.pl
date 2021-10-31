@@ -51,6 +51,11 @@ class Address extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function scopeWithFirstUser($query)
+    {
+        $query->addSelect(['user_id' => User::select('id')->take(1)])->with('user');
+    }
+
     public function sluggable(): array
     {
         return [

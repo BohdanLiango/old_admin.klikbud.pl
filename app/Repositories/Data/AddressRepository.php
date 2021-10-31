@@ -38,7 +38,7 @@ class AddressRepository
             $query->where('title', 'like', '%' . $searchQuery . '%');
         })->when($searchType != '', function ($query) use ($searchType) {
             $query->where('type_id', $searchType);
-        })->with('user')->orderBy($orderBy, $orderArgument)
+        })->withFirstUser()->orderBy($orderBy, $orderArgument)
             ->paginate($paginate);
     }
 
@@ -111,5 +111,4 @@ class AddressRepository
         $update->save();
         return true;
     }
-
 }

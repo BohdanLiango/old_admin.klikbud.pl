@@ -177,7 +177,7 @@ class AddressService
     public function update($id, $title, $oldTitle): array
     {
         try {
-            if($oldTitle === $title)
+            if((string)$oldTitle !== (string)$title)
             {
                 $this->repository->updateTitle($id, $title);
                 $message = trans('data/address/edit.edit_success_one') . ' ' . $title . ' ' .
@@ -185,8 +185,7 @@ class AddressService
                     trans('data/address/edit.edit_success_four');
                 return [true, $message];
             }
-
-            return [true, trans('data/address/edit.edit_warning')];
+            return [false, trans('data/address/edit.edit_warning')];
 
         }catch (Exception $e){
             Log::info($e->getMessage());
