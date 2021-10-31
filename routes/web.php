@@ -21,8 +21,9 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('/global-settings')->name('global_settings.')->group(static function(){
+    Route::prefix('/')->name('global_settings.')->group(static function(){
         require __DIR__ . '/web/settings/data-routes.php';
+        require __DIR__ . '/web/settings/klikbud.php';
     });
 
 });
