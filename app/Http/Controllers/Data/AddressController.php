@@ -28,29 +28,4 @@ class AddressController extends Controller
 
         return view('app.data.address.index', compact('breadcrumbs', 'page_title', 'types','add_button', 'countAddress'));
     }
-
-    /**
-     * @param $type
-     * @param BreadcrumbsData $breadcrumbsData
-     * @param DefaultData $defaultData
-     * @param AddressService $addressService
-     * @return Application|Factory|View
-     */
-    public function add($type, BreadcrumbsData $breadcrumbsData, DefaultData $defaultData, AddressService $addressService): View|Factory|Application
-    {
-        $breadcrumbs = $breadcrumbsData->address(2, NULL);
-        $page_title = $breadcrumbs[1]['title'] . ' ' . $type;
-        $types = $defaultData->address();
-        $add_button = false;
-        return view('app.data.address.add', compact('type', 'breadcrumbs', 'page_title', 'types', 'add_button'));
-    }
-
-    /**
-     * @param $id
-     * @return Application|Factory|View
-     */
-    public function edit($id): View|Factory|Application
-    {
-        return view('app.data.address.edit', compact('id'));
-    }
 }

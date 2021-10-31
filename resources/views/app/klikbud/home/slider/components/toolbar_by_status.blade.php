@@ -1,0 +1,22 @@
+<div class="d-flex flex-wrap flex-stack my-5">
+    <!--begin::Heading-->
+    <h2 class="fs-2 fw-bold my-2">Projects
+        <span class="fs-6 text-gray-400 ms-1">by Status</span></h2>
+    <!--end::Heading-->
+    <!--begin::Controls-->
+    <div class="d-flex flex-wrap my-1">
+        <!--begin::Select wrapper-->
+        <div class="m-0">
+            <!--begin::Select-->
+            <select name="status" data-control="select2" data-hide-search="true" class="form-select form-select-sm form-select-white fw-bolder w-125px">
+                <option value="Active" selected="selected">Active</option>
+                <option value="Approved">In Progress</option>
+                <option value="Declined">To Do</option>
+                <option value="In Progress">Completed</option>
+            </select>
+            <!--end::Select-->
+        </div>
+        <!--end::Select wrapper-->
+    </div>
+    <!--end::Controls-->
+</div>
