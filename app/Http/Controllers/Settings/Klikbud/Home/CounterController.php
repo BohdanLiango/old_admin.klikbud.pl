@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\Settings\Klikbud\Home;
 
-class CounterController extends \App\Http\Controllers\Controller
-{
+use App\Http\Controllers\Controller;
 
+class CounterController extends Controller
+{
+    public function index()
+    {
+        return view('app.klikbud.home.counter.index');
+    }
 }

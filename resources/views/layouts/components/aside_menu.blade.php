@@ -59,7 +59,7 @@
                             </div>
 
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link" href="{{ route('global_settings.klikbud.service.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -68,7 +68,7 @@
                             </div>
 
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link" href="{{ route('global_settings.klikbud.counter.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -77,7 +77,7 @@
                             </div>
 
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link" href="{{ route('global_settings.klikbud.opinion.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
